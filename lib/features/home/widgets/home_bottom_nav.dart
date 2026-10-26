@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
+import 'package:jawakarsa/core/app_text_styles.dart';
 
 class HomeBottomNav extends StatelessWidget {
   const HomeBottomNav({
@@ -82,14 +83,14 @@ class _NavButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(item.icon, color: color, size: 24),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               item.label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                color: color,
-              ),
+              style: isActive
+                  ? AppTextStyles.labelSmall(color: AppColors.rubyRed).copyWith(
+                      fontWeight: FontWeight.w700,
+                    )
+                  : AppTextStyles.labelSmall(),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
+import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/features/home/home_page.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class JawaKarsaApp extends StatelessWidget {
           surface: AppColors.surface,
         ),
         scaffoldBackgroundColor: AppColors.background,
-        fontFamily: 'Roboto',
+        textTheme: AppTextStyles.textTheme,
         useMaterial3: true,
       ),
       home: const HomePage(),

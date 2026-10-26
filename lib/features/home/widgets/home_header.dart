@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jawakarsa/core/app_colors.dart';
+import 'package:jawakarsa/core/app_text_styles.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -18,15 +19,12 @@ class HomeHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 60,
-          height: 60,
+          width: 58,
+          height: 58,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.coastalStorm.withValues(alpha: 0.15),
-            border: Border.all(
-              color: AppColors.goldVarnishBrown,
-              width: 2,
-            ),
+            color: AppColors.coastalStorm.withValues(alpha: 0.12),
+            border: Border.all(color: AppColors.goldVarnishBrown, width: 2),
           ),
           clipBehavior: Clip.antiAlias,
           child: SvgPicture.asset(
@@ -34,6 +32,7 @@ class HomeHeader extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
+
         const SizedBox(width: 12),
 
         Expanded(
@@ -42,44 +41,31 @@ class HomeHeader extends StatelessWidget {
             children: [
               Text(
                 'Wilujeng Enjing,',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.coastalStorm,
-                  fontWeight: FontWeight.w400,
-                ),
+                style: AppTextStyles.bodyMedium(),
               ),
               Text(
                 userName,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.potBlack,
-                ),
+                style: AppTextStyles.titleLarge(),
               ),
               Text(
                 'Siap jelajah budaya Jawa?',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.coastalStorm,
-                ),
+                style: AppTextStyles.bodyMedium(),
               ),
             ],
           ),
         ),
 
+        const SizedBox(width: 8),
+
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
           decoration: BoxDecoration(
             color: AppColors.potBlack,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             badgeLabel,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.background,
-            ),
+            style: AppTextStyles.labelLarge(color: AppColors.background),
           ),
         ),
       ],

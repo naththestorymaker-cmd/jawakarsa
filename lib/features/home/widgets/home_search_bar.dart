@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
+import 'package:jawakarsa/core/app_text_styles.dart';
 
 class HomeSearchBar extends StatelessWidget {
   const HomeSearchBar({super.key, this.onTap});
@@ -29,18 +30,11 @@ class HomeSearchBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              Icons.search_rounded,
-              color: AppColors.coastalStorm,
-              size: 20,
-            ),
+            Icon(Icons.search_rounded, color: AppColors.coastalStorm, size: 20),
             const SizedBox(width: 10),
             Text(
-              'Search',
-              style: TextStyle(
-                color: AppColors.coastalStorm,
-                fontSize: 14,
-              ),
+              'Cari budaya Jawa...',
+              style: AppTextStyles.bodyMedium(),
             ),
           ],
         ),
