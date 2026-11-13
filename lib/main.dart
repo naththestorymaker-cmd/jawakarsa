@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
-import 'package:jawakarsa/features/home/home_page.dart';
+import 'package:jawakarsa/features/splash/splash_screen.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _tryInitFirebase();
   runApp(const JawaKarsaApp());
+}
+
+Future<void> _tryInitFirebase() async {
+  try {
+    final opts = DefaultFirebaseOptions.currentPlatform;
+    if (opts.projectId.startsWith('REPLACE_ME')) return;
+    await Firebase.initializeApp(options: opts);
+  } catch (_) {}
 }
 
 class JawaKarsaApp extends StatelessWidget {
@@ -26,7 +38,7 @@ class JawaKarsaApp extends StatelessWidget {
         textTheme: AppTextStyles.textTheme,
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }

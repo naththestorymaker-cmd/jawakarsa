@@ -21,8 +21,9 @@ class HomeBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 72,
+    final bottomPad = MediaQuery.paddingOf(context).bottom;
+
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(
@@ -38,14 +39,17 @@ class HomeBottomNav extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(
-          _items.length,
-          (i) => _NavButton(
-            item: _items[i],
-            isActive: i == currentIndex,
-            onTap: () => onTap?.call(i),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottomPad),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            _items.length,
+            (i) => _NavButton(
+              item: _items[i],
+              isActive: i == currentIndex,
+              onTap: () => onTap?.call(i),
+            ),
           ),
         ),
       ),
@@ -77,19 +81,18 @@ class _NavButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 72,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(item.icon, color: color, size: 24),
             const SizedBox(height: 3),
             Text(
               item.label,
               style: isActive
-                  ? AppTextStyles.labelSmall(color: AppColors.rubyRed).copyWith(
-                      fontWeight: FontWeight.w700,
-                    )
+                  ? AppTextStyles.labelSmall(color: AppColors.rubyRed)
+                      .copyWith(fontWeight: FontWeight.w700)
                   : AppTextStyles.labelSmall(),
             ),
           ],

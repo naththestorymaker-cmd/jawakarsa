@@ -41,7 +41,6 @@ class _TrendingCarouselState extends State<TrendingCarousel> {
     ),
   ];
 
-  // Gunakan jumlah item besar untuk efek loop seamless
   static const int _multiplier = 500;
   static const int _itemsLength = 3;
   static const int _virtualCount = _itemsLength * _multiplier;
@@ -81,7 +80,6 @@ class _TrendingCarouselState extends State<TrendingCarousel> {
       children: [
         Text('Trending Sekarang', style: AppTextStyles.titleMedium()),
         const SizedBox(height: 12),
-
         SizedBox(
           height: 190,
           child: PageView.builder(
@@ -93,16 +91,13 @@ class _TrendingCarouselState extends State<TrendingCarousel> {
             },
           ),
         ),
-
         const SizedBox(height: 10),
-
         Center(
           child: AnimatedBuilder(
             animation: _controller,
             builder: (context, _) {
               final realPage = _controller.hasClients
-                  ? (_controller.page?.round() ?? _initialPage) %
-                      _itemsLength
+                  ? (_controller.page?.round() ?? _initialPage) % _itemsLength
                   : 0;
               return SmoothPageIndicator(
                 controller: PageController(initialPage: realPage),
@@ -163,7 +158,6 @@ class _CarouselCard extends StatelessWidget {
                 ),
               ),
             ),
-
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -179,8 +173,6 @@ class _CarouselCard extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Teks judul & subtitl di bawah
             Positioned(
               left: 14,
               right: 14,
@@ -190,16 +182,12 @@ class _CarouselCard extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    style: AppTextStyles.titleSmall(
-                      color: Colors.white,
-                    ),
+                    style: AppTextStyles.titleSmall(color: Colors.white),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     item.subtitle,
-                    style: AppTextStyles.labelSmall(
-                      color: Colors.white70,
-                    ),
+                    style: AppTextStyles.labelSmall(color: Colors.white70),
                   ),
                 ],
               ),
