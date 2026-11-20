@@ -18,54 +18,62 @@ class HomeHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
+        SizedBox(
           width: 58,
           height: 58,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.coastalStorm.withValues(alpha: 0.12),
-            border: Border.all(color: AppColors.goldVarnishBrown, width: 2),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: SvgPicture.asset(
-            'assets/gendhis/gendhis_ramah.svg',
-            fit: BoxFit.cover,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.coastalStorm.withValues(alpha: 0.12),
+              border: Border.all(color: AppColors.goldVarnishBrown, width: 2),
+            ),
+            child: ClipOval(
+              child: SvgPicture.asset(
+                'assets/gendhis/gendhis_ramah.svg',
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-
         const SizedBox(width: 12),
-
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Wilujeng Enjing,',
+                'Sugeng Rawuh,',
                 style: AppTextStyles.bodyMedium(),
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 userName,
                 style: AppTextStyles.titleLarge(),
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 'Siap jelajah budaya Jawa?',
                 style: AppTextStyles.bodyMedium(),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
-
         const SizedBox(width: 8),
-
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-          decoration: BoxDecoration(
-            color: AppColors.potBlack,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            badgeLabel,
-            style: AppTextStyles.labelLarge(color: AppColors.background),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 90),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            decoration: BoxDecoration(
+              color: AppColors.potBlack,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              badgeLabel,
+              style: AppTextStyles.labelLarge(color: AppColors.background),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],

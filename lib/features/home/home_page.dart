@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jawakarsa/core/app_colors.dart';
-import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/features/dolan/dolan_page.dart';
-import 'package:jawakarsa/features/kawruh/kawruh_page.dart';
+import 'package:jawakarsa/features/dolanan/dolanan_page.dart';
+import 'package:jawakarsa/features/home/widgets/home_bottom_nav.dart';
 import 'package:jawakarsa/features/home/widgets/home_header.dart';
 import 'package:jawakarsa/features/home/widgets/home_search_bar.dart';
-import 'package:jawakarsa/features/home/widgets/trending_carousel.dart';
 import 'package:jawakarsa/features/home/widgets/tahukah_kamu_section.dart';
-import 'package:jawakarsa/features/home/widgets/home_bottom_nav.dart';
+import 'package:jawakarsa/features/home/widgets/trending_carousel.dart';
+import 'package:jawakarsa/features/kawruh/kawruh_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.userName = 'Penjelajah'});
+
+  final String userName;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,22 +24,15 @@ class _HomePageState extends State<HomePage> {
   Widget _buildBody() {
     switch (_navIndex) {
       case 0:
-        return const _HomeView();
+        return _HomeView(userName: widget.userName);
       case 1:
         return const KawruhPage();
       case 2:
         return const DolanPage();
       case 3:
-        return _PlaceholderView(
-          title: 'Dolanan Tradisional',
-          subtitle:
-              'Wahana permainan interaktif, tebak aksara Jawa, dan kuis gamifikasi budaya sedang disiapkan.',
-          mascotPath: 'assets/gendhis/gendhis_bangga.svg',
-          actionLabel: 'Kembali ke Beranda',
-          onAction: () => setState(() => _navIndex = 0),
-        );
+        return const DolananPage();
       default:
-        return const _HomeView();
+        return _HomeView(userName: widget.userName);
     }
   }
 
@@ -71,7 +65,9 @@ class _HomePageState extends State<HomePage> {
 // HOME VIEW (Main Dashboard Slivers)
 // ─────────────────────────────────────────────────────────────────────────────
 class _HomeView extends StatelessWidget {
-  const _HomeView();
+  const _HomeView({required this.userName});
+
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +78,7 @@ class _HomeView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: HomeHeader(
-              userName: 'Penjelajah',
+              userName: userName,
               badgeLabel: 'Pemula',
             ),
           ),
@@ -122,95 +118,6 @@ class _HomeView extends StatelessWidget {
         // Bottom clearance for floating bottom navigation dock
         const SliverToBoxAdapter(child: SizedBox(height: 110)),
       ],
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// PLACEHOLDER VIEW FOR UNIMPLEMENTED TABS
-// ─────────────────────────────────────────────────────────────────────────────
-class _PlaceholderView extends StatelessWidget {
-  const _PlaceholderView({
-    required this.title,
-    required this.subtitle,
-    required this.mascotPath,
-    required this.actionLabel,
-    required this.onAction,
-  });
-
-  final String title;
-  final String subtitle;
-  final String mascotPath;
-  final String actionLabel;
-  final VoidCallback onAction;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.surface,
-                border: Border.all(
-                  color: AppColors.goldVarnishBrown,
-                  width: 2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.potBlack.withValues(alpha: 0.08),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: SvgPicture.asset(
-                mascotPath,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              title,
-              style: AppTextStyles.headlineMedium(),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              style: AppTextStyles.bodyMedium(),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: onAction,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.potBlack,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
-                ),
-              ),
-              child: Text(
-                actionLabel,
-                style: AppTextStyles.labelLarge(color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 80),
-          ],
-        ),
-      ),
     );
   }
 }
