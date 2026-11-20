@@ -2,6 +2,42 @@
 .env
 .env.*
 !.env.example
+*.secret
+*.pem
+*.key
+
+# Sensitive signing keys and certificates (Critical)
+*.jks
+*.keystore
+*.p12
+*.cer
+*.crt
+*.der
+*.mobileprovision
+AuthKey_*.p8
+key.properties
+**/android/key.properties
+google-services.json
+GoogleService-Info.plist
+
+# Local device / SDK configuration
+local.properties
+**/android/local.properties
+.kotlin/
+android/.kotlin/
+android/.gradle/
+**/.gradle/
+
+# AI Agent workspaces and assistant logs
+.agents/
+.gemini/
+.claude/
+.cursor/
+.copilot/
+
+# Markdown documentation / notes
+*.md
+!README.md
 
 # Dependencies
 node_modules/
@@ -44,11 +80,21 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
 /build/
 /coverage/
+
+# Flutter ephemeral platform build folders
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
 
 # Symbolication related
 app.*.symbols

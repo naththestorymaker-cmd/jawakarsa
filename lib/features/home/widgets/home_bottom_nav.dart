@@ -1,3 +1,4 @@
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
@@ -13,39 +14,80 @@ class HomeBottomNav extends StatelessWidget {
   final ValueChanged<int>? onTap;
 
   static const _items = [
-    _NavItem(icon: Icons.home_rounded, label: 'Home'),
-    _NavItem(icon: Icons.menu_book_rounded, label: 'Kawruh'),
-    _NavItem(icon: Icons.explore_rounded, label: 'Dolan'),
-    _NavItem(icon: Icons.card_giftcard_rounded, label: 'Dolanan'),
+    _NavItem(
+      activeIcon: Icons.home_rounded,
+      inactiveIcon: Icons.home_outlined,
+      label: 'Home',
+    ),
+    _NavItem(
+      activeIcon: Icons.menu_book_rounded,
+      inactiveIcon: Icons.menu_book_outlined,
+      label: 'Kawruh',
+    ),
+    _NavItem(
+      activeIcon: Icons.explore_rounded,
+      inactiveIcon: Icons.explore_outlined,
+      label: 'Dolan',
+    ),
+    _NavItem(
+      activeIcon: Icons.card_giftcard_rounded,
+      inactiveIcon: Icons.card_giftcard_outlined,
+      label: 'Dolanan',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 72,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border(
-          top: BorderSide(
-            color: AppColors.coastalStorm.withValues(alpha: 0.2),
+    return SafeArea(
+      top: false,
+      bottom: true,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+        child: Container(
+          height: 66,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.potBlack.withValues(alpha: 0.08),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+                spreadRadius: -2,
+              ),
+              BoxShadow(
+                color: AppColors.potBlack.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.potBlack.withValues(alpha: 0.06),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(
-          _items.length,
-          (i) => _NavButton(
-            item: _items[i],
-            isActive: i == currentIndex,
-            onTap: () => onTap?.call(i),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surface.withValues(alpha: 0.92),
+                  borderRadius: BorderRadius.circular(32),
+                  border: Border.all(
+                    color: AppColors.potBlack.withValues(alpha: 0.06),
+                    width: 1.0,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                    _items.length,
+                    (i) => _NavButton(
+                      item: _items[i],
+                      isActive: i == currentIndex,
+                      onTap: () => onTap?.call(i),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -54,8 +96,14 @@ class HomeBottomNav extends StatelessWidget {
 }
 
 class _NavItem {
-  const _NavItem({required this.icon, required this.label});
-  final IconData icon;
+  const _NavItem({
+    required this.activeIcon,
+    required this.inactiveIcon,
+    required this.label,
+  });
+
+  final IconData activeIcon;
+  final IconData inactiveIcon;
   final String label;
 }
 
@@ -74,25 +122,57 @@ class _NavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = isActive ? AppColors.rubyRed : AppColors.coastalStorm;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 72,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(item.icon, color: color, size: 24),
-            const SizedBox(height: 3),
-            Text(
-              item.label,
-              style: isActive
-                  ? AppTextStyles.labelSmall(color: AppColors.rubyRed).copyWith(
-                      fontWeight: FontWeight.w700,
-                    )
-                  : AppTextStyles.labelSmall(),
+    return Expanded(
+      child: Semantics(
+        button: true,
+        selected: isActive,
+        label: item.label,
+        child: GestureDetector(
+          onTap: onTap,
+          behavior: HitTestBehavior.opaque,
+          child: Center(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? AppColors.rubyRed.withValues(alpha: 0.12)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    transitionBuilder: (child, anim) => FadeTransition(
+                      opacity: anim,
+                      child: ScaleTransition(scale: anim, child: child),
+                    ),
+                    child: Icon(
+                      isActive ? item.activeIcon : item.inactiveIcon,
+                      key: ValueKey<bool>(isActive),
+                      color: color,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    item.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: isActive
+                        ? AppTextStyles.labelSmall(color: AppColors.rubyRed).copyWith(
+                            fontWeight: FontWeight.w700,
+                          )
+                        : AppTextStyles.labelSmall(color: AppColors.coastalStorm),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

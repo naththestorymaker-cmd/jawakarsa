@@ -96,6 +96,23 @@ abstract class AppTextStyles {
         height: 1.4,
       );
 
+  // ── Aksara Jawa (Hanacaraka / Noto Sans Javanese) ─────────────────────────
+  /// Font khusus untuk merender Aksara Jawa (Carakan, Pasangan, Sandhangan).
+  static TextStyle aksara({
+    double fontSize = 24,
+    FontWeight fontWeight = FontWeight.w400,
+    Color color = AppColors.potBlack,
+    double height = 1.6,
+  }) =>
+      TextStyle(
+        fontFamily: 'Hanacaraka',
+        fontFamilyFallback: const ['Noto Sans Javanese'],
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color,
+        height: height,
+      );
+
   // ── Helper: tema global ───────────────────────────────────────────────────
   /// Pasang ke [ThemeData.textTheme] agar seluruh app inherit font ini.
   static TextTheme get textTheme => GoogleFonts.plusJakartaSansTextTheme();
