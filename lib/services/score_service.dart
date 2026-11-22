@@ -20,7 +20,6 @@ class ScoreService {
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _firestoreSub;
   final _controller = _LeaderboardController();
 
-  /// Memeriksa apakah Firebase sudah berhasil diinisialisasi
   bool get isFirebaseReady {
     try {
       return Firebase.apps.isNotEmpty;
@@ -29,9 +28,6 @@ class ScoreService {
     }
   }
 
-  /// Mengirim dan memperbarui skor pemain.
-  /// Otomatis menyimpan secara lokal (offline-first) dan mensinkronisasikan ke
-  /// Cloud Firestore jika Firebase aktif.
   Future<void> submitScore(GameType type, int score) async {
     final uid = await AuthService.instance.getSavedUid();
     final name = await AuthService.instance.getSavedName();
@@ -58,14 +54,12 @@ class ScoreService {
     all.add(updated);
     all.sort((a, b) => b.totalScore.compareTo(a.totalScore));
 
-    // 1. Simpan ke SharedPreferences secara instan
     await prefs.setString(
       _kScoresKey,
       jsonEncode(all.map((e) => e.toLocalMap()).toList()),
     );
     _notifyListeners(all);
 
-    // 2. Sinkronkan ke Cloud Firestore jika Firebase aktif
     if (isFirebaseReady) {
       try {
         final docRef =
@@ -88,7 +82,6 @@ class ScoreService {
     }
   }
 
-  /// Membaca daftar skor dari SharedPreferences
   List<GameScore> _loadAll(SharedPreferences prefs) {
     final raw = prefs.getString(_kScoresKey);
     if (raw == null) return [];
@@ -102,8 +95,6 @@ class ScoreService {
     }
   }
 
-  /// Stream papan peringkat real-time.
-  /// Menghubungkan ke Firestore jika online, atau fallback ke stream lokal jika offline.
   Stream<List<GameScore>> leaderboardStream() {
     _initStreamIfNeeded();
     return _controller.stream;
@@ -123,7 +114,6 @@ class ScoreService {
                 .map((doc) => GameScore.fromFirestore(doc.data(), doc.id))
                 .toList();
 
-            // Simpan cache lokal
             final prefs = await SharedPreferences.getInstance();
             await prefs.setString(
               _kScoresKey,
@@ -144,7 +134,6 @@ class ScoreService {
       }
     }
 
-    // Jika belum ada koneksi Firestore, muat lokal terlebih dahulu
     refreshLeaderboard();
   }
 
@@ -152,7 +141,6 @@ class ScoreService {
     _controller.add(scores);
   }
 
-  /// Memperbarui data papan peringkat secara manual (Pull-to-refresh)
   Future<void> refreshLeaderboard() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -181,7 +169,6 @@ class ScoreService {
       }
     }
 
-    // Fallback lokal
     final all = _loadAll(prefs);
     _controller.add(all);
   }
@@ -191,7 +178,6 @@ class ScoreService {
     return _loadAll(prefs);
   }
 
-  /// Mencari posisi peringkat (1-based) untuk UID tertentu
   static int findRank(String? uid, List<GameScore> scores) {
     if (uid == null || scores.isEmpty) return 0;
     final idx = scores.indexWhere((e) => e.uid == uid);

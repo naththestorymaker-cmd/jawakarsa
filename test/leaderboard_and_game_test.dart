@@ -13,9 +13,6 @@ void main() {
   print('=== UJI COBA KOMPREHENSIF PAPAN PERINGKAT & GAME  ===');
   print('=====================================================');
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // TEST 1: Model GameScore & Firestore Serialization
-  // ──────────────────────────────────────────────────────────────────────────
   print('\n[TEST 1] Pengujian GameScore & Serialisasi Firestore');
 
   const score1 = GameScore(
@@ -27,15 +24,13 @@ void main() {
     cocokScore: 50,
   );
 
-  // Test copyWith
   final updatedScore = score1.copyWith(
-    kanvasScore: 150, // tambah 50 poin
+    kanvasScore: 150,
   );
   assert(updatedScore.totalScore == 300, 'Total score harus dihitung otomatis: 150+100+50=300');
   assert(updatedScore.kanvasScore == 150, 'Kanvas score harus 150');
   print('✓ GameScore.copyWith menghitung total score otomatis: 300 poin');
 
-  // Test local map JSON roundtrip
   final localMap = updatedScore.toLocalMap();
   final jsonString = jsonEncode(localMap);
   final decoded = jsonDecode(jsonString) as Map<String, dynamic>;
@@ -44,7 +39,6 @@ void main() {
   assert(fromLocal.totalScore == updatedScore.totalScore, 'Total score cocok');
   print('✓ Local Map roundtrip (SharedPreferences JSON) valid');
 
-  // Test Firestore deserialization
   final firestoreMap = <String, dynamic>{
     'uid': 'user_pameran_002',
     'name': 'Budi Santoso',
@@ -61,9 +55,6 @@ void main() {
   assert(fromFirestore.updatedAt != null, 'Tanggal update berhasil diparsing');
   print('✓ Firestore deserialization & timestamp parsing valid');
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // TEST 2: Logika Peringkat Multi-Pengunjung (Multi-User Scale)
-  // ──────────────────────────────────────────────────────────────────────────
   print('\n[TEST 2] Pengujian Peringkat & Sorting Multi-User Pameran');
 
   final leaderboard = <GameScore>[
@@ -76,13 +67,11 @@ void main() {
     const GameScore(uid: 'uid_7', name: 'Gita', totalScore: 200),
   ];
 
-  // Pastikan urutan menurun
   for (int i = 0; i < leaderboard.length - 1; i++) {
     assert(leaderboard[i].totalScore >= leaderboard[i + 1].totalScore,
         'Papan peringkat harus terurut dari skor tertinggi ke terendah');
   }
 
-  // Uji cari posisi peringkat
   assert(findRank('uid_1', leaderboard) == 1, 'Andi harus peringkat #1');
   assert(findRank('uid_2', leaderboard) == 2, 'Budi harus peringkat #2');
   assert(findRank('uid_3', leaderboard) == 3, 'Citra harus peringkat #3');
@@ -91,9 +80,6 @@ void main() {
   assert(findRank('uid_unknown', leaderboard) == 0, 'User tak dikenal peringkat 0');
   print('✓ Kalkulasi peringkat multi-peserta terbukti akurat (Top 1, Podium, hingga urutan bawah)');
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // TEST 3: Uji Coba Evaluasi Goresan Aksara Jawa (Kanvas)
-  // ──────────────────────────────────────────────────────────────────────────
   print('\n[TEST 3] Pengujian Akurasi Goresan Aksara (AksaraEvaluator)');
 
   final targetRect = StrokeRect.fromCenter(
@@ -102,7 +88,6 @@ void main() {
     height: 180,
   );
 
-  // Test aksara 'ꦫ' (Ra) - bentuk satu lengkungan
   final raWaypoints = AksaraEvaluator.getWaypointsFor('ꦫ');
   final raPoints = <StrokePoint?>[];
   for (int i = 0; i < raWaypoints.length - 1; i++) {
@@ -136,7 +121,6 @@ void main() {
   assert(raResult.accuracy >= 80, 'Akurasi Ra harus tinggi (>=80%)');
   print('✓ Evaluasi aksara ꦫ (Ra) berhasil lulus dengan rating: ${raResult.ratingText}');
 
-  // Test aksara 'ꦤ' (Na)
   final naWaypoints = AksaraEvaluator.getWaypointsFor('ꦤ');
   final naPoints = <StrokePoint?>[];
   for (int i = 0; i < naWaypoints.length - 1; i++) {
@@ -170,10 +154,9 @@ void main() {
   assert(naResult.accuracy >= 80, 'Akurasi Na harus tinggi');
   print('✓ Evaluasi aksara ꦤ (Na) berhasil lulus');
 
-  // Test penolakan goresan yang salah huruf (menggambar Ra padahal tantangannya Na)
   final mismatchedResult = AksaraEvaluator.evaluate(
     aksara: 'ꦤ',
-    points: raPoints, // Memberikan goresan Ra untuk tantangan Na
+    points: raPoints,
     canvasWidth: 320,
     canvasHeight: 260,
     glyphRect: targetRect,

@@ -60,22 +60,16 @@ class AksaraEvaluation {
     required this.feedback,
   });
 
-  /// Persentase akurasi 0 - 100
   final int accuracy;
 
-  /// Rasio cakupan waypoint aksara yang disentuh (0.0 - 1.0)
   final double coverage;
 
-  /// Rasio ketepatan goresan berada di jalur aksara (0.0 - 1.0)
   final double precision;
 
-  /// Lolos jika akurasi >= 50%
   final bool isPassed;
 
-  /// Tingkat kualitas goresan
   final AksaraRating rating;
 
-  /// Pesan umpan balik untuk pemain
   final String feedback;
 
   String get ratingText {
@@ -92,16 +86,10 @@ class AksaraEvaluation {
   }
 }
 
-/// Evaluator cerdas untuk memverifikasi goresan aksara Jawa pada kanvas.
-/// Menggunakan analisis waypoint morfologis Hanacaraka, toleransi jarak adaptif,
-/// dan rasio cakupan/presisi.
 class AksaraEvaluator {
   AksaraEvaluator._();
 
-  /// Sifat anatomi waypoint normalisasi (u, v) [0.0 - 1.0] untuk 20 aksara Nglegena.
-  /// Waypoint mencerminkan jalur goresan alami Aksara Jawa.
   static const Map<String, List<StrokePoint>> _aksaraWaypoints = {
-    // ꦲ (Ha): dua lengkungan (kiri dan kanan) dengan lembah tengah
     'ꦲ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.18, 0.45),
@@ -113,7 +101,6 @@ class AksaraEvaluator {
       StrokePoint(0.82, 0.45),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦤ (Na): naik kiri, gelombang, kait tengah bawah, gelombang kanan, turun
     'ꦤ': [
       StrokePoint(0.14, 0.82),
       StrokePoint(0.18, 0.40),
@@ -124,7 +111,6 @@ class AksaraEvaluator {
       StrokePoint(0.78, 0.22),
       StrokePoint(0.86, 0.82),
     ],
-    // ꦕ (Ca): lengkung kiri atas, diagonal ke tengah, lengkung bawah kanan
     'ꦕ': [
       StrokePoint(0.18, 0.50),
       StrokePoint(0.28, 0.22),
@@ -134,7 +120,6 @@ class AksaraEvaluator {
       StrokePoint(0.68, 0.82),
       StrokePoint(0.82, 0.55),
     ],
-    // ꦫ (Ra): satu lengkungan utama sederhana
     'ꦫ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.25, 0.35),
@@ -142,7 +127,6 @@ class AksaraEvaluator {
       StrokePoint(0.75, 0.35),
       StrokePoint(0.82, 0.82),
     ],
-    // ꦏ (Ka): mirip Ha dengan lingkaran/simpul di tengah
     'ꦏ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.20, 0.40),
@@ -153,7 +137,6 @@ class AksaraEvaluator {
       StrokePoint(0.80, 0.40),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦢ (Da): lengkung atas, patahan tengah ke bawah, ekor kanan
     'ꦢ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.35),
@@ -162,7 +145,6 @@ class AksaraEvaluator {
       StrokePoint(0.58, 0.82),
       StrokePoint(0.80, 0.82),
     ],
-    // ꦠ (Ta): mirip Na dengan celah lekuk tengah tajam
     'ꦠ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.22, 0.30),
@@ -172,7 +154,6 @@ class AksaraEvaluator {
       StrokePoint(0.72, 0.25),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦱ (Sa): tiga gelombang puncak kecil
     'ꦱ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.25, 0.25),
@@ -182,7 +163,6 @@ class AksaraEvaluator {
       StrokePoint(0.82, 0.35),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦮ (Wa): mirip Ra berputar membulat ke dalam
     'ꦮ': [
       StrokePoint(0.20, 0.82),
       StrokePoint(0.28, 0.35),
@@ -192,7 +172,6 @@ class AksaraEvaluator {
       StrokePoint(0.50, 0.82),
       StrokePoint(0.35, 0.72),
     ],
-    // ꦭ (La): dua lengkung bertingkat
     'ꦭ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.20, 0.35),
@@ -202,7 +181,6 @@ class AksaraEvaluator {
       StrokePoint(0.75, 0.22),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦥ (Pa): satu lengkung terbuka kanan
     'ꦥ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.35),
@@ -211,7 +189,6 @@ class AksaraEvaluator {
       StrokePoint(0.78, 0.42),
       StrokePoint(0.82, 0.82),
     ],
-    // ꦝ (Dha): lengkung ganda bersambung
     'ꦝ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.35),
@@ -221,7 +198,6 @@ class AksaraEvaluator {
       StrokePoint(0.75, 0.75),
       StrokePoint(0.82, 0.82),
     ],
-    // ꦗ (Ja): alur zigzag vertikal dengan gelombang
     'ꦗ': [
       StrokePoint(0.18, 0.50),
       StrokePoint(0.32, 0.22),
@@ -230,7 +206,6 @@ class AksaraEvaluator {
       StrokePoint(0.65, 0.82),
       StrokePoint(0.82, 0.52),
     ],
-    // ꦪ (Ya): tiga gelombang khas
     'ꦪ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.20, 0.35),
@@ -240,7 +215,6 @@ class AksaraEvaluator {
       StrokePoint(0.75, 0.22),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦚ (Nya): empat segmen berulang
     'ꦚ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.22, 0.35),
@@ -250,7 +224,6 @@ class AksaraEvaluator {
       StrokePoint(0.80, 0.35),
       StrokePoint(0.85, 0.82),
     ],
-    // ꦩ (Ma): lengkung kiri atas dan mangkuk bawah
     'ꦩ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.38),
@@ -260,7 +233,6 @@ class AksaraEvaluator {
       StrokePoint(0.40, 0.82),
       StrokePoint(0.78, 0.82),
     ],
-    // ꦒ (Ga): mirip payung / V terbalik sederhana
     'ꦒ': [
       StrokePoint(0.20, 0.82),
       StrokePoint(0.30, 0.35),
@@ -268,7 +240,6 @@ class AksaraEvaluator {
       StrokePoint(0.70, 0.35),
       StrokePoint(0.80, 0.82),
     ],
-    // ꦧ (Ba): lengkung kiri bergelombang ke kanan
     'ꦧ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.35),
@@ -277,7 +248,6 @@ class AksaraEvaluator {
       StrokePoint(0.70, 0.32),
       StrokePoint(0.82, 0.82),
     ],
-    // ꦛ (Tha): lengkung ganda tertutup
     'ꦛ': [
       StrokePoint(0.18, 0.82),
       StrokePoint(0.22, 0.35),
@@ -286,7 +256,6 @@ class AksaraEvaluator {
       StrokePoint(0.45, 0.65),
       StrokePoint(0.70, 0.82),
     ],
-    // ꦔ (Nga): lengkung atas dengan sayap kanan
     'ꦔ': [
       StrokePoint(0.20, 0.82),
       StrokePoint(0.28, 0.35),
@@ -297,7 +266,6 @@ class AksaraEvaluator {
     ],
   };
 
-  /// Ambil daftar waypoint normalisasi untuk aksara tertentu
   static List<StrokePoint> getWaypointsFor(String aksara) {
     return _aksaraWaypoints[aksara] ??
         const [
@@ -309,12 +277,6 @@ class AksaraEvaluator {
         ];
   }
 
-  /// Menghitung akurasi goresan pengguna terhadap target aksara.
-  ///
-  /// [points] daftar titik koordinat kanvas (termasuk null sebagai pemisah goresan).
-  /// [canvasWidth] & [canvasHeight] ukuran kanvas saat menggambar.
-  /// [aksara] karakter aksara Jawa (misalnya 'ꦲ').
-  /// [glyphRect] area batas spesifik di mana huruf ditampilkan.
   static AksaraEvaluation evaluate({
     required String aksara,
     required List<StrokePoint?> points,
@@ -322,7 +284,6 @@ class AksaraEvaluator {
     required double canvasHeight,
     StrokeRect? glyphRect,
   }) {
-    // 1. Ekstrak titik-titik valid
     final validPoints = points.whereType<StrokePoint>().toList();
     if (validPoints.length < 5) {
       return const AksaraEvaluation(
@@ -335,7 +296,6 @@ class AksaraEvaluator {
       );
     }
 
-    // 2. Tentukan area referensi aksara di kanvas
     final center = StrokePoint(canvasWidth / 2, canvasHeight / 2);
     final targetRect = glyphRect ??
         StrokeRect.fromCenter(
@@ -346,7 +306,6 @@ class AksaraEvaluator {
 
     final rawWaypoints = getWaypointsFor(aksara);
 
-    // Transformasikan waypoint normalisasi ke koordinat nyata kanvas
     final canvasWaypoints = rawWaypoints.map((w) {
       return StrokePoint(
         targetRect.left + w.x * targetRect.width,
@@ -354,11 +313,9 @@ class AksaraEvaluator {
       );
     }).toList();
 
-    // Toleransi jarak adaptif yang pas untuk goresan jari di layar sentuh (24-40px)
     final tolerance = (targetRect.width * 0.15).clamp(24.0, 40.0);
     final wideTolerance = tolerance * 1.5;
 
-    // 3. Evaluasi Coverage (Berapa banyak waypoint aksara yang disentuh goresan)
     double coveredScoreSum = 0;
     int hitCount = 0;
 
@@ -381,7 +338,6 @@ class AksaraEvaluator {
 
     double coverage = (coveredScoreSum / canvasWaypoints.length).clamp(0.0, 1.0);
 
-    // 4. Evaluasi Precision (Berapa banyak titik goresan yang berada di koridor aksara target)
     int pointsInCorridor = 0;
     for (final p in validPoints) {
       double minDistToSkeleton = double.infinity;
@@ -398,7 +354,6 @@ class AksaraEvaluator {
 
     final precision = (pointsInCorridor / validPoints.length).clamp(0.0, 1.0);
 
-    // 5. Evaluasi Total Panjang Goresan (stroke length completeness)
     double userStrokeLength = 0;
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
@@ -418,18 +373,14 @@ class AksaraEvaluator {
     } else if (lengthRatio <= 2.2) {
       lengthScore = 1.0;
     } else {
-      // Goresan berlebihan/coretan acak bolak-balik dihukum
       lengthScore = (1.0 - ((lengthRatio - 2.2) / 2.0)).clamp(0.2, 1.0);
     }
 
-    // Pinalti halus jika hanya sedikit sekali waypoint yang tersentuh (< 40%)
     final hitRatio = hitCount / canvasWaypoints.length;
     if (hitRatio < 0.40) {
       coverage *= (0.6 + 0.4 * (hitRatio / 0.40));
     }
 
-    // 6. Hitung persentase akhir (Formula gabungan berbobot yang adil)
-    // Coverage 60% + Precision 35% + Length 5%
     final rawAccuracy = (coverage * 0.60 + precision * 0.35 + lengthScore * 0.05) * 100;
     final int accuracy = rawAccuracy.round().clamp(5, 98);
 
@@ -468,7 +419,6 @@ class AksaraEvaluator {
     );
   }
 
-  /// Menghitung jarak minimum titik [p] ke segmen garis [a]-[b]
   static double _distToSegment(StrokePoint p, StrokePoint a, StrokePoint b) {
     final l2 = a.distanceSquaredTo(b);
     if (l2 == 0) return p.distanceTo(a);

@@ -82,6 +82,68 @@ class _HomeView extends StatelessWidget {
               badgeLabel: 'Pemula',
             ),
           ),
+<<<<<<< HEAD
+=======
+          const SliverToBoxAdapter(child: SizedBox(height: 20)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: const HomeSearchBar(),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 24)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: const TrendingCarousel(),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 28)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: const TahukahKamuSection(),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 24)),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlaceholderPage extends StatelessWidget {
+  const _PlaceholderPage({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 56, color: AppColors.coastalStorm),
+            const SizedBox(height: 16),
+            Text(title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.potBlack,
+                )),
+            const SizedBox(height: 8),
+            Text(subtitle,
+                style: TextStyle(fontSize: 13, color: AppColors.coastalStorm),
+                textAlign: TextAlign.center),
+          ],
+>>>>>>> 81ba043 (fitur dan data artikel jawa tengah)
         ),
 
         const SliverToBoxAdapter(child: SizedBox(height: 20)),
