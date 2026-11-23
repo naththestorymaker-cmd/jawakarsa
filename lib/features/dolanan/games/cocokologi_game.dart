@@ -300,7 +300,6 @@ class _MatchingBoard extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final totalH = constraints.maxHeight;
-        // Hitung gap dan tinggi kartu secara adaptif agar seimbang mengisi seluruh area vertikal
         final gap = totalH > 520 ? 12.0 : (totalH > 440 ? 10.0 : 8.0);
         final rawCardH = (totalH - (n - 1) * gap) / n;
         final cardH = rawCardH.clamp(48.0, 120.0);
@@ -360,7 +359,6 @@ class _MatchingBoard extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                // Jalur tengah — 48px untuk garis penghubung
                 SizedBox(
                   width: 48,
                   child: CustomPaint(
@@ -416,7 +414,6 @@ class _MatchingBoard extends StatelessWidget {
   }
 }
 
-// Painter garis penghubung di area tengah
 class _ConnectorPainter extends CustomPainter {
   _ConnectorPainter({
     required this.leftTerms,
@@ -474,7 +471,6 @@ class _ConnectorPainter extends CustomPainter {
 
       canvas.drawPath(path, paint);
 
-      // Titik di ujung garis
       final dotPaint = Paint()
         ..color = AppColors.mallardish
         ..style = PaintingStyle.fill;

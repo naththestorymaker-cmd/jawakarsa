@@ -48,9 +48,7 @@ class GameScore {
       } else if (rawDate is String) {
         parsedDate = DateTime.tryParse(rawDate);
       } else {
-        // Objek Timestamp dari Firestore
         try {
-          // ignore: avoid_dynamic_calls
           parsedDate = rawDate.toDate() as DateTime?;
         } catch (_) {}
       }

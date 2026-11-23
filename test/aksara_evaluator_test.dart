@@ -13,7 +13,6 @@ void main() {
     height: 180,
   );
 
-  // 1. Verifikasi seluruh 20 aksara memiliki waypoints
   const allAksara = [
     'ꦲ', 'ꦤ', 'ꦕ', 'ꦫ', 'ꦏ',
     'ꦢ', 'ꦠ', 'ꦱ', 'ꦮ', 'ꦭ',
@@ -28,7 +27,6 @@ void main() {
   }
   print('✓ Seluruh 20 aksara Hanacaraka memiliki waypoints valid.');
 
-  // 2. Uji coba goresan yang akurat mengikuti 'ꦲ' (Ha)
   final haWaypoints = AksaraEvaluator.getWaypointsFor('ꦲ');
   final accuratePoints = <StrokePoint?>[];
   for (int i = 0; i < haWaypoints.length - 1; i++) {
@@ -40,7 +38,6 @@ void main() {
       targetRect.left + haWaypoints[i + 1].x * targetRect.width,
       targetRect.top + haWaypoints[i + 1].y * targetRect.height,
     );
-    // Interpolasikan beberapa titik
     for (int step = 0; step <= 5; step++) {
       final t = step / 5.0;
       accuratePoints.add(StrokePoint(
@@ -64,7 +61,6 @@ void main() {
   assert(accurateResult.accuracy >= 75, 'Akurasi harus tinggi untuk goresan ideal');
   print('✓ Goresan ideal Ha lulus dengan akurasi ${accurateResult.accuracy}%');
 
-  // 3. Uji coba goresan asal / acak (titik sedikit atau garis lurus pendek)
   final randomPoints = <StrokePoint?>[
     const StrokePoint(10, 10),
     const StrokePoint(12, 12),
@@ -81,7 +77,6 @@ void main() {
   assert(!randomResult.isPassed, 'Goresan asal tidak boleh lulus');
   print('✓ Goresan asal berhasil ditolak.');
 
-  // 4. Uji coba coretan liar di pojok luar aksara
   final wildPoints = <StrokePoint?>[];
   for (int x = 0; x < 100; x += 5) {
     wildPoints.add(StrokePoint(x.toDouble(), 10));

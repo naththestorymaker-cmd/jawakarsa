@@ -91,11 +91,7 @@ class _HomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: HomeSearchBar(
-              onTap: () {
-                // Navigate to search or topic
-              },
-            ),
+            child: const HomeSearchBar(),
           ),
         ),
 

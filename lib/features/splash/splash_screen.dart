@@ -7,9 +7,6 @@ import 'package:jawakarsa/services/auth_service.dart';
 import 'package:jawakarsa/features/home/home_page.dart';
 import 'package:jawakarsa/features/personalization/personalization_screen.dart';
 
-/// Splash screen — tampil sebentar lalu cek apakah user sudah onboarding.
-/// Jika sudah ada nama tersimpan → langsung ke [HomePage].
-/// Jika belum → ke [PersonalizationScreen].
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -42,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigate() async {
-    // Minimal splash tampil 2 detik
     await Future.wait([
       Future<void>.delayed(const Duration(milliseconds: 2000)),
     ]);
@@ -85,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Maskot Gendhis
                 SizedBox(
                   width: 140,
                   height: 140,
@@ -96,7 +91,6 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
                 const SizedBox(height: 24),
 
-                // Nama aplikasi
                 Text(
                   'JawaKarsa',
                   style: AppTextStyles.displayLarge(color: Colors.white),
@@ -111,7 +105,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 48),
 
-                // Loading indicator
                 SizedBox(
                   width: 24,
                   height: 24,

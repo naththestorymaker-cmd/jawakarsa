@@ -214,7 +214,6 @@ class _LeaderboardContent extends StatelessWidget {
                 myScore != null ? 100 : 24,
               ),
               children: [
-                // Banner Informasi Pameran
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -286,7 +285,6 @@ class _LeaderboardContent extends StatelessWidget {
               ],
             ),
 
-            // Sticky Bottom Bar: Peringkat Pemain Saat Ini
             if (myScore != null)
               Positioned(
                 left: 20,
@@ -433,9 +431,9 @@ class _Podium extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFF2C241E), // Deep brown/black
+            Color(0xFF2C241E),
             AppColors.potBlack,
-            Color(0xFF1B2A26), // Mallardish dark undertone
+            Color(0xFF1B2A26),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
@@ -478,7 +476,6 @@ class _Podium extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // Juara 2 (Perak)
               Expanded(
                 child: _PodiumSlot(
                   score: second,
@@ -493,7 +490,6 @@ class _Podium extends StatelessWidget {
                   onTap: second != null ? () => onTapSlot(second, 2) : null,
                 ),
               ),
-              // Juara 1 (Emas - Menonjol di Tengah)
               Expanded(
                 child: _PodiumSlot(
                   score: first,
@@ -510,7 +506,6 @@ class _Podium extends StatelessWidget {
                   onTap: first != null ? () => onTapSlot(first, 1) : null,
                 ),
               ),
-              // Juara 3 (Perunggu)
               Expanded(
                 child: _PodiumSlot(
                   score: third,
@@ -580,7 +575,6 @@ class _PodiumSlot extends StatelessWidget {
             )
           else
             const SizedBox(height: 14),
-          // Avatar dengan glow ring
           Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.center,
@@ -673,7 +667,6 @@ class _PodiumSlot extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          // Balok Podium
           Container(
             width: double.infinity,
             margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -752,7 +745,6 @@ class _RankRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Badge Nomor Peringkat
           Container(
             width: 32,
             height: 32,
@@ -773,7 +765,6 @@ class _RankRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          // Avatar
           Container(
             width: 38,
             height: 38,
@@ -845,7 +836,6 @@ class _RankRow extends StatelessWidget {
               ],
             ),
           ),
-          // Skor Total Pill
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(

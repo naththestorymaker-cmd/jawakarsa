@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 
-/// Model satu fakta budaya Jawa untuk flip card "Tahukah Kamu?".
 class FactItem {
   const FactItem({
     required this.category,
@@ -16,7 +15,6 @@ class FactItem {
   final Color accentColor;
 }
 
-/// Master data fakta — tambahkan entri baru di sini untuk memperkaya konten.
 const List<FactItem> allFacts = [
   FactItem(
     category: 'Kuliner',

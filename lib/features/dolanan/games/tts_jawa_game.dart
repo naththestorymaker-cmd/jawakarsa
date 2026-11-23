@@ -151,14 +151,12 @@ class _TtsJawaGameState extends State<TtsJawaGame> {
 
   void _onInputChanged() {
     final val = _inputCtrl.text;
-    // Jika teks kosong, artinya pengguna menekan Backspace pada virtual keyboard (spasi terhapus)
     if (val.isEmpty) {
       _deleteLastLetter();
       _initInputController();
       return;
     }
 
-    // Jika ada karakter baru diketik selain spasi
     final cleaned = val.replaceAll(' ', '').replaceAll(RegExp(r'[^a-zA-Z]'), '');
     if (cleaned.isNotEmpty) {
       final ch = cleaned[cleaned.length - 1].toUpperCase();
@@ -171,7 +169,6 @@ class _TtsJawaGameState extends State<TtsJawaGame> {
     if (_selectedClueIdx < 0 || _selectedClueIdx >= _clues.length) return;
     final clue = _clues[_selectedClueIdx];
 
-    // Cari huruf terisi paling akhir dari clue yang sedang aktif
     for (int i = clue.answer.length - 1; i >= 0; i--) {
       final r = clue.direction ? clue.row : clue.row + i;
       final c = clue.direction ? clue.col + i : clue.col;
@@ -454,7 +451,6 @@ class _TtsJawaGameState extends State<TtsJawaGame> {
                     ],
                   ),
                 ),
-                // Input tersembunyi — ukuran 1×1, benar-benar tidak terlihat
                 Positioned(
                   left: -200,
                   top: 0,

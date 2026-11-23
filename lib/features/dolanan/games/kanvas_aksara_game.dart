@@ -153,7 +153,6 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
         _canvasKey.currentContext?.findRenderObject() as RenderBox?;
     final canvasSize = box?.size ?? const Size(320, 260);
 
-    // Konversi titik ke StrokePoint untuk evaluasi akurasi
     final strokePoints = _rawPoints.map((p) {
       return p != null ? StrokePoint(p.dx, p.dy) : null;
     }).toList();
@@ -170,7 +169,6 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
     });
 
     if (eval.isPassed) {
-      // Goresan lulus (Akurasi >= 50%)
       final rng = Random();
       final bonus = eval.accuracy >= 85
           ? 20
@@ -193,7 +191,6 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
         _advanceToNext();
       });
     } else {
-      // Goresan belum lulus (< 50%)
       setState(() {
         _failAttempts++;
       });
@@ -317,7 +314,6 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
                         ),
                       ),
 
-                      // Umpan balik Akurasi Goresan
                       if (_lastEvaluation != null) ...[
                         const SizedBox(height: 12),
                         _EvaluationBanner(
@@ -481,7 +477,6 @@ class _CanvasPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final ghostFontSize = (size.shortestSide * 0.60).clamp(76.0, 168.0);
 
-    // 1. Gambar Bayangan Huruf Aksara Jawa menggunakan Noto Sans Javanese
     final tp = TextPainter(
       text: TextSpan(
         text: ghostAksara,
@@ -498,7 +493,6 @@ class _CanvasPainter extends CustomPainter {
     final ghostTopLeft = center - Offset(tp.width / 2, tp.height / 2);
     tp.paint(canvas, ghostTopLeft);
 
-    // 2. Jika mode panduan aktif, gambar titik panduan alur goresan
     if (showGuide) {
       final targetRect = Rect.fromCenter(
         center: center,
@@ -521,7 +515,6 @@ class _CanvasPainter extends CustomPainter {
       }
     }
 
-    // 3. Gambar Goresan Tangan Pengguna
     if (points.isNotEmpty) {
       final strokePaint = Paint()
         ..color = AppColors.potBlack
@@ -542,7 +535,6 @@ class _CanvasPainter extends CustomPainter {
         final hasNext = i < points.length - 1 && points[i + 1] != null;
 
         if (!hasPrev && !hasNext) {
-          // Titik tunggal (tap)
           canvas.drawCircle(current, strokePaint.strokeWidth / 2, dotPaint);
         } else if (hasNext) {
           canvas.drawLine(current, points[i + 1]!, strokePaint);
@@ -550,7 +542,6 @@ class _CanvasPainter extends CustomPainter {
       }
     }
 
-    // 4. Efek Bintang Partikel saat Berhasil
     if (starProgress > 0 && stars.isNotEmpty) {
       for (final star in stars) {
         double starSize;
