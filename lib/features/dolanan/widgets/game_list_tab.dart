@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
+import 'package:jawakarsa/core/app_transitions.dart';
 import 'package:jawakarsa/models/game_score.dart';
 import 'package:jawakarsa/services/score_service.dart';
 import 'package:jawakarsa/services/auth_service.dart';
@@ -32,7 +33,7 @@ class _GameListTabState extends State<GameListTab> {
 
   void _pushGame(BuildContext context, Widget page) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => page))
+        .push(AppTransitions.fadeSlideRoute(page: page))
         .then((_) => ScoreService.instance.refreshLeaderboard());
   }
 

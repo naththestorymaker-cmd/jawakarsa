@@ -1,4 +1,5 @@
 import 'dart:ui' show ImageFilter;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
@@ -38,55 +39,61 @@ class HomeBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: true,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-        child: Container(
-          height: 66,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(32),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.potBlack.withValues(alpha: 0.08),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-                spreadRadius: -2,
-              ),
-              BoxShadow(
-                color: AppColors.potBlack.withValues(alpha: 0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
+    final pillContent = Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: kIsWeb ? 0.96 : 0.90),
+        borderRadius: BorderRadius.circular(32),
+        border: Border.all(
+          color: AppColors.potBlack.withValues(alpha: 0.07),
+          width: 1.0,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(
+          _items.length,
+          (i) => _NavButton(
+            item: _items[i],
+            isActive: i == currentIndex,
+            onTap: () => onTap?.call(i),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface.withValues(alpha: 0.92),
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(
-                    color: AppColors.potBlack.withValues(alpha: 0.06),
-                    width: 1.0,
-                  ),
+        ),
+      ),
+    );
+
+    return RepaintBoundary(
+      child: SafeArea(
+        top: false,
+        bottom: true,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          child: Container(
+            height: 66,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.potBlack.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
+                  spreadRadius: -2,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(
-                    _items.length,
-                    (i) => _NavButton(
-                      item: _items[i],
-                      isActive: i == currentIndex,
-                      onTap: () => onTap?.call(i),
+                BoxShadow(
+                  color: AppColors.potBlack.withValues(alpha: 0.04),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              child: kIsWeb
+                  ? pillContent
+                  : BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: pillContent,
                     ),
-                  ),
-                ),
-              ),
             ),
           ),
         ),
@@ -121,6 +128,7 @@ class _NavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isActive ? AppColors.rubyRed : AppColors.coastalStorm;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
 
     return Expanded(
       child: Semantics(
@@ -132,7 +140,8 @@ class _NavButton extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           child: Center(
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
+              duration:
+                  reduceMotion ? Duration.zero : const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
@@ -146,10 +155,15 @@ class _NavButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
+                    duration: reduceMotion
+                        ? Duration.zero
+                        : const Duration(milliseconds: 200),
                     transitionBuilder: (child, anim) => FadeTransition(
                       opacity: anim,
-                      child: ScaleTransition(scale: anim, child: child),
+                      child: ScaleTransition(
+                        scale: Tween<double>(begin: 0.86, end: 1.0).animate(anim),
+                        child: child,
+                      ),
                     ),
                     child: Icon(
                       isActive ? item.activeIcon : item.inactiveIcon,

@@ -58,7 +58,11 @@ class _TrendingCarouselState extends State<TrendingCarousel> {
 
   void _startAutoScroll() {
     _timer = Timer.periodic(const Duration(milliseconds: 2500), (_) {
-      if (!_controller.hasClients) return;
+      if (!mounted ||
+          !_controller.hasClients ||
+          !TickerMode.valuesOf(context).enabled) {
+        return;
+      }
       _controller.nextPage(
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeInOut,
@@ -99,8 +103,8 @@ class _TrendingCarouselState extends State<TrendingCarousel> {
               final realPage = _controller.hasClients
                   ? (_controller.page?.round() ?? _initialPage) % _itemsLength
                   : 0;
-              return SmoothPageIndicator(
-                controller: PageController(initialPage: realPage),
+              return AnimatedSmoothIndicator(
+                activeIndex: realPage,
                 count: _items.length,
                 effect: ExpandingDotsEffect(
                   dotHeight: 7,
@@ -147,6 +151,8 @@ class _CarouselCard extends StatelessWidget {
             Image.asset(
               item.imagePath,
               fit: BoxFit.cover,
+              cacheWidth: 960,
+              filterQuality: FilterQuality.medium,
               errorBuilder: (_, _, _) => Container(
                 color: AppColors.mallardish.withValues(alpha: 0.3),
                 child: Center(

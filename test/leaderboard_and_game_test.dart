@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:jawakarsa/models/game_score.dart';
 import 'package:jawakarsa/features/dolanan/games/aksara_evaluator.dart';

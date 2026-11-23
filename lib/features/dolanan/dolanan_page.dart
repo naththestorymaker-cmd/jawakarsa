@@ -19,7 +19,6 @@ class _DolananPageState extends State<DolananPage>
   void initState() {
     super.initState();
     _tab = TabController(length: 2, vsync: this);
-    _tab.addListener(() => setState(() {}));
   }
 
   @override
@@ -44,7 +43,10 @@ class _DolananPageState extends State<DolananPage>
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _SegmentedTab(controller: _tab),
+              child: AnimatedBuilder(
+                animation: _tab,
+                builder: (context, _) => _SegmentedTab(controller: _tab),
+              ),
             ),
             const SizedBox(height: 8),
             Expanded(

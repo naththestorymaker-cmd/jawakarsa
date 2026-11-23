@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:jawakarsa/features/dolanan/games/aksara_evaluator.dart';
 
 void main() {

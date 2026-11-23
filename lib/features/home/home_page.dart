@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
+import 'package:jawakarsa/core/app_transitions.dart';
 import 'package:jawakarsa/features/dolan/dolan_page.dart';
 import 'package:jawakarsa/features/dolanan/dolanan_page.dart';
 import 'package:jawakarsa/features/home/widgets/home_bottom_nav.dart';
@@ -21,8 +22,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _navIndex = 0;
 
-  Widget _buildBody() {
-    switch (_navIndex) {
+  void _onNavTap(int nextIndex) {
+    if (nextIndex == _navIndex) return;
+    setState(() => _navIndex = nextIndex);
+  }
+
+  Widget _buildTab(BuildContext context, int index) {
+    switch (index) {
       case 0:
         return _HomeView(userName: widget.userName);
       case 1:
@@ -43,19 +49,15 @@ class _HomePageState extends State<HomePage> {
       extendBody: true,
       body: SafeArea(
         bottom: false,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          switchInCurve: Curves.easeOutCubic,
-          switchOutCurve: Curves.easeInCubic,
-          child: KeyedSubtree(
-            key: ValueKey<int>(_navIndex),
-            child: _buildBody(),
-          ),
+        child: KeepAliveTabSwitcher(
+          currentIndex: _navIndex,
+          itemCount: 4,
+          itemBuilder: _buildTab,
         ),
       ),
       bottomNavigationBar: HomeBottomNav(
         currentIndex: _navIndex,
-        onTap: (i) => setState(() => _navIndex = i),
+        onTap: _onNavTap,
       ),
     );
   }

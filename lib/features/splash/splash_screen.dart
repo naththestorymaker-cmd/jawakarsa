@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
+import 'package:jawakarsa/core/app_transitions.dart';
 import 'package:jawakarsa/services/auth_service.dart';
 import 'package:jawakarsa/features/home/home_page.dart';
 import 'package:jawakarsa/features/personalization/personalization_screen.dart';
@@ -62,14 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _goTo(Widget page) {
     Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        pageBuilder: (_, animation, _) => page,
-        transitionsBuilder: (_, animation, _, child) => FadeTransition(
-          opacity: animation,
-          child: child,
-        ),
-        transitionDuration: const Duration(milliseconds: 500),
-      ),
+      AppTransitions.fadeScaleRoute(page: page),
     );
   }
 

@@ -412,14 +412,16 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Exact Reference Silhouette Painter
-          CustomPaint(
-            size: widget.size,
-            painter: _JavaSilhouettePainter(
-              selectedId: widget.selectedId,
-              scale: scale,
-              offsetX: offsetX,
-              offsetY: offsetY,
+          // Exact Reference Silhouette Painter (isolated from pulse animation)
+          RepaintBoundary(
+            child: CustomPaint(
+              size: widget.size,
+              painter: _JavaSilhouettePainter(
+                selectedId: widget.selectedId,
+                scale: scale,
+                offsetX: offsetX,
+                offsetY: offsetY,
+              ),
             ),
           ),
 
@@ -732,7 +734,11 @@ class _JavaSilhouettePainter extends CustomPainter {
     return path;
   }
 
-  static Map<int, Path> buildPaths() {
+  static final Map<int, Path> _cachedPaths = _createPaths();
+
+  static Map<int, Path> buildPaths() => _cachedPaths;
+
+  static Map<int, Path> _createPaths() {
     final paths = <int, Path>{};
     paths[1] = _buildPolygon(_pts1);
     paths[2] = _buildPolygon(_pts2);
@@ -740,9 +746,11 @@ class _JavaSilhouettePainter extends CustomPainter {
     paths[4] = _buildPolygon(_pts4);
     paths[5] = _buildPolygon(_pts5);
 
-    final jatimMain = _buildPolygon(_pts6);
-    final madura = _buildPolygon(_ptsMadura);
-    paths[6] = Path.combine(PathOperation.union, jatimMain, madura);
+    // Jawa Timur mainland & Madura are disjoint; addPath avoids expensive
+    // Skia boolean tessellation (Path.combine) while preserving full hit/fill.
+    paths[6] = Path()
+      ..addPath(_buildPolygon(_pts6), Offset.zero)
+      ..addPath(_buildPolygon(_ptsMadura), Offset.zero);
 
     return paths;
   }
