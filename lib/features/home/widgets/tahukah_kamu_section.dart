@@ -88,26 +88,28 @@ class _FlipCardState extends State<_FlipCard>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _flip,
-      child: AnimatedBuilder(
-        animation: _rotation,
-        builder: (context, _) {
-          final showFront = _rotation.value <= pi / 2;
-          final textFlip = showFront ? 0.0 : pi;
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: _flip,
+        child: AnimatedBuilder(
+          animation: _rotation,
+          builder: (context, _) {
+            final showFront = _rotation.value <= pi / 2;
+            final textFlip = showFront ? 0.0 : pi;
 
-          return Transform(
-            transform: Matrix4.rotationY(_rotation.value),
-            alignment: Alignment.center,
-            child: Transform(
-              transform: Matrix4.rotationY(textFlip),
+            return Transform(
+              transform: Matrix4.rotationY(_rotation.value),
               alignment: Alignment.center,
-              child: showFront
-                  ? _CardFront(fact: widget.fact)
-                  : _CardBack(fact: widget.fact),
-            ),
-          );
-        },
+              child: Transform(
+                transform: Matrix4.rotationY(textFlip),
+                alignment: Alignment.center,
+                child: showFront
+                    ? _CardFront(fact: widget.fact)
+                    : _CardBack(fact: widget.fact),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -8,6 +8,8 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PaintingBinding.instance.imageCache.maximumSize = 80;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 60 << 20;
   await _tryInitFirebase();
   runApp(const JawaKarsaApp());
 }

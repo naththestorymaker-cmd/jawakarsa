@@ -372,11 +372,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.auto_awesome_rounded,
-                                  size: 13,
-                                  color: _selectedTheme.accentColor,
-                                ),
                                 const SizedBox(width: 5),
                                 Text(
                                   'KARTU NAMA AKSARA JAWA',

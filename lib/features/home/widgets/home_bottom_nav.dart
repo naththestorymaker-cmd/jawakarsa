@@ -1,5 +1,3 @@
-import 'dart:ui' show ImageFilter;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
@@ -39,29 +37,6 @@ class HomeBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pillContent = Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: kIsWeb ? 0.96 : 0.90),
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(
-          color: AppColors.potBlack.withValues(alpha: 0.07),
-          width: 1.0,
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(
-          _items.length,
-          (i) => _NavButton(
-            item: _items[i],
-            isActive: i == currentIndex,
-            onTap: () => onTap?.call(i),
-          ),
-        ),
-      ),
-    );
-
     return RepaintBoundary(
       child: SafeArea(
         top: false,
@@ -71,7 +46,12 @@ class HomeBottomNav extends StatelessWidget {
           child: Container(
             height: 66,
             decoration: BoxDecoration(
+              color: AppColors.surface.withValues(alpha: 0.96),
               borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: AppColors.potBlack.withValues(alpha: 0.08),
+                width: 1.0,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.potBlack.withValues(alpha: 0.08),
@@ -86,14 +66,17 @@ class HomeBottomNav extends StatelessWidget {
                 ),
               ],
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(32),
-              child: kIsWeb
-                  ? pillContent
-                  : BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: pillContent,
-                    ),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(
+                _items.length,
+                (i) => _NavButton(
+                  item: _items[i],
+                  isActive: i == currentIndex,
+                  onTap: () => onTap?.call(i),
+                ),
+              ),
             ),
           ),
         ),

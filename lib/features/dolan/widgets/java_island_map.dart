@@ -363,7 +363,17 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
     _pulseCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1400),
-    )..repeat(reverse: true);
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _pulseCtrl.stop();
+    } else if (!_pulseCtrl.isAnimating) {
+      _pulseCtrl.repeat(reverse: true);
+    }
   }
 
   @override
@@ -441,40 +451,42 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
               child: GestureDetector(
                 onTap: () => widget.onSelect(id),
                 behavior: HitTestBehavior.opaque,
-                child: AnimatedBuilder(
-                  animation: _pulseCtrl,
-                  builder: (context, _) {
-                    return Container(
-                      width: pinSize,
-                      height: pinSize,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isSelected ? Colors.white : AppColors.potBlack,
-                        border: Border.all(
-                          color: isSelected ? AppColors.rubyRed : Colors.white,
-                          width: isSelected ? 2.0 : 1.2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: (isSelected ? AppColors.rubyRed : AppColors.potBlack)
-                                .withValues(alpha: isSelected ? 0.35 : 0.2),
-                            blurRadius: isSelected ? 6 : 3,
-                            offset: const Offset(0, 1.5),
+                child: RepaintBoundary(
+                  child: AnimatedBuilder(
+                    animation: _pulseCtrl,
+                    builder: (context, _) {
+                      return Container(
+                        width: pinSize,
+                        height: pinSize,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isSelected ? Colors.white : AppColors.potBlack,
+                          border: Border.all(
+                            color: isSelected ? AppColors.rubyRed : Colors.white,
+                            width: isSelected ? 2.0 : 1.2,
                           ),
-                        ],
-                      ),
-                      child: Text(
-                        '$id',
-                        style: TextStyle(
-                          color: isSelected ? AppColors.rubyRed : Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: isSelected ? 11 : 9,
-                          fontFamily: 'sans-serif',
+                          boxShadow: [
+                            BoxShadow(
+                              color: (isSelected ? AppColors.rubyRed : AppColors.potBlack)
+                                  .withValues(alpha: isSelected ? 0.35 : 0.2),
+                              blurRadius: isSelected ? 6 : 3,
+                              offset: const Offset(0, 1.5),
+                            ),
+                          ],
                         ),
-                      ),
-                    );
-                  },
+                        child: Text(
+                          '$id',
+                          style: TextStyle(
+                            color: isSelected ? AppColors.rubyRed : Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: isSelected ? 11 : 9,
+                            fontFamily: 'sans-serif',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             );
@@ -796,11 +808,14 @@ class _JavaSilhouettePainter extends CustomPainter {
     // 3. Draw Selected Region (Rich Ruby Red Fill + Clean Inked Stroke)
     final selectedPath = paths[selectedId];
     if (selectedPath != null) {
-      // Glow shadow
-      final shadowPaint = Paint()
-        ..color = AppColors.rubyRed.withValues(alpha: 0.35)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
-      canvas.drawPath(selectedPath, shadowPaint);
+      // Lightweight highlight halo (avoids MaskFilter.blur GPU stall)
+      final haloPaint = Paint()
+        ..color = AppColors.rubyRed.withValues(alpha: 0.22)
+        ..strokeWidth = 6.0
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..style = PaintingStyle.stroke;
+      canvas.drawPath(selectedPath, haloPaint);
 
       final selectedFill = Paint()
         ..color = AppColors.rubyRed

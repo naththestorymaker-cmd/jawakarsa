@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/data/knowledge_data.dart';
+import 'package:jawakarsa/features/knowledge/widgets/platform_network_image.dart';
 import 'package:jawakarsa/models/knowledge_item.dart';
-import 'package:video_player/video_player.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 
 class InstantKnowledgeCardSheet extends StatelessWidget {
   const InstantKnowledgeCardSheet({
@@ -149,6 +152,9 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                 item.resolvedThumbnailUrl,
                                 width: double.infinity,
                                 height: 220,
+                                cacheWidth: 840,
+                                filterQuality: FilterQuality.medium,
+                                gaplessPlayback: true,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
@@ -423,7 +429,7 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                     size: 18, color: categoryColor),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Media Interaktif Lokal',
+                                  'Media Interaktif',
                                   style: AppTextStyles.titleSmall().copyWith(
                                     color: AppColors.potBlack,
                                     fontWeight: FontWeight.w700,
@@ -438,6 +444,7 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                 child: _MediaContainerItem(
                                   media: m,
                                   accentColor: categoryColor,
+                                  fallbackThumbnail: item.resolvedThumbnailUrl,
                                 ),
                               );
                             }),
@@ -529,13 +536,51 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
   }
 }
 
+Future<void> _openExternalUrl(BuildContext context, String rawUrl) async {
+  final uri = Uri.tryParse(rawUrl);
+  if (uri == null) return;
+  try {
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launched && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tidak dapat membuka tautan media di browser.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  } catch (_) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tidak dapat membuka tautan media di browser.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+}
+
+String _formatMediaDuration(Duration d) {
+  if (d.isNegative) return '00:00';
+  final hours = d.inHours;
+  final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+  final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+  if (hours > 0) {
+    return '$hours:$minutes:$seconds';
+  }
+  return '$minutes:$seconds';
+}
+
 class _MediaContainerItem extends StatefulWidget {
   final KnowledgeMedia media;
   final Color accentColor;
+  final String fallbackThumbnail;
 
   const _MediaContainerItem({
     required this.media,
     required this.accentColor,
+    required this.fallbackThumbnail,
   });
 
   @override
@@ -544,79 +589,544 @@ class _MediaContainerItem extends StatefulWidget {
 
 class _MediaContainerItemState extends State<_MediaContainerItem> {
   VideoPlayerController? _videoController;
+  bool _hasStartedVideo = false;
+  bool _isLoadingVideo = false;
   bool _isVideoInitialized = false;
+  String? _videoError;
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.media.type == 'video') {
-      _initVideoPlayer();
+  double? _dragPositionMs;
+  bool _isMuted = false;
+  bool _showCenterOverlay = true;
+  Timer? _hideOverlayTimer;
+
+  Future<void> _initAndPlayVideo() async {
+    setState(() {
+      _hasStartedVideo = true;
+      _isLoadingVideo = true;
+      _videoError = null;
+      _dragPositionMs = null;
+    });
+
+    await _videoController?.dispose();
+    _videoController = null;
+
+    try {
+      final url = widget.media.url.trim();
+      final controller = url.startsWith('http')
+          ? VideoPlayerController.networkUrl(Uri.parse(url))
+          : VideoPlayerController.asset(url);
+      _videoController = controller;
+
+      await controller.initialize().timeout(const Duration(seconds: 15));
+      if (!mounted) {
+        await controller.dispose();
+        return;
+      }
+
+      if (_isMuted) {
+        await controller.setVolume(0.0);
+      }
+
+      setState(() {
+        _isVideoInitialized = true;
+        _isLoadingVideo = false;
+        _showCenterOverlay = true;
+      });
+      await controller.play();
+      _scheduleHideOverlay();
+    } catch (error) {
+      debugPrint('Error loading video: $error');
+      await _videoController?.dispose();
+      _videoController = null;
+      if (mounted) {
+        setState(() {
+          _isVideoInitialized = false;
+          _isLoadingVideo = false;
+          _videoError = 'Video tidak dapat diputar langsung di perangkat ini';
+        });
+      }
     }
   }
 
-  void _initVideoPlayer() {
-    _videoController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.media.url),
-    )..initialize().then((_) {
-        if (mounted) {
-          setState(() {
-            _isVideoInitialized = true;
-          });
-        }
-      }).catchError((error) {
-        debugPrint("Error loading video: $error");
-      });
+  void _scheduleHideOverlay() {
+    _hideOverlayTimer?.cancel();
+    _hideOverlayTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted &&
+          _videoController != null &&
+          _videoController!.value.isPlaying) {
+        setState(() => _showCenterOverlay = false);
+      }
+    });
+  }
+
+  Future<void> _toggleVideoPlayPause() async {
+    final controller = _videoController;
+    if (controller == null || !_isVideoInitialized) return;
+
+    final val = controller.value;
+    if (val.isPlaying) {
+      _hideOverlayTimer?.cancel();
+      await controller.pause();
+      if (mounted) setState(() => _showCenterOverlay = true);
+    } else {
+      if (val.duration > Duration.zero && val.position >= val.duration) {
+        await controller.seekTo(Duration.zero);
+      }
+      await controller.play();
+      if (mounted) setState(() => _showCenterOverlay = true);
+      _scheduleHideOverlay();
+    }
+  }
+
+  Future<void> _seekVideoRelative(Duration delta) async {
+    final controller = _videoController;
+    if (controller == null || !_isVideoInitialized) return;
+
+    final duration = controller.value.duration;
+    if (duration <= Duration.zero) return;
+
+    var target = controller.value.position + delta;
+    if (target < Duration.zero) target = Duration.zero;
+    if (target > duration) target = duration;
+    await controller.seekTo(target);
+    _scheduleHideOverlay();
+  }
+
+  Future<void> _toggleVideoMute() async {
+    final controller = _videoController;
+    if (controller == null || !_isVideoInitialized) return;
+    final nextMuted = !_isMuted;
+    await controller.setVolume(nextMuted ? 0.0 : 1.0);
+    if (mounted) {
+      setState(() => _isMuted = nextMuted);
+    }
   }
 
   @override
   void dispose() {
+    _hideOverlayTimer?.cancel();
     _videoController?.dispose();
     super.dispose();
+  }
+
+  Widget _buildVideoCard() {
+    final fileName = Uri.decodeComponent(widget.media.url.split('/').last);
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        height: 224,
+        width: double.infinity,
+        color: AppColors.potBlack,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (!_hasStartedVideo) ...[
+              Image.asset(
+                widget.fallbackThumbnail,
+                fit: BoxFit.cover,
+                cacheWidth: 840,
+                filterQuality: FilterQuality.medium,
+                errorBuilder: (_, _, _) =>
+                    Container(color: AppColors.potBlack),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.2),
+                      Colors.black.withValues(alpha: 0.72),
+                    ],
+                  ),
+                ),
+              ),
+              Center(
+                child: Material(
+                  color: widget.accentColor,
+                  borderRadius: BorderRadius.circular(32),
+                  child: InkWell(
+                    onTap: _initAndPlayVideo,
+                    borderRadius: BorderRadius.circular(32),
+                    child: const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Putar Video',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 12,
+                right: 48,
+                bottom: 10,
+                child: Text(
+                  fileName,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ] else if (_isLoadingVideo) ...[
+              const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(color: Colors.white),
+                    SizedBox(height: 10),
+                    Text(
+                      'Memuat video...',
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            ] else if (_videoError != null) ...[
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.videocam_off_rounded,
+                        color: Colors.white70,
+                        size: 36,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        _videoError!,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: _initAndPlayVideo,
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              side: const BorderSide(color: Colors.white54),
+                            ),
+                            icon: const Icon(Icons.refresh_rounded, size: 16),
+                            label: const Text('Coba Lagi'),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () =>
+                                _openExternalUrl(context, widget.media.url),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: widget.accentColor,
+                              foregroundColor: Colors.white,
+                            ),
+                            icon:
+                                const Icon(Icons.open_in_new_rounded, size: 16),
+                            label: const Text('Buka di Browser'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ] else if (_isVideoInitialized && _videoController != null) ...[
+              Center(
+                child: AspectRatio(
+                  aspectRatio: _videoController!.value.aspectRatio > 0
+                      ? _videoController!.value.aspectRatio
+                      : 16 / 9,
+                  child: VideoPlayer(_videoController!),
+                ),
+              ),
+              Positioned.fill(
+                child: ValueListenableBuilder<VideoPlayerValue>(
+                  valueListenable: _videoController!,
+                  builder: (context, value, _) {
+                    final duration = value.duration;
+                    final maxMs = duration.inMilliseconds > 0
+                        ? duration.inMilliseconds.toDouble()
+                        : 0.0;
+                    final currentMs = _dragPositionMs ??
+                        value.position.inMilliseconds
+                            .toDouble()
+                            .clamp(0.0, maxMs > 0 ? maxMs : 0.0);
+                    final displayPos = Duration(
+                      milliseconds: currentMs.round(),
+                    );
+                    final showCenterBtn = !value.isPlaying || _showCenterOverlay;
+
+                    return Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (value.isPlaying && !_showCenterOverlay) {
+                              setState(() => _showCenterOverlay = true);
+                              _scheduleHideOverlay();
+                            } else {
+                              _toggleVideoPlayPause();
+                            }
+                          },
+                          behavior: HitTestBehavior.translucent,
+                          child: Center(
+                            child: value.isBuffering
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : AnimatedOpacity(
+                                    opacity: showCenterBtn ? 0.92 : 0.0,
+                                    duration:
+                                        const Duration(milliseconds: 180),
+                                    child: IgnorePointer(
+                                      ignoring: !showCenterBtn,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.black45,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(6),
+                                        child: Icon(
+                                          value.isPlaying
+                                              ? Icons.pause_rounded
+                                              : Icons.play_arrow_rounded,
+                                          size: 38,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black54,
+                                  Colors.black87,
+                                ],
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 12, 10, 4),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      trackHeight: 3.5,
+                                      thumbShape: const RoundSliderThumbShape(
+                                        enabledThumbRadius: 6,
+                                      ),
+                                      overlayShape:
+                                          const RoundSliderOverlayShape(
+                                        overlayRadius: 12,
+                                      ),
+                                      activeTrackColor: widget.accentColor,
+                                      inactiveTrackColor: Colors.white24,
+                                      thumbColor: Colors.white,
+                                      overlayColor: widget.accentColor
+                                          .withValues(alpha: 0.25),
+                                    ),
+                                    child: Slider(
+                                      min: 0.0,
+                                      max: maxMs > 0 ? maxMs : 1.0,
+                                      value: maxMs > 0
+                                          ? currentMs.clamp(0.0, maxMs)
+                                          : 0.0,
+                                      onChangeStart: maxMs > 0
+                                          ? (v) {
+                                              _hideOverlayTimer?.cancel();
+                                              setState(
+                                                () => _dragPositionMs = v,
+                                              );
+                                            }
+                                          : null,
+                                      onChanged: maxMs > 0
+                                          ? (v) => setState(
+                                                () => _dragPositionMs = v,
+                                              )
+                                          : null,
+                                      onChangeEnd: maxMs > 0
+                                          ? (v) async {
+                                              await _videoController!.seekTo(
+                                                Duration(
+                                                  milliseconds: v.round(),
+                                                ),
+                                              );
+                                              if (mounted) {
+                                                setState(
+                                                  () => _dragPositionMs = null,
+                                                );
+                                                _scheduleHideOverlay();
+                                              }
+                                            }
+                                          : null,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        tooltip: value.isPlaying
+                                            ? 'Jeda'
+                                            : 'Putar',
+                                        onPressed: _toggleVideoPlayPause,
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(
+                                          minWidth: 32,
+                                          minHeight: 32,
+                                        ),
+                                        icon: Icon(
+                                          value.isPlaying
+                                              ? Icons.pause_rounded
+                                              : Icons.play_arrow_rounded,
+                                          color: Colors.white,
+                                          size: 22,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        tooltip: 'Mundur 10 detik',
+                                        onPressed: () => _seekVideoRelative(
+                                          const Duration(seconds: -10),
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(
+                                          minWidth: 30,
+                                          minHeight: 30,
+                                        ),
+                                        icon: const Icon(
+                                          Icons.replay_10_rounded,
+                                          color: Colors.white70,
+                                          size: 19,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        tooltip: 'Maju 10 detik',
+                                        onPressed: () => _seekVideoRelative(
+                                          const Duration(seconds: 10),
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(
+                                          minWidth: 30,
+                                          minHeight: 30,
+                                        ),
+                                        icon: const Icon(
+                                          Icons.forward_10_rounded,
+                                          color: Colors.white70,
+                                          size: 19,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${_formatMediaDuration(displayPos)} / ${_formatMediaDuration(duration)}',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontFeatures: [
+                                            FontFeature.tabularFigures(),
+                                          ],
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      IconButton(
+                                        tooltip: _isMuted
+                                            ? 'Bunyikan'
+                                            : 'Bisukan',
+                                        onPressed: _toggleVideoMute,
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(
+                                          minWidth: 32,
+                                          minHeight: 32,
+                                        ),
+                                        icon: Icon(
+                                          _isMuted
+                                              ? Icons.volume_off_rounded
+                                              : Icons.volume_up_rounded,
+                                          color: Colors.white70,
+                                          size: 19,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Tooltip(
+                message: 'Buka di Browser',
+                child: Material(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(18),
+                  child: InkWell(
+                    onTap: () => _openExternalUrl(context, widget.media.url),
+                    borderRadius: BorderRadius.circular(18),
+                    child: const Padding(
+                      padding: EdgeInsets.all(6),
+                      child: Icon(
+                        Icons.open_in_new_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.media.type == 'video') {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          height: 200,
-          color: Colors.black,
-          child: _isVideoInitialized && _videoController != null
-              ? Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: _videoController!.value.aspectRatio,
-                      child: VideoPlayer(_videoController!),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        _videoController!.value.isPlaying
-                            ? Icons.pause_circle_filled_rounded
-                            : Icons.play_circle_fill_rounded,
-                        size: 54,
-                        color: Colors.white.withValues(alpha: 0.8),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          if (_videoController!.value.isPlaying) {
-                            _videoController!.pause();
-                          } else {
-                            _videoController!.play();
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                )
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                ),
-        ),
-      );
+      return _buildVideoCard();
     }
 
     if (widget.media.type == 'sound' || widget.media.url.endsWith('.mp3')) {
@@ -675,65 +1185,107 @@ class Mp3AudioContainer extends StatefulWidget {
 
 class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
   late AudioPlayer _audioPlayer;
+  StreamSubscription<PlayerState>? _playerStateSub;
+  StreamSubscription<Duration?>? _durationSub;
   bool _isPlaying = false;
   bool _isLoading = false;
+  bool _isSourceSet = false;
+  String? _errorMessage;
+  Duration _duration = Duration.zero;
+  double? _dragPositionMs;
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
 
-    // Listener status pemutaran untuk just_audio
-    _audioPlayer.playerStateStream.listen((state) {
-      if (mounted) {
-        setState(() {
-          _isPlaying = state.playing;
-          _isLoading = state.processingState == ProcessingState.loading ||
-              state.processingState == ProcessingState.buffering;
-          if (state.processingState == ProcessingState.completed) {
-            _isPlaying = false;
-            _audioPlayer.seek(Duration.zero);
-            _audioPlayer.pause();
-          }
-        });
-      }
+    _playerStateSub = _audioPlayer.playerStateStream.listen((state) {
+      if (!mounted) return;
+      setState(() {
+        _isPlaying = state.playing;
+        _isLoading = state.processingState == ProcessingState.loading ||
+            state.processingState == ProcessingState.buffering;
+        if (state.processingState == ProcessingState.completed) {
+          _isPlaying = false;
+          _audioPlayer.seek(Duration.zero);
+          _audioPlayer.pause();
+        }
+      });
     });
 
-    _initAudio();
-  }
-
-  Future<void> _initAudio() async {
-    try {
-      await _audioPlayer.setUrl(widget.audioUrl);
-    } catch (e) {
-      debugPrint("Error setting audio source: $e");
-    }
+    _durationSub = _audioPlayer.durationStream.listen((d) {
+      if (!mounted || d == null) return;
+      setState(() => _duration = d);
+    });
   }
 
   @override
   void dispose() {
+    _playerStateSub?.cancel();
+    _durationSub?.cancel();
     _audioPlayer.dispose();
     super.dispose();
+  }
+
+  Future<void> _seekAudioRelative(Duration delta) async {
+    if (!_isSourceSet || _duration <= Duration.zero) return;
+    var target = _audioPlayer.position + delta;
+    if (target < Duration.zero) target = Duration.zero;
+    if (target > _duration) target = _duration;
+    await _audioPlayer.seek(target);
   }
 
   Future<void> _togglePlayPause() async {
     try {
       if (_isPlaying) {
         await _audioPlayer.pause();
-      } else {
-        await _audioPlayer.play();
+        return;
       }
+
+      if (!_isSourceSet) {
+        setState(() {
+          _isLoading = true;
+          _errorMessage = null;
+        });
+        final url = widget.audioUrl.trim();
+        if (url.startsWith('http')) {
+          await _audioPlayer.setUrl(url).timeout(const Duration(seconds: 15));
+        } else {
+          await _audioPlayer.setAsset(url);
+        }
+        _isSourceSet = true;
+        if (_audioPlayer.duration != null && mounted) {
+          setState(() => _duration = _audioPlayer.duration!);
+        }
+      }
+
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+      await _audioPlayer.play();
     } catch (e) {
-      debugPrint("Error playing audio: $e");
+      debugPrint('Error playing audio: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _isPlaying = false;
+          _errorMessage = 'Gagal memutar audio — ketuk ikon kanan untuk browser';
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final fileName = Uri.decodeComponent(widget.audioUrl.split('/').last);
+    final statusTitle = _errorMessage != null
+        ? 'Audio tidak tersedia langsung'
+        : _isPlaying
+            ? 'Memutar Audio Tradisional...'
+            : 'Putar Rekaman Audio';
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
       decoration: BoxDecoration(
         color: widget.accentColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(14),
@@ -741,55 +1293,210 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
           color: widget.accentColor.withValues(alpha: 0.3),
         ),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          InkWell(
-            onTap: _isLoading ? null : _togglePlayPause,
-            borderRadius: BorderRadius.circular(30),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: widget.accentColor,
-              ),
-              child: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : Icon(
-                      _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _isPlaying ? 'Memutar Audio Tradisional...' : 'Putar Rekaman Audio',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              InkWell(
+                onTap: _isLoading ? null : _togglePlayPause,
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
                     color: widget.accentColor,
-                    fontSize: 14,
                   ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Icon(
+                          _isPlaying
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  fileName,
-                  style: const TextStyle(fontSize: 11, color: Colors.grey),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      statusTitle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: _errorMessage != null
+                            ? Colors.redAccent
+                            : widget.accentColor,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      _errorMessage ?? fileName,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: _errorMessage != null
+                            ? Colors.redAccent
+                            : Colors.grey,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(
+                tooltip: 'Buka di Browser',
+                onPressed: () => _openExternalUrl(context, widget.audioUrl),
+                icon: Icon(
+                  Icons.open_in_new_rounded,
+                  size: 18,
+                  color: widget.accentColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          StreamBuilder<Duration>(
+            stream: _audioPlayer.positionStream,
+            initialData: Duration.zero,
+            builder: (context, snapshot) {
+              final position = snapshot.data ?? Duration.zero;
+              final maxMs = _duration.inMilliseconds > 0
+                  ? _duration.inMilliseconds.toDouble()
+                  : 0.0;
+              final canSeek = _isSourceSet && maxMs > 0;
+              final currentMs = _dragPositionMs ??
+                  position.inMilliseconds
+                      .toDouble()
+                      .clamp(0.0, maxMs > 0 ? maxMs : 0.0);
+              final displayPos = Duration(milliseconds: currentMs.round());
+
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      trackHeight: 3.5,
+                      thumbShape: const RoundSliderThumbShape(
+                        enabledThumbRadius: 6,
+                      ),
+                      overlayShape: const RoundSliderOverlayShape(
+                        overlayRadius: 12,
+                      ),
+                      activeTrackColor: widget.accentColor,
+                      inactiveTrackColor:
+                          widget.accentColor.withValues(alpha: 0.22),
+                      disabledActiveTrackColor:
+                          widget.accentColor.withValues(alpha: 0.25),
+                      disabledInactiveTrackColor:
+                          widget.accentColor.withValues(alpha: 0.14),
+                      thumbColor: widget.accentColor,
+                      disabledThumbColor:
+                          widget.accentColor.withValues(alpha: 0.45),
+                      overlayColor: widget.accentColor.withValues(alpha: 0.2),
+                    ),
+                    child: Slider(
+                      min: 0.0,
+                      max: maxMs > 0 ? maxMs : 1.0,
+                      value: canSeek ? currentMs.clamp(0.0, maxMs) : 0.0,
+                      onChangeStart: canSeek
+                          ? (v) => setState(() => _dragPositionMs = v)
+                          : null,
+                      onChanged: canSeek
+                          ? (v) => setState(() => _dragPositionMs = v)
+                          : null,
+                      onChangeEnd: canSeek
+                          ? (v) async {
+                              await _audioPlayer.seek(
+                                Duration(milliseconds: v.round()),
+                              );
+                              if (mounted) {
+                                setState(() => _dragPositionMs = null);
+                              }
+                            }
+                          : null,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          _formatMediaDuration(displayPos),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: AppColors.coastalStorm,
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          tooltip: 'Mundur 10 detik',
+                          onPressed: canSeek
+                              ? () => _seekAudioRelative(
+                                    const Duration(seconds: -10),
+                                  )
+                              : null,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 28,
+                          ),
+                          icon: Icon(
+                            Icons.replay_10_rounded,
+                            size: 18,
+                            color: canSeek
+                                ? widget.accentColor
+                                : AppColors.coastalStorm.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        IconButton(
+                          tooltip: 'Maju 10 detik',
+                          onPressed: canSeek
+                              ? () => _seekAudioRelative(
+                                    const Duration(seconds: 10),
+                                  )
+                              : null,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 28,
+                          ),
+                          icon: Icon(
+                            Icons.forward_10_rounded,
+                            size: 18,
+                            color: canSeek
+                                ? widget.accentColor
+                                : AppColors.coastalStorm.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          _formatMediaDuration(_duration),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: AppColors.coastalStorm,
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -809,53 +1516,26 @@ class WebpImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cleanUrl = Uri.decodeComponent(imageUrl);
+    final cleanUrl = imageUrl.trim();
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(14),
-      child: Container(
-        height: height,
-        width: double.infinity,
-        color: Colors.grey[200],
-        child: Image.network(
-          cleanUrl,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        (loadingProgress.expectedTotalBytes ?? 1)
-                    : null,
+      child: cleanUrl.startsWith('assets/')
+          ? SizedBox(
+              height: height,
+              width: double.infinity,
+              child: Image.asset(
+                cleanUrl,
+                cacheWidth: 840,
+                filterQuality: FilterQuality.medium,
+                fit: BoxFit.cover,
               ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.broken_image_rounded, size: 40, color: Colors.grey),
-                  const SizedBox(height: 4),
-                  const Text('Gagal memuat gambar', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                  const SizedBox(height: 4),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      cleanUrl,
-                      style: const TextStyle(color: Colors.redAccent, fontSize: 9),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+            )
+          : PlatformNetworkImage(
+              imageUrl: cleanUrl,
+              height: height,
+              onOpenExternal: () => _openExternalUrl(context, cleanUrl),
+            ),
     );
   }
 }

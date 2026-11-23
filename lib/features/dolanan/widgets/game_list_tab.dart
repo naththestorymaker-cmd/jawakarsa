@@ -40,7 +40,7 @@ class _GameListTabState extends State<GameListTab> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 110),
       children: [
         StreamBuilder<List<GameScore>>(
           stream: ScoreService.instance.leaderboardStream(),

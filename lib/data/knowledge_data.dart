@@ -32,7 +32,8 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kerajinan-keris-gunungkidul-potensi-subsektor-kriya-logam-kabupaten-gunungkidul-ytmp4.savetube.vip.mp4"},
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kerajinan-keris-gunungkidul.mp4"},
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/keris-nogo-siluman.webp"}
     ]
   },
   {
@@ -66,7 +67,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/videoplayback.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/batik-parang-rusak.mp4"}
     ]
   },
   {
@@ -100,7 +101,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sulukan_wayang_part1.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sulukan-wayang-part1.mp3"}
     ]
   },
   {
@@ -134,7 +135,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_musik_03", "title": "Tembang Macapat (11 Pupuh)"}
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/aksara_hanacarakan.webp"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/aksara-hanacarakan.webp"}
     ]
   },
   {
@@ -168,7 +169,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/mantra_ruwatan.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mantra-ruwatan-murwakala.mp3"}
     ]
   },
   {
@@ -202,7 +203,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/joglo_detail.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/joglo-detail.jpg"}
     ]
   },
   {
@@ -236,7 +237,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/semar_silhouette.png"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kreasi-semar.webp"}
     ]
   },
   {
@@ -270,7 +271,8 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/gamelan_pelog_sample.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-pelog-gamelan.mp3"},
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-slendro-gamelan.mp3"}
     ]
   },
   {
@@ -304,7 +306,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_arsitektur_04", "title": "Taman Sari Water Castle"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/parangkusumo.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/legenda-ratu-kidul.mp4"}
     ]
   },
   {
@@ -338,7 +340,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/bedhaya_cuplikan.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-bedhaya-ketawang.mp4"}
     ]
   },
   {
@@ -372,7 +374,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_03", "title": "Malam Satu Suro"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/sultan_agung_portrait.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mata-uang-sultan-mataram.webp"}
     ]
   },
   {
@@ -406,7 +408,8 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/gamelan_sekati.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gamelan-sekati-guntur-madu.mp3"},
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/grebeg-maulud.mp4"}
     ]
   },
   {
@@ -440,7 +443,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/genta_satu_suro.mp3"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/jamasan-pusaka.webp"}
     ]
   },
   {
@@ -474,7 +477,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/masjid_demak.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/masjid-demak.webp"}
     ]
   },
   {
@@ -508,7 +511,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/tangga_imogiri.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kompleks-makam-imogiri.mp4"}
     ]
   },
   {
@@ -542,7 +545,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/sumur_gumuling.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/taman-sari-water-castle.mp4"}
     ]
   },
   {
@@ -576,7 +579,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/candi_sukuh_relief.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/candi-sukuh-mitos-dan-cerita-dibalik-candi-sukuh.mp4"}
     ]
   },
   {
@@ -610,7 +613,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/naskah_kalatidha.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/ramalan-jaman-edan-karya-ronggowarsito.mp4"}
     ]
   },
   {
@@ -644,7 +647,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/buku_babad_diponegoro.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/naskah-diponegoro.webp"}
     ]
   },
   {
@@ -678,7 +681,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/pahat_ukir_jepara.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-ukiran-kayu-jepara.mp4"}
     ]
   },
   {
@@ -712,7 +715,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/topeng_panji_sekartaji.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-topeng-bobung.webp"}
     ]
   },
   {
@@ -746,7 +749,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_02", "title": "Sekaten & Grebeg Maulud"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/payung_juwiring_warna.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/lomba-lukis-payung-klaten.webp"}
     ]
   },
   {
@@ -780,7 +783,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/blangkon_detail.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/detail-blangkon.webp"}
     ]
   },
   {
@@ -814,7 +817,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_arsitektur_06", "title": "Candi Sukuh & Erotisme Spiritual"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/wayang_beber_gulungan.jpg"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/cerita-wayang-beber-pacitan.mp4"}
     ]
   },
   {
@@ -848,7 +851,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_04", "title": "Tedak Siten (Turun Tanah)"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/putar_gerabah.mp4"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-pembuatan-gerabah.webp"}
     ]
   },
   {
@@ -882,7 +885,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_08", "title": "Pangeran Diponegoro & Babad Perang Jawa"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/kaca_patri_lawang_sewu.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/blueprints-lawang-sewu.webp"}
     ]
   },
   {
@@ -916,7 +919,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tari_02", "title": "Tari Serimpi Sangupati"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/pangkur_rebab.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gending-pangkur-lombo.mp3"}
     ]
   },
   {
@@ -950,7 +953,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_01", "title": "Aji Saka & Aksara Jawa"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/dhandhanggula_tembang.mp3"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/materi-lengkap-tembang-macapat.mp4"}
     ]
   },
   {
@@ -984,7 +987,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
     ],
     "media": [
-      {"type": "sound", "url": "assets/audio/jateng/sinden_cengkok.mp3"}
+      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sinden-putri-briliyanti-kadung-tresno.mp3"}
     ]
   },
   {
@@ -1018,7 +1021,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/serimpi_sangupati.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-srimpi-sangupati.mp4"}
     ]
   },
   {
@@ -1052,7 +1055,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/gambyong_tari.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-gambyong-pareanom.mp4"}
     ]
   },
   {
@@ -1086,7 +1089,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
     ],
     "media": [
-      {"type": "video", "url": "assets/videos/jateng/reog_atraksi.mp4"}
+      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/asal-usul-reog-ponorogo.mp4"}
     ]
   },
   {
@@ -1120,7 +1123,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/tedak_siten_kurungan.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tedak-siten.webp"}
     ]
   },
   {
@@ -1154,7 +1157,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/cengkir_gading.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mitoni-tingkeban-pasangan.webp"}
     ]
   },
   {
@@ -1188,7 +1191,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_09", "title": "Gerabah Kasongan"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/siraman_kendi.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/siraman-pengantin-jawa.webp"}
     ]
   },
   {
@@ -1222,7 +1225,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_upacara_03", "title": "Malam Satu Suro"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/merapi_jurukunci.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/labuhan-merapi.webp"}
     ]
   },
   {
@@ -1256,7 +1259,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/gudeg_kendil.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gudeg-manggar.webp"}
     ]
   },
   {
@@ -1290,7 +1293,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kuliner_04", "title": "Jenang Kudus & Manisan Keraton"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/botol_jamu_gendong.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/racikan-jamu.webp"}
     ]
   },
   {
@@ -1324,7 +1327,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kuliner_01", "title": "Gudeg Manggar & Nangka"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/tumpeng_robyong.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tumpeng-robyong.webp"}
     ]
   },
   {
@@ -1358,7 +1361,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/kawah_jenang.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kawah-jenang.webp"}
     ]
   },
   {
@@ -1392,7 +1395,8 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/kebaya_kartini_detail.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kebaya-kartini-zaman-dahulu.webp"},
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/beskap-zaman-dahulu.webp"}
     ]
   },
   {
@@ -1426,7 +1430,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/kesultanan_demak.jpg"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/makam-kesultanan-demak.webp"}
     ]
   },
   {
@@ -1460,7 +1464,7 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {"id": "jateng_tokoh_08", "title": "Pangeran Diponegoro & Babad Perang Jawa"}
     ],
     "media": [
-      {"type": "image", "url": "assets/images/jateng/tamansiswa_logo.png"}
+      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/als-ik-een-nederlander-was-oleh-ki-hajar-dewantara.webp"}
     ]
   }
 ];

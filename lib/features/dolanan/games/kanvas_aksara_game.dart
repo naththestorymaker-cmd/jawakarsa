@@ -798,7 +798,7 @@ class _GameOverScreen extends StatelessWidget {
                 style: AppTextStyles.titleMedium(
                     color: AppColors.goldVarnishBrown)),
             const SizedBox(height: 8),
-            Text('Skor sudah tersimpan di papan peringkat!',
+            Text('Skor kamu sudah tersimpan!',
                 style: AppTextStyles.bodyMedium(),
                 textAlign: TextAlign.center),
             const SizedBox(height: 32),

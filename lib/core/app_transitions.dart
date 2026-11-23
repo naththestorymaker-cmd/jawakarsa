@@ -260,6 +260,7 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final CurvedAnimation _curved;
+  late final Animation<double> _fadeOutAnim;
   late final List<bool> _activated;
   late int _activeIndex;
   int? _outgoingIndex;
@@ -286,6 +287,7 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
       parent: _controller,
       curve: Curves.easeOutCubic,
     );
+    _fadeOutAnim = ReverseAnimation(_curved);
   }
 
   @override
@@ -315,6 +317,8 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
 
   @override
   Widget build(BuildContext context) {
+    final isAnimating = _controller.isAnimating;
+
     return Stack(
       fit: StackFit.expand,
       children: List<Widget>.generate(widget.itemCount, (i) {
@@ -326,35 +330,38 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
         final isOutgoing = i == _outgoingIndex;
         final isVisible = isActive || isOutgoing;
 
+        Widget tabChild = widget.itemBuilder(context, i);
+
+        if (isVisible && isAnimating) {
+          final slideAnim = _curved.drive(
+            Tween<Offset>(
+              begin: Offset(
+                isActive ? (_isForward ? 0.035 : -0.035) : 0.0,
+                0.0,
+              ),
+              end: Offset(
+                isActive ? 0.0 : (_isForward ? -0.02 : 0.02),
+                0.0,
+              ),
+            ),
+          );
+
+          tabChild = FadeTransition(
+            opacity: isActive ? _curved : _fadeOutAnim,
+            child: SlideTransition(
+              position: slideAnim,
+              child: tabChild,
+            ),
+          );
+        }
+
         return Offstage(
           offstage: !isVisible,
           child: TickerMode(
             enabled: isActive,
             child: IgnorePointer(
               ignoring: !isActive,
-              child: RepaintBoundary(
-                child: AnimatedBuilder(
-                  animation: _curved,
-                  builder: (context, child) {
-                    if (!isVisible || !_controller.isAnimating) {
-                      return child!;
-                    }
-                    final t = _curved.value;
-                    final opacity = isActive ? t : (1.0 - t);
-                    final dx = isActive
-                        ? (_isForward ? 0.035 : -0.035) * (1.0 - t)
-                        : (_isForward ? -0.02 : 0.02) * t;
-                    return Opacity(
-                      opacity: opacity.clamp(0.0, 1.0),
-                      child: FractionalTranslation(
-                        translation: Offset(dx, 0.0),
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: widget.itemBuilder(context, i),
-                ),
-              ),
+              child: RepaintBoundary(child: tabChild),
             ),
           ),
         );

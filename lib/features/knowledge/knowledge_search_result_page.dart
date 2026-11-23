@@ -332,6 +332,9 @@ class _KnowledgeSearchResultPageState extends State<KnowledgeSearchResultPage> {
                                         item.resolvedThumbnailUrl,
                                         width: 68,
                                         height: 68,
+                                        cacheWidth: 204,
+                                        filterQuality: FilterQuality.low,
+                                        gaplessPlayback: true,
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, error, stackTrace) {

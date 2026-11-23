@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:jawakarsa/data/knowledge_data.dart';
 import 'package:jawakarsa/models/knowledge_item.dart';
 
