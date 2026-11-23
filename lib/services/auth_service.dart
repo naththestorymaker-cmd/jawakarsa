@@ -1,9 +1,18 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _kUserId = 'user_id';
 const _kUserName = 'user_name';
+const _kUserEmail = 'user_email';
+const _kUserPhotoUrl = 'user_photo_url';
+const _kAuthProvider = 'auth_provider';
+
+const _kGoogleServerClientId =
+    '606535605182-b5ilkrg1jkon9c7rl141eq8suhh87i0v.apps.googleusercontent.com';
 
 bool _isFirebaseConfigured() {
   try {
@@ -28,11 +37,152 @@ String _generateLocalUid() {
       '${hex(b[10])}${hex(b[11])}${hex(b[12])}${hex(b[13])}${hex(b[14])}${hex(b[15])}';
 }
 
+class GoogleSignInResult {
+  const GoogleSignInResult({
+    required this.uid,
+    required this.displayName,
+    this.email,
+    this.photoUrl,
+  });
+
+  final String uid;
+  final String displayName;
+  final String? email;
+  final String? photoUrl;
+}
+
+class UserProfile {
+  const UserProfile({
+    required this.uid,
+    required this.name,
+    this.email,
+    this.photoUrl,
+    this.isGoogleUser = false,
+  });
+
+  final String uid;
+  final String name;
+  final String? email;
+  final String? photoUrl;
+  final bool isGoogleUser;
+}
+
 class AuthService {
   AuthService._();
 
   static final AuthService instance = AuthService._();
 
+  /// Memulai login Google pada Web (popup) maupun Android/iOS (`google_sign_in`).
+  /// Mengembalikan `null` jika pengguna membatalkan dialog pemilihan akun.
+  Future<GoogleSignInResult?> signInWithGoogle() async {
+    if (!_isFirebaseConfigured()) {
+      throw StateError('Firebase belum dikonfigurasi pada perangkat ini.');
+    }
+
+    if (kIsWeb) {
+      try {
+        final provider = GoogleAuthProvider()
+          ..setCustomParameters({'prompt': 'select_account'});
+        final credential = await FirebaseAuth.instance
+            .signInWithPopup(provider)
+            .timeout(const Duration(seconds: 45));
+        final user = credential.user;
+        if (user == null) return null;
+
+        return GoogleSignInResult(
+          uid: user.uid,
+          displayName: user.displayName ?? '',
+          email: user.email,
+          photoUrl: user.photoURL,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'popup-closed-by-user' ||
+            e.code == 'cancelled-popup-request' ||
+            e.code == 'user-cancelled') {
+          return null;
+        }
+        rethrow;
+      }
+    }
+
+    final googleSignIn = GoogleSignIn(serverClientId: _kGoogleServerClientId);
+    final googleUser = await googleSignIn.signIn().timeout(
+      const Duration(seconds: 45),
+    );
+    if (googleUser == null) return null;
+
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    final userCred =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final user = userCred.user;
+    if (user == null) return null;
+
+    return GoogleSignInResult(
+      uid: user.uid,
+      displayName: user.displayName ?? googleUser.displayName ?? '',
+      email: user.email ?? googleUser.email,
+      photoUrl: user.photoURL ?? googleUser.photoUrl,
+    );
+  }
+
+  /// Menyelesaikan onboarding setelah login Google dengan nickname pilihan user.
+  Future<String> completeGoogleOnboarding(
+    GoogleSignInResult account,
+    String nickname,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final cleanName = nickname.trim();
+
+    await prefs.setString(_kUserId, account.uid);
+    await prefs.setString(_kUserName, cleanName);
+    await prefs.setString(_kAuthProvider, 'google');
+    if (account.email != null && account.email!.isNotEmpty) {
+      await prefs.setString(_kUserEmail, account.email!);
+    } else {
+      await prefs.remove(_kUserEmail);
+    }
+    if (account.photoUrl != null && account.photoUrl!.isNotEmpty) {
+      await prefs.setString(_kUserPhotoUrl, account.photoUrl!);
+    } else {
+      await prefs.remove(_kUserPhotoUrl);
+    }
+
+    if (_isFirebaseConfigured()) {
+      try {
+        await FirebaseAuth.instance.currentUser?.updateDisplayName(cleanName);
+      } catch (_) {}
+    }
+
+    return account.uid;
+  }
+
+  /// Menautkan akun Google ke profil tamu yang sudah ada tanpa mengganti nickname.
+  Future<UserProfile> linkGoogleToCurrentProfile(
+    GoogleSignInResult account,
+  ) async {
+    final existingName = await getSavedName();
+    final effectiveName =
+        (existingName != null && existingName.trim().isNotEmpty)
+            ? existingName.trim()
+            : (account.displayName.trim().isNotEmpty
+                ? account.displayName.trim()
+                : 'Penjelajah');
+
+    await completeGoogleOnboarding(account, effectiveName);
+    return UserProfile(
+      uid: account.uid,
+      name: effectiveName,
+      email: account.email,
+      photoUrl: account.photoUrl,
+      isGoogleUser: true,
+    );
+  }
+
+  /// Onboarding mode Tamu (tanpa akun Google).
   Future<String> signInAndSaveName(String name) async {
     final prefs = await SharedPreferences.getInstance();
     String uid;
@@ -41,7 +191,7 @@ class AuthService {
       try {
         final credential = await FirebaseAuth.instance.signInAnonymously();
         uid = credential.user!.uid;
-      } catch (e) {
+      } catch (_) {
         uid = _generateLocalUid();
       }
     } else {
@@ -50,8 +200,40 @@ class AuthService {
 
     await prefs.setString(_kUserId, uid);
     await prefs.setString(_kUserName, name.trim());
+    await prefs.setString(_kAuthProvider, 'guest');
+    await prefs.remove(_kUserEmail);
+    await prefs.remove(_kUserPhotoUrl);
 
     return uid;
+  }
+
+  Future<void> updateNickname(String newName) async {
+    final cleanName = newName.trim();
+    if (cleanName.isEmpty) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_kUserName, cleanName);
+
+    if (_isFirebaseConfigured()) {
+      try {
+        await FirebaseAuth.instance.currentUser?.updateDisplayName(cleanName);
+      } catch (_) {}
+    }
+  }
+
+  Future<UserProfile?> getUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    final name = prefs.getString(_kUserName);
+    if (name == null || name.isEmpty) return null;
+
+    final uid = prefs.getString(_kUserId) ?? '';
+    final provider = prefs.getString(_kAuthProvider) ?? 'guest';
+    return UserProfile(
+      uid: uid,
+      name: name,
+      email: prefs.getString(_kUserEmail),
+      photoUrl: prefs.getString(_kUserPhotoUrl),
+      isGoogleUser: provider == 'google',
+    );
   }
 
   Future<String?> getSavedName() async {
@@ -73,6 +255,19 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_kUserId);
     await prefs.remove(_kUserName);
+    await prefs.remove(_kUserEmail);
+    await prefs.remove(_kUserPhotoUrl);
+    await prefs.remove(_kAuthProvider);
+
+    if (!kIsWeb) {
+      try {
+        final googleSignIn = GoogleSignIn();
+        if (await googleSignIn.isSignedIn()) {
+          await googleSignIn.signOut();
+        }
+      } catch (_) {}
+    }
+
     if (_isFirebaseConfigured()) {
       try {
         await FirebaseAuth.instance.signOut();

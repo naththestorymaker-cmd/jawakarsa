@@ -19,28 +19,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'REPLACE_ME_apiKey',
-    appId: 'REPLACE_ME_appId',
-    messagingSenderId: 'REPLACE_ME_senderId',
-    projectId: 'REPLACE_ME_projectId',
-    authDomain: 'REPLACE_ME_projectId.firebaseapp.com',
-    storageBucket: 'REPLACE_ME_projectId.appspot.com',
+    apiKey: 'AIzaSyA1TfyMKLVvRbNMP1swuEh-Jf-Wf78G-Rg',
+    appId: '1:606535605182:web:218da88f313192ec6d77ef',
+    messagingSenderId: '606535605182',
+    projectId: 'jawakarsa-59a61',
+    authDomain: 'jawakarsa-59a61.firebaseapp.com',
+    storageBucket: 'jawakarsa-59a61.firebasestorage.app',
+    measurementId: 'G-1T01XQX6E9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'REPLACE_ME_apiKey',
-    appId: 'REPLACE_ME_appId',
-    messagingSenderId: 'REPLACE_ME_senderId',
-    projectId: 'REPLACE_ME_projectId',
-    storageBucket: 'REPLACE_ME_projectId.appspot.com',
+    apiKey: 'AIzaSyDrfNMrwUHzAAwDIBgrG4ZIUDOx7pGy53k',
+    appId: '1:606535605182:android:d2ee32c6125bc5576d77ef',
+    messagingSenderId: '606535605182',
+    projectId: 'jawakarsa-59a61',
+    storageBucket: 'jawakarsa-59a61.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'REPLACE_ME_apiKey',
     appId: 'REPLACE_ME_appId',
     messagingSenderId: 'REPLACE_ME_senderId',
-    projectId: 'REPLACE_ME_projectId',
-    storageBucket: 'REPLACE_ME_projectId.appspot.com',
+    projectId: 'jawakarsa-59a61',
+    storageBucket: 'jawakarsa-59a61.firebasestorage.app',
     iosBundleId: 'com.example.jawakarsa',
   );
 }

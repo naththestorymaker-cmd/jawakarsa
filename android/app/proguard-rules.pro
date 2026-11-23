@@ -18,3 +18,6 @@
 # Media3 / ExoPlayer (just_audio & video_player)
 -dontwarn androidx.media3.**
 -dontwarn com.google.android.exoplayer2.**
+
+# Google Play Services Auth (google_sign_in)
+-dontwarn com.google.android.gms.**
