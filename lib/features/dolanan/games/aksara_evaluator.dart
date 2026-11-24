@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 class StrokePoint {
   const StrokePoint(this.x, this.y);
@@ -61,25 +62,20 @@ class AksaraEvaluation {
   });
 
   final int accuracy;
-
   final double coverage;
-
   final double precision;
-
   final bool isPassed;
-
   final AksaraRating rating;
-
   final String feedback;
 
   String get ratingText {
     switch (rating) {
       case AksaraRating.sempurna:
-        return 'Sempurna! 🌟';
+        return 'Sempurna!';
       case AksaraRating.bagus:
-        return 'Apik Tenan! 👍';
+        return 'Apik Tenan!';
       case AksaraRating.cukup:
-        return 'Cukup Bagus! 👌';
+        return 'Cukup Bagus!';
       case AksaraRating.kurang:
         return 'Belum Pas';
     }
@@ -158,95 +154,93 @@ class AksaraEvaluator {
       StrokePoint(0.15, 0.82),
       StrokePoint(0.25, 0.25),
       StrokePoint(0.42, 0.22),
-      StrokePoint(0.50, 0.55),
+      StrokePoint(0.55, 0.50),
       StrokePoint(0.68, 0.22),
       StrokePoint(0.82, 0.35),
       StrokePoint(0.85, 0.82),
     ],
     'ꦮ': [
-      StrokePoint(0.20, 0.82),
-      StrokePoint(0.28, 0.35),
-      StrokePoint(0.50, 0.22),
-      StrokePoint(0.75, 0.38),
-      StrokePoint(0.72, 0.75),
-      StrokePoint(0.50, 0.82),
-      StrokePoint(0.35, 0.72),
+      StrokePoint(0.18, 0.82),
+      StrokePoint(0.22, 0.30),
+      StrokePoint(0.48, 0.22),
+      StrokePoint(0.68, 0.45),
+      StrokePoint(0.80, 0.82),
     ],
     'ꦭ': [
       StrokePoint(0.15, 0.82),
       StrokePoint(0.20, 0.35),
-      StrokePoint(0.35, 0.22),
-      StrokePoint(0.48, 0.60),
-      StrokePoint(0.60, 0.35),
-      StrokePoint(0.75, 0.22),
+      StrokePoint(0.38, 0.22),
+      StrokePoint(0.50, 0.60),
+      StrokePoint(0.65, 0.22),
+      StrokePoint(0.82, 0.35),
       StrokePoint(0.85, 0.82),
     ],
     'ꦥ': [
       StrokePoint(0.18, 0.82),
-      StrokePoint(0.22, 0.35),
-      StrokePoint(0.45, 0.22),
-      StrokePoint(0.62, 0.42),
-      StrokePoint(0.78, 0.42),
+      StrokePoint(0.22, 0.30),
+      StrokePoint(0.42, 0.22),
+      StrokePoint(0.50, 0.58),
+      StrokePoint(0.68, 0.22),
+      StrokePoint(0.82, 0.30),
       StrokePoint(0.82, 0.82),
     ],
     'ꦝ': [
       StrokePoint(0.18, 0.82),
-      StrokePoint(0.22, 0.35),
+      StrokePoint(0.24, 0.35),
       StrokePoint(0.48, 0.22),
-      StrokePoint(0.68, 0.42),
-      StrokePoint(0.55, 0.65),
-      StrokePoint(0.75, 0.75),
-      StrokePoint(0.82, 0.82),
-    ],
-    'ꦗ': [
-      StrokePoint(0.18, 0.50),
-      StrokePoint(0.32, 0.22),
-      StrokePoint(0.52, 0.32),
-      StrokePoint(0.45, 0.68),
-      StrokePoint(0.65, 0.82),
-      StrokePoint(0.82, 0.52),
-    ],
-    'ꦪ': [
-      StrokePoint(0.15, 0.82),
-      StrokePoint(0.20, 0.35),
-      StrokePoint(0.35, 0.22),
-      StrokePoint(0.48, 0.52),
-      StrokePoint(0.60, 0.22),
-      StrokePoint(0.75, 0.22),
-      StrokePoint(0.85, 0.82),
-    ],
-    'ꦚ': [
-      StrokePoint(0.15, 0.82),
-      StrokePoint(0.22, 0.35),
-      StrokePoint(0.38, 0.22),
-      StrokePoint(0.50, 0.55),
-      StrokePoint(0.65, 0.22),
-      StrokePoint(0.80, 0.35),
-      StrokePoint(0.85, 0.82),
-    ],
-    'ꦩ': [
-      StrokePoint(0.18, 0.82),
-      StrokePoint(0.22, 0.38),
-      StrokePoint(0.42, 0.22),
-      StrokePoint(0.60, 0.38),
-      StrokePoint(0.60, 0.75),
-      StrokePoint(0.40, 0.82),
+      StrokePoint(0.65, 0.48),
+      StrokePoint(0.52, 0.72),
       StrokePoint(0.78, 0.82),
     ],
+    'ꦗ': [
+      StrokePoint(0.22, 0.78),
+      StrokePoint(0.18, 0.42),
+      StrokePoint(0.38, 0.22),
+      StrokePoint(0.62, 0.30),
+      StrokePoint(0.76, 0.60),
+      StrokePoint(0.65, 0.85),
+    ],
+    'ꦪ': [
+      StrokePoint(0.14, 0.82),
+      StrokePoint(0.22, 0.28),
+      StrokePoint(0.38, 0.22),
+      StrokePoint(0.50, 0.60),
+      StrokePoint(0.62, 0.22),
+      StrokePoint(0.78, 0.28),
+      StrokePoint(0.86, 0.82),
+    ],
+    'ꦚ': [
+      StrokePoint(0.14, 0.82),
+      StrokePoint(0.22, 0.32),
+      StrokePoint(0.38, 0.22),
+      StrokePoint(0.52, 0.58),
+      StrokePoint(0.68, 0.25),
+      StrokePoint(0.82, 0.55),
+      StrokePoint(0.84, 0.82),
+    ],
+    'ꦩ': [
+      StrokePoint(0.15, 0.82),
+      StrokePoint(0.20, 0.32),
+      StrokePoint(0.38, 0.22),
+      StrokePoint(0.48, 0.65),
+      StrokePoint(0.62, 0.35),
+      StrokePoint(0.78, 0.22),
+      StrokePoint(0.85, 0.82),
+    ],
     'ꦒ': [
-      StrokePoint(0.20, 0.82),
-      StrokePoint(0.30, 0.35),
+      StrokePoint(0.18, 0.82),
+      StrokePoint(0.25, 0.30),
       StrokePoint(0.50, 0.20),
-      StrokePoint(0.70, 0.35),
-      StrokePoint(0.80, 0.82),
+      StrokePoint(0.75, 0.30),
+      StrokePoint(0.82, 0.82),
     ],
     'ꦧ': [
-      StrokePoint(0.18, 0.82),
-      StrokePoint(0.22, 0.35),
+      StrokePoint(0.15, 0.82),
+      StrokePoint(0.22, 0.32),
       StrokePoint(0.42, 0.22),
-      StrokePoint(0.52, 0.52),
-      StrokePoint(0.70, 0.32),
-      StrokePoint(0.82, 0.82),
+      StrokePoint(0.55, 0.58),
+      StrokePoint(0.70, 0.25),
+      StrokePoint(0.84, 0.82),
     ],
     'ꦛ': [
       StrokePoint(0.18, 0.82),
@@ -277,6 +271,110 @@ class AksaraEvaluator {
         ];
   }
 
+  static Uint8List dilateMask(
+    Uint8List mask,
+    int width,
+    int height,
+    int radius,
+  ) {
+    if (radius <= 0) return Uint8List.fromList(mask);
+    final out = Uint8List(mask.length);
+    final r2 = radius * radius;
+    final offsets = <int>[];
+    for (int dy = -radius; dy <= radius; dy++) {
+      for (int dx = -radius; dx <= radius; dx++) {
+        if (dx * dx + dy * dy <= r2) {
+          offsets.add(dx);
+          offsets.add(dy);
+        }
+      }
+    }
+
+    for (int y = 0; y < height; y++) {
+      final rowOffset = y * width;
+      for (int x = 0; x < width; x++) {
+        if (mask[rowOffset + x] == 0) continue;
+        for (int k = 0; k < offsets.length; k += 2) {
+          final nx = x + offsets[k];
+          final ny = y + offsets[k + 1];
+          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+            out[ny * width + nx] = 1;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  static AksaraEvaluation evaluateMasks({
+    required int width,
+    required int height,
+    required Uint8List glyphMask,
+    required Uint8List userThinMask,
+    required Uint8List userCoverageMask,
+    required int precisionRadius,
+    required int validPointCount,
+    required double userStrokeLength,
+    required double glyphDiagonal,
+  }) {
+    if (validPointCount < 5 || userStrokeLength < glyphDiagonal * 0.25) {
+      return const AksaraEvaluation(
+        accuracy: 10,
+        coverage: 0.05,
+        precision: 0.05,
+        isPassed: false,
+        rating: AksaraRating.kurang,
+        feedback: 'Goresan terlalu sedikit! Yuk gambar seluruh bentuk aksara.',
+      );
+    }
+
+    int glyphPixels = 0;
+    int coveredGlyphPixels = 0;
+    int userThinPixels = 0;
+
+    final total = width * height;
+    for (int i = 0; i < total; i++) {
+      if (glyphMask[i] != 0) {
+        glyphPixels++;
+        if (userCoverageMask[i] != 0) {
+          coveredGlyphPixels++;
+        }
+      }
+      if (userThinMask[i] != 0) {
+        userThinPixels++;
+      }
+    }
+
+    if (glyphPixels == 0 || userThinPixels < 10) {
+      return const AksaraEvaluation(
+        accuracy: 10,
+        coverage: 0.05,
+        precision: 0.05,
+        isPassed: false,
+        rating: AksaraRating.kurang,
+        feedback: 'Goresan terlalu sedikit! Yuk gambar seluruh bentuk aksara.',
+      );
+    }
+
+    final glyphDilated = dilateMask(glyphMask, width, height, precisionRadius);
+    int onTargetUserPixels = 0;
+    for (int i = 0; i < total; i++) {
+      if (userThinMask[i] != 0 && glyphDilated[i] != 0) {
+        onTargetUserPixels++;
+      }
+    }
+
+    final coverage = (coveredGlyphPixels / glyphPixels).clamp(0.0, 1.0);
+    final rawPrecision = (onTargetUserPixels / userThinPixels).clamp(0.0, 1.0);
+
+    final areaRatio = userThinPixels / glyphPixels;
+    final precision = areaRatio > 1.45
+        ? (rawPrecision * (1.45 / areaRatio)).clamp(0.0, 1.0)
+        : rawPrecision;
+
+    return _buildEvaluation(coverage: coverage, precision: precision);
+  }
+
   static AksaraEvaluation evaluate({
     required String aksara,
     required List<StrokePoint?> points,
@@ -288,16 +386,17 @@ class AksaraEvaluator {
     if (validPoints.length < 5) {
       return const AksaraEvaluation(
         accuracy: 10,
-        coverage: 0.1,
-        precision: 0.1,
+        coverage: 0.05,
+        precision: 0.05,
         isPassed: false,
         rating: AksaraRating.kurang,
-        feedback: 'Goresan terlalu sedikit! Yuk gambar bentuk aksaranya.',
+        feedback: 'Goresan terlalu sedikit! Yuk gambar seluruh bentuk aksara.',
       );
     }
 
     final center = StrokePoint(canvasWidth / 2, canvasHeight / 2);
-    final targetRect = glyphRect ??
+    final targetRect =
+        glyphRect ??
         StrokeRect.fromCenter(
           center: center,
           width: (canvasWidth * 0.70).clamp(160.0, 260.0),
@@ -305,7 +404,6 @@ class AksaraEvaluator {
         );
 
     final rawWaypoints = getWaypointsFor(aksara);
-
     final canvasWaypoints = rawWaypoints.map((w) {
       return StrokePoint(
         targetRect.left + w.x * targetRect.width,
@@ -313,8 +411,8 @@ class AksaraEvaluator {
       );
     }).toList();
 
-    final tolerance = (targetRect.width * 0.15).clamp(24.0, 40.0);
-    final wideTolerance = tolerance * 1.5;
+    final tolerance = (targetRect.width * 0.13).clamp(20.0, 32.0);
+    final wideTolerance = tolerance * 1.35;
 
     double coveredScoreSum = 0;
     int hitCount = 0;
@@ -331,19 +429,29 @@ class AksaraEvaluator {
         final factor = (1.0 - (minDist / tolerance)).clamp(0.0, 1.0);
         coveredScoreSum += (0.80 + 0.20 * factor);
       } else if (minDist <= wideTolerance) {
-        final factor = (1.0 - ((minDist - tolerance) / (wideTolerance - tolerance))).clamp(0.0, 1.0);
-        coveredScoreSum += (0.40 * factor);
+        final factor =
+            (1.0 - ((minDist - tolerance) / (wideTolerance - tolerance))).clamp(
+              0.0,
+              1.0,
+            );
+        coveredScoreSum += (0.35 * factor);
       }
     }
 
-    double coverage = (coveredScoreSum / canvasWaypoints.length).clamp(0.0, 1.0);
+    double coverage = (coveredScoreSum / canvasWaypoints.length).clamp(
+      0.0,
+      1.0,
+    );
 
     int pointsInCorridor = 0;
     for (final p in validPoints) {
       double minDistToSkeleton = double.infinity;
-
       for (int i = 0; i < canvasWaypoints.length - 1; i++) {
-        final dist = _distToSegment(p, canvasWaypoints[i], canvasWaypoints[i + 1]);
+        final dist = _distToSegment(
+          p,
+          canvasWaypoints[i],
+          canvasWaypoints[i + 1],
+        );
         if (dist < minDistToSkeleton) minDistToSkeleton = dist;
       }
 
@@ -366,46 +474,60 @@ class AksaraEvaluator {
       expectedLength += canvasWaypoints[i].distanceTo(canvasWaypoints[i + 1]);
     }
 
-    final double lengthRatio = expectedLength > 0 ? (userStrokeLength / expectedLength) : 1.0;
-    double lengthScore;
-    if (lengthRatio < 0.30) {
-      lengthScore = (0.5 + 0.5 * (lengthRatio / 0.30)).clamp(0.5, 1.0);
-    } else if (lengthRatio <= 2.2) {
-      lengthScore = 1.0;
-    } else {
-      lengthScore = (1.0 - ((lengthRatio - 2.2) / 2.0)).clamp(0.2, 1.0);
+    final lengthRatio = expectedLength > 0
+        ? (userStrokeLength / expectedLength)
+        : 1.0;
+    if (lengthRatio < 0.45) {
+      coverage *= (lengthRatio / 0.45).clamp(0.1, 1.0);
+    } else if (lengthRatio > 2.4) {
+      coverage *= (2.4 / lengthRatio).clamp(0.4, 1.0);
     }
 
     final hitRatio = hitCount / canvasWaypoints.length;
-    if (hitRatio < 0.40) {
-      coverage *= (0.6 + 0.4 * (hitRatio / 0.40));
+    if (hitRatio < 0.55) {
+      coverage *= (hitRatio / 0.55).clamp(0.1, 1.0);
     }
 
-    final rawAccuracy = (coverage * 0.60 + precision * 0.35 + lengthScore * 0.05) * 100;
-    final int accuracy = rawAccuracy.round().clamp(5, 98);
+    return _buildEvaluation(coverage: coverage, precision: precision);
+  }
 
-    final bool isPassed = accuracy >= 45;
+  static AksaraEvaluation _buildEvaluation({
+    required double coverage,
+    required double precision,
+  }) {
+    const betaSq = 1.5625;
+    final denom = betaSq * precision + coverage;
+    final fScore = denom > 0
+        ? ((1.0 + betaSq) * coverage * precision) / denom
+        : 0.0;
 
-    AksaraRating rating;
-    String feedback;
+    final rawAccuracy = (fScore * 100).round().clamp(5, 98);
+    final isPassed = rawAccuracy >= 62 && coverage >= 0.60 && precision >= 0.58;
+    final accuracy = isPassed ? rawAccuracy : min(rawAccuracy, 58);
 
-    if (accuracy >= 85) {
+    final AksaraRating rating;
+    final String feedback;
+
+    if (isPassed && accuracy >= 85) {
       rating = AksaraRating.sempurna;
       feedback = 'Luar biasa! Goresanmu sangat mirip dan proporsional!';
-    } else if (accuracy >= 70) {
+    } else if (isPassed && accuracy >= 74) {
       rating = AksaraRating.bagus;
-      feedback = 'Apik tenan! Goresan sudah mengikuti lekukan aksara dengan baik.';
-    } else if (accuracy >= 50) {
+      feedback =
+          'Apik tenan! Goresan sudah mengikuti lekukan aksara dengan baik.';
+    } else if (isPassed) {
       rating = AksaraRating.cukup;
       feedback = 'Bagus! Goresan cukup tepat, teruskan latihanmu.';
     } else {
       rating = AksaraRating.kurang;
-      if (coverage < 0.45 || hitRatio < 0.5) {
-        feedback = 'Goresan belum lengkap. Pastikan mengikuti semua lekuk huruf!';
-      } else if (precision < 0.45) {
-        feedback = 'Goresan agak melenceng keluar jalur. Coba lebih teliti ya!';
+      if (coverage < 0.60 && precision >= 0.58) {
+        feedback =
+            'Goresan belum lengkap. Pastikan mengikuti semua lekuk huruf!';
+      } else if (precision < 0.58 && coverage >= 0.60) {
+        feedback = 'Goresan terlalu banyak keluar dari jalur bayangan huruf.';
       } else {
-        feedback = 'Belum pas. Ikuti bayangan abu-abu pada kanvas.';
+        feedback =
+            'Bentuk aksara belum sesuai. Ikuti seluruh bayangan huruf dengan teliti.';
       }
     }
 
@@ -422,7 +544,8 @@ class AksaraEvaluator {
   static double _distToSegment(StrokePoint p, StrokePoint a, StrokePoint b) {
     final l2 = a.distanceSquaredTo(b);
     if (l2 == 0) return p.distanceTo(a);
-    final t = (((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / l2).clamp(0.0, 1.0);
+    final t = (((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / l2)
+        .clamp(0.0, 1.0);
     final proj = StrokePoint(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y));
     return p.distanceTo(proj);
   }

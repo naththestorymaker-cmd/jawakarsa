@@ -5,15 +5,13 @@ import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/data/knowledge_data.dart';
 import 'package:jawakarsa/features/knowledge/widgets/platform_network_image.dart';
 import 'package:jawakarsa/models/knowledge_item.dart';
+import 'package:jawakarsa/services/network_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class InstantKnowledgeCardSheet extends StatelessWidget {
-  const InstantKnowledgeCardSheet({
-    super.key,
-    required this.item,
-  });
+  const InstantKnowledgeCardSheet({super.key, required this.item});
 
   final KnowledgeItem item;
 
@@ -140,10 +138,7 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [
-                                categoryColor,
-                                AppColors.potBlack,
-                              ],
+                              colors: [categoryColor, AppColors.potBlack],
                             ),
                           ),
                           child: Stack(
@@ -169,8 +164,9 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                           Icon(
                                             categoryIcon,
                                             size: 64,
-                                            color: Colors.white
-                                                .withValues(alpha: 0.8),
+                                            color: Colors.white.withValues(
+                                              alpha: 0.8,
+                                            ),
                                           ),
                                           const SizedBox(height: 8),
                                           const Text(
@@ -210,7 +206,9 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 4),
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: categoryColor,
                                         borderRadius: BorderRadius.circular(8),
@@ -218,8 +216,11 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(categoryIcon,
-                                              size: 13, color: Colors.white),
+                                          Icon(
+                                            categoryIcon,
+                                            size: 13,
+                                            color: Colors.white,
+                                          ),
                                           const SizedBox(width: 5),
                                           Text(
                                             item.category,
@@ -279,8 +280,11 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.location_on_rounded,
-                                  size: 18, color: categoryColor),
+                              Icon(
+                                Icons.location_on_rounded,
+                                size: 18,
+                                color: categoryColor,
+                              ),
                               const SizedBox(width: 6),
                               Text(
                                 'Asal Wilayah:',
@@ -308,13 +312,15 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                               color: AppColors.surface,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: AppColors.coastalStorm
-                                    .withValues(alpha: 0.2),
+                                color: AppColors.coastalStorm.withValues(
+                                  alpha: 0.2,
+                                ),
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.potBlack
-                                      .withValues(alpha: 0.04),
+                                  color: AppColors.potBlack.withValues(
+                                    alpha: 0.04,
+                                  ),
                                   blurRadius: 10,
                                   offset: const Offset(0, 3),
                                 ),
@@ -325,14 +331,20 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(Icons.lightbulb_rounded,
-                                        size: 18, color: categoryColor),
+                                    Icon(
+                                      Icons.lightbulb_rounded,
+                                      size: 18,
+                                      color: categoryColor,
+                                    ),
                                     const SizedBox(width: 8),
-                                    Text(
-                                      'Wawasan Utama',
-                                      style: AppTextStyles.titleSmall().copyWith(
-                                        color: AppColors.potBlack,
-                                        fontWeight: FontWeight.w700,
+                                    Expanded(
+                                      child: Text(
+                                        'Wawasan Utama',
+                                        style: AppTextStyles.titleSmall()
+                                            .copyWith(
+                                              color: AppColors.potBlack,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                       ),
                                     ),
                                   ],
@@ -351,14 +363,19 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                           const SizedBox(height: 20),
                           Row(
                             children: [
-                              Icon(Icons.format_list_bulleted_rounded,
-                                  size: 18, color: categoryColor),
+                              Icon(
+                                Icons.format_list_bulleted_rounded,
+                                size: 18,
+                                color: categoryColor,
+                              ),
                               const SizedBox(width: 8),
-                              Text(
-                                'Poin-Poin Penting & Filosofi',
-                                style: AppTextStyles.titleSmall().copyWith(
-                                  color: AppColors.potBlack,
-                                  fontWeight: FontWeight.w700,
+                              Expanded(
+                                child: Text(
+                                  'Poin-Poin Penting & Filosofi',
+                                  style: AppTextStyles.titleSmall().copyWith(
+                                    color: AppColors.potBlack,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ],
@@ -384,8 +401,9 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: categoryColor
-                                          .withValues(alpha: 0.15),
+                                      color: categoryColor.withValues(
+                                        alpha: 0.15,
+                                      ),
                                     ),
                                     child: Icon(
                                       Icons.check_rounded,
@@ -401,18 +419,21 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                       children: [
                                         Text(
                                           fact.key,
-                                          style: AppTextStyles.labelLarge(
-                                            color: AppColors.potBlack,
-                                          ).copyWith(fontWeight: FontWeight.w800),
+                                          style:
+                                              AppTextStyles.labelLarge(
+                                                color: AppColors.potBlack,
+                                              ).copyWith(
+                                                fontWeight: FontWeight.w800,
+                                              ),
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
                                           fact.value,
                                           style: AppTextStyles.bodyMedium()
                                               .copyWith(
-                                            height: 1.45,
-                                            color: const Color(0xFF4A4A4A),
-                                          ),
+                                                height: 1.45,
+                                                color: const Color(0xFF4A4A4A),
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -425,14 +446,19 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                             const SizedBox(height: 16),
                             Row(
                               children: [
-                                Icon(Icons.perm_media_rounded,
-                                    size: 18, color: categoryColor),
+                                Icon(
+                                  Icons.perm_media_rounded,
+                                  size: 18,
+                                  color: categoryColor,
+                                ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  'Media Interaktif',
-                                  style: AppTextStyles.titleSmall().copyWith(
-                                    color: AppColors.potBlack,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: Text(
+                                    'Media Interaktif',
+                                    style: AppTextStyles.titleSmall().copyWith(
+                                      color: AppColors.potBlack,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -453,14 +479,19 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                             const SizedBox(height: 24),
                             Row(
                               children: [
-                                Icon(Icons.explore_rounded,
-                                    size: 18, color: categoryColor),
+                                Icon(
+                                  Icons.explore_rounded,
+                                  size: 18,
+                                  color: categoryColor,
+                                ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  'Jalur Eksplorasi Terkait',
-                                  style: AppTextStyles.titleSmall().copyWith(
-                                    color: AppColors.potBlack,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: Text(
+                                    'Jalur Eksplorasi Terkait',
+                                    style: AppTextStyles.titleSmall().copyWith(
+                                      color: AppColors.potBlack,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -470,12 +501,14 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 8),
                                 child: InkWell(
-                                  onTap: () => _navigateToRelatedTopic(
-                                      context, rel.id),
+                                  onTap: () =>
+                                      _navigateToRelatedTopic(context, rel.id),
                                   borderRadius: BorderRadius.circular(12),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 12),
+                                      horizontal: 14,
+                                      vertical: 12,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: AppColors.surface,
                                       borderRadius: BorderRadius.circular(12),
@@ -489,8 +522,9 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
-                                            color: categoryColor
-                                                .withValues(alpha: 0.12),
+                                            color: categoryColor.withValues(
+                                              alpha: 0.12,
+                                            ),
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -503,10 +537,12 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
                                         Expanded(
                                           child: Text(
                                             rel.title,
-                                            style: AppTextStyles.bodyMedium(
-                                              color: AppColors.potBlack,
-                                            ).copyWith(
-                                                fontWeight: FontWeight.w600),
+                                            style:
+                                                AppTextStyles.bodyMedium(
+                                                  color: AppColors.potBlack,
+                                                ).copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                           ),
                                         ),
                                         Icon(
@@ -539,6 +575,25 @@ class InstantKnowledgeCardSheet extends StatelessWidget {
 Future<void> _openExternalUrl(BuildContext context, String rawUrl) async {
   final uri = Uri.tryParse(rawUrl);
   if (uri == null) return;
+  if (uri.scheme == 'http' || uri.scheme == 'https') {
+    final online = await NetworkService.instance.hasInternet(
+      forceRefresh: true,
+    );
+    if (!online) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.rubyRed,
+            content: Text(
+              'Tidak ada koneksi internet. Aktifkan WiFi atau data seluler terlebih dahulu.',
+            ),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+      return;
+    }
+  }
   try {
     final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!launched && context.mounted) {
@@ -592,6 +647,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
   bool _hasStartedVideo = false;
   bool _isLoadingVideo = false;
   bool _isVideoInitialized = false;
+  bool _isOfflineError = false;
   String? _videoError;
 
   double? _dragPositionMs;
@@ -603,6 +659,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
     setState(() {
       _hasStartedVideo = true;
       _isLoadingVideo = true;
+      _isOfflineError = false;
       _videoError = null;
       _dragPositionMs = null;
     });
@@ -612,12 +669,29 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
 
     try {
       final url = widget.media.url.trim();
+      if (url.startsWith('http')) {
+        final online = await NetworkService.instance.hasInternet(
+          forceRefresh: true,
+        );
+        if (!mounted) return;
+        if (!online) {
+          setState(() {
+            _isVideoInitialized = false;
+            _isLoadingVideo = false;
+            _isOfflineError = true;
+            _videoError =
+                'Tidak ada koneksi internet. Aktifkan WiFi atau data seluler untuk memutar video.';
+          });
+          return;
+        }
+      }
+
       final controller = url.startsWith('http')
           ? VideoPlayerController.networkUrl(Uri.parse(url))
           : VideoPlayerController.asset(url);
       _videoController = controller;
 
-      await controller.initialize().timeout(const Duration(seconds: 15));
+      await controller.initialize().timeout(const Duration(seconds: 12));
       if (!mounted) {
         await controller.dispose();
         return;
@@ -634,6 +708,18 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
       });
       await controller.play();
       _scheduleHideOverlay();
+    } on TimeoutException {
+      await _videoController?.dispose();
+      _videoController = null;
+      if (mounted) {
+        setState(() {
+          _isVideoInitialized = false;
+          _isLoadingVideo = false;
+          _isOfflineError = true;
+          _videoError =
+              'Koneksi lambat atau terputus. Periksa internetmu lalu coba lagi.';
+        });
+      }
     } catch (error) {
       debugPrint('Error loading video: $error');
       await _videoController?.dispose();
@@ -642,6 +728,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
         setState(() {
           _isVideoInitialized = false;
           _isLoadingVideo = false;
+          _isOfflineError = false;
           _videoError = 'Video tidak dapat diputar langsung di perangkat ini';
         });
       }
@@ -727,8 +814,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                 fit: BoxFit.cover,
                 cacheWidth: 840,
                 filterQuality: FilterQuality.medium,
-                errorBuilder: (_, _, _) =>
-                    Container(color: AppColors.potBlack),
+                errorBuilder: (_, _, _) => Container(color: AppColors.potBlack),
               ),
               DecoratedBox(
                 decoration: BoxDecoration(
@@ -750,8 +836,10 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                     onTap: _initAndPlayVideo,
                     borderRadius: BorderRadius.circular(32),
                     child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 10,
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -811,8 +899,10 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        Icons.videocam_off_rounded,
+                      Icon(
+                        _isOfflineError
+                            ? Icons.wifi_off_rounded
+                            : Icons.videocam_off_rounded,
                         color: Colors.white70,
                         size: 36,
                       ),
@@ -841,17 +931,20 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                             icon: const Icon(Icons.refresh_rounded, size: 16),
                             label: const Text('Coba Lagi'),
                           ),
-                          ElevatedButton.icon(
-                            onPressed: () =>
-                                _openExternalUrl(context, widget.media.url),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: widget.accentColor,
-                              foregroundColor: Colors.white,
+                          if (!_isOfflineError)
+                            ElevatedButton.icon(
+                              onPressed: () =>
+                                  _openExternalUrl(context, widget.media.url),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: widget.accentColor,
+                                foregroundColor: Colors.white,
+                              ),
+                              icon: const Icon(
+                                Icons.open_in_new_rounded,
+                                size: 16,
+                              ),
+                              label: const Text('Buka di Browser'),
                             ),
-                            icon:
-                                const Icon(Icons.open_in_new_rounded, size: 16),
-                            label: const Text('Buka di Browser'),
-                          ),
                         ],
                       ),
                     ],
@@ -875,14 +968,17 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                     final maxMs = duration.inMilliseconds > 0
                         ? duration.inMilliseconds.toDouble()
                         : 0.0;
-                    final currentMs = _dragPositionMs ??
-                        value.position.inMilliseconds
-                            .toDouble()
-                            .clamp(0.0, maxMs > 0 ? maxMs : 0.0);
+                    final currentMs =
+                        _dragPositionMs ??
+                        value.position.inMilliseconds.toDouble().clamp(
+                          0.0,
+                          maxMs > 0 ? maxMs : 0.0,
+                        );
                     final displayPos = Duration(
                       milliseconds: currentMs.round(),
                     );
-                    final showCenterBtn = !value.isPlaying || _showCenterOverlay;
+                    final showCenterBtn =
+                        !value.isPlaying || _showCenterOverlay;
 
                     return Stack(
                       fit: StackFit.expand,
@@ -904,8 +1000,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                                   )
                                 : AnimatedOpacity(
                                     opacity: showCenterBtn ? 0.92 : 0.0,
-                                    duration:
-                                        const Duration(milliseconds: 180),
+                                    duration: const Duration(milliseconds: 180),
                                     child: IgnorePointer(
                                       ignoring: !showCenterBtn,
                                       child: Container(
@@ -955,8 +1050,8 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                                       ),
                                       overlayShape:
                                           const RoundSliderOverlayShape(
-                                        overlayRadius: 12,
-                                      ),
+                                            overlayRadius: 12,
+                                          ),
                                       activeTrackColor: widget.accentColor,
                                       inactiveTrackColor: Colors.white24,
                                       thumbColor: Colors.white,
@@ -979,8 +1074,8 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
                                           : null,
                                       onChanged: maxMs > 0
                                           ? (v) => setState(
-                                                () => _dragPositionMs = v,
-                                              )
+                                              () => _dragPositionMs = v,
+                                            )
                                           : null,
                                       onChangeEnd: maxMs > 0
                                           ? (v) async {
@@ -1137,9 +1232,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
     }
 
     if (widget.media.type == 'image' || widget.media.url.endsWith('.webp')) {
-      return WebpImageContainer(
-        imageUrl: widget.media.url,
-      );
+      return WebpImageContainer(imageUrl: widget.media.url);
     }
 
     return Container(
@@ -1147,9 +1240,7 @@ class _MediaContainerItemState extends State<_MediaContainerItem> {
       decoration: BoxDecoration(
         color: widget.accentColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: widget.accentColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: widget.accentColor.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -1190,6 +1281,7 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
   bool _isPlaying = false;
   bool _isLoading = false;
   bool _isSourceSet = false;
+  bool _isOfflineError = false;
   String? _errorMessage;
   Duration _duration = Duration.zero;
   double? _dragPositionMs;
@@ -1203,7 +1295,8 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
       if (!mounted) return;
       setState(() {
         _isPlaying = state.playing;
-        _isLoading = state.processingState == ProcessingState.loading ||
+        _isLoading =
+            state.processingState == ProcessingState.loading ||
             state.processingState == ProcessingState.buffering;
         if (state.processingState == ProcessingState.completed) {
           _isPlaying = false;
@@ -1245,11 +1338,26 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
       if (!_isSourceSet) {
         setState(() {
           _isLoading = true;
+          _isOfflineError = false;
           _errorMessage = null;
         });
         final url = widget.audioUrl.trim();
         if (url.startsWith('http')) {
-          await _audioPlayer.setUrl(url).timeout(const Duration(seconds: 15));
+          final online = await NetworkService.instance.hasInternet(
+            forceRefresh: true,
+          );
+          if (!mounted) return;
+          if (!online) {
+            setState(() {
+              _isLoading = false;
+              _isPlaying = false;
+              _isOfflineError = true;
+              _errorMessage =
+                  'Aktifkan WiFi atau data seluler lalu ketuk tombol putar lagi';
+            });
+            return;
+          }
+          await _audioPlayer.setUrl(url).timeout(const Duration(seconds: 12));
         } else {
           await _audioPlayer.setAsset(url);
         }
@@ -1263,13 +1371,25 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
         setState(() => _isLoading = false);
       }
       await _audioPlayer.play();
+    } on TimeoutException {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _isPlaying = false;
+          _isOfflineError = true;
+          _errorMessage =
+              'Koneksi lambat atau terputus. Periksa internet lalu coba lagi';
+        });
+      }
     } catch (e) {
       debugPrint('Error playing audio: $e');
       if (mounted) {
         setState(() {
           _isLoading = false;
           _isPlaying = false;
-          _errorMessage = 'Gagal memutar audio — ketuk ikon kanan untuk browser';
+          _isOfflineError = false;
+          _errorMessage =
+              'Gagal memutar audio — ketuk ikon kanan untuk browser';
         });
       }
     }
@@ -1278,20 +1398,20 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
   @override
   Widget build(BuildContext context) {
     final fileName = Uri.decodeComponent(widget.audioUrl.split('/').last);
-    final statusTitle = _errorMessage != null
+    final statusTitle = _isOfflineError
+        ? 'Tidak ada koneksi internet'
+        : _errorMessage != null
         ? 'Audio tidak tersedia langsung'
         : _isPlaying
-            ? 'Memutar Audio Tradisional...'
-            : 'Putar Rekaman Audio';
+        ? 'Memutar Audio Tradisional...'
+        : 'Putar Rekaman Audio';
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
       decoration: BoxDecoration(
         color: widget.accentColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: widget.accentColor.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: widget.accentColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1376,10 +1496,12 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
                   ? _duration.inMilliseconds.toDouble()
                   : 0.0;
               final canSeek = _isSourceSet && maxMs > 0;
-              final currentMs = _dragPositionMs ??
-                  position.inMilliseconds
-                      .toDouble()
-                      .clamp(0.0, maxMs > 0 ? maxMs : 0.0);
+              final currentMs =
+                  _dragPositionMs ??
+                  position.inMilliseconds.toDouble().clamp(
+                    0.0,
+                    maxMs > 0 ? maxMs : 0.0,
+                  );
               final displayPos = Duration(milliseconds: currentMs.round());
 
               return Column(
@@ -1395,15 +1517,19 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
                         overlayRadius: 12,
                       ),
                       activeTrackColor: widget.accentColor,
-                      inactiveTrackColor:
-                          widget.accentColor.withValues(alpha: 0.22),
-                      disabledActiveTrackColor:
-                          widget.accentColor.withValues(alpha: 0.25),
-                      disabledInactiveTrackColor:
-                          widget.accentColor.withValues(alpha: 0.14),
+                      inactiveTrackColor: widget.accentColor.withValues(
+                        alpha: 0.22,
+                      ),
+                      disabledActiveTrackColor: widget.accentColor.withValues(
+                        alpha: 0.25,
+                      ),
+                      disabledInactiveTrackColor: widget.accentColor.withValues(
+                        alpha: 0.14,
+                      ),
                       thumbColor: widget.accentColor,
-                      disabledThumbColor:
-                          widget.accentColor.withValues(alpha: 0.45),
+                      disabledThumbColor: widget.accentColor.withValues(
+                        alpha: 0.45,
+                      ),
                       overlayColor: widget.accentColor.withValues(alpha: 0.2),
                     ),
                     child: Slider(
@@ -1445,8 +1571,8 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
                           tooltip: 'Mundur 10 detik',
                           onPressed: canSeek
                               ? () => _seekAudioRelative(
-                                    const Duration(seconds: -10),
-                                  )
+                                  const Duration(seconds: -10),
+                                )
                               : null,
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(
@@ -1466,8 +1592,8 @@ class _Mp3AudioContainerState extends State<Mp3AudioContainer> {
                           tooltip: 'Maju 10 detik',
                           onPressed: canSeek
                               ? () => _seekAudioRelative(
-                                    const Duration(seconds: 10),
-                                  )
+                                  const Duration(seconds: 10),
+                                )
                               : null,
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(

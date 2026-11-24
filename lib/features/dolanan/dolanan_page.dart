@@ -20,9 +20,7 @@ class DolananPage extends StatelessWidget {
               child: Text('Dolanan', style: AppTextStyles.titleLarge()),
             ),
             const SizedBox(height: 8),
-            const Expanded(
-              child: GameListTab(),
-            ),
+            const Expanded(child: GameListTab()),
           ],
         ),
       ),

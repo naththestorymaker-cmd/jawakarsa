@@ -18,7 +18,9 @@ Future<void> _tryInitFirebase() async {
   try {
     final opts = DefaultFirebaseOptions.currentPlatform;
     if (opts.projectId.startsWith('REPLACE_ME')) return;
-    await Firebase.initializeApp(options: opts);
+    await Firebase.initializeApp(
+      options: opts,
+    ).timeout(const Duration(seconds: 4));
   } catch (_) {}
 }
 

@@ -13,28 +13,36 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Filosofi Logam",
         "value":
-            "Menyatukan unsur api (pande), air (pendingin), tanah (bahan bakar), dan udara (tiupan ububan) dalam satu wujud, mencerminkan mikrokosmos semesta."
+            "Menyatukan unsur api (pande), air (pendingin), tanah (bahan bakar), dan udara (tiupan ububan) dalam satu wujud, mencerminkan mikrokosmos semesta.",
       },
       {
         "key": "Dapur & Luk",
         "value":
-            "Bentuk bilah keris lurus melambangkan keteguhan iman, sedangkan bilah berluk (misal luk 3, 5, 7, hingga 13) melambangkan dinamika perjalanan batin manusia."
+            "Bentuk bilah keris lurus melambangkan keteguhan iman, sedangkan bilah berluk (misal luk 3, 5, 7, hingga 13) melambangkan dinamika perjalanan batin manusia.",
       },
       {
         "key": "Pamor",
         "value":
-            "Pola lipatan meteorit dan baja pada bilah keris yang diyakini menyimpan tuah, kewibawaan, dan doa sang empu untuk keselamatan pemiliknya."
-      }
+            "Pola lipatan meteorit dan baja pada bilah keris yang diyakini menyimpan tuah, kewibawaan, dan doa sang empu untuk keselamatan pemiliknya.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
-      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
+      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kerajinan-keris-gunungkidul.mp4"},
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/keris-nogo-siluman.webp"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kerajinan-keris-gunungkidul.mp4",
+      },
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/keris-nogo-siluman.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_02",
@@ -48,27 +56,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Motif Larangan",
         "value":
-            "Pada masa lampau hanya boleh dikenakan oleh raja dan bangsawan keturunan langsung, melambangkan kasta kepemimpinan adiluhung."
+            "Pada masa lampau hanya boleh dikenakan oleh raja dan bangsawan keturunan langsung, melambangkan kasta kepemimpinan adiluhung.",
       },
       {
         "key": "Bentuk Geometris Miring",
         "value":
-            "Pola miring 45 derajat (lereng) menyimbolkan tekad yang teguh tanpa putus bagaikan deburan ombak laut samudra yang memecah karang."
+            "Pola miring 45 derajat (lereng) menyimbolkan tekad yang teguh tanpa putus bagaikan deburan ombak laut samudra yang memecah karang.",
       },
       {
         "key": "Pewarnaan Sogan Alam",
         "value":
-            "Menggunakan ekstrak kulit kayu soga, tingi, dan jambal yang menghasilkan warna cokelat tanah khas yang hangat dan bersahaja."
-      }
+            "Menggunakan ekstrak kulit kayu soga, tingi, dan jambal yang menghasilkan warna cokelat tanah khas yang hangat dan bersahaja.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
-      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
+      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/batik-parang-rusak.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/batik-parang-rusak.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_03",
@@ -82,27 +94,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kelir & Blencong",
         "value":
-            "Kelir putih melambangkan panggung dunia fana, sedangkan lampu blencong menyimbolkan penerang ilahi yang memberi nyawa pada setiap bayangan."
+            "Kelir putih melambangkan panggung dunia fana, sedangkan lampu blencong menyimbolkan penerang ilahi yang memberi nyawa pada setiap bayangan.",
       },
       {
         "key": "Punakawan",
         "value":
-            "Tokoh orisinal Jawa (Semar, Gareng, Petruk, Bagong) sebagai representasi suara rakyat jelata yang sarat humor sekaligus kebijaksanaan hidup."
+            "Tokoh orisinal Jawa (Semar, Gareng, Petruk, Bagong) sebagai representasi suara rakyat jelata yang sarat humor sekaligus kebijaksanaan hidup.",
       },
       {
         "key": "Gunungan / Kayon",
         "value":
-            "Menandai pembukaan babak, pergantian suasana, hingga perlambang pohon kehidupan (Kalpataru) yang menyatukan semesta."
-      }
+            "Menandai pembukaan babak, pergantian suasana, hingga perlambang pohon kehidupan (Kalpataru) yang menyatukan semesta.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"},
       {"id": "jateng_musik_04", "title": "Sinden & Antawacana"},
-      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
+      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sulukan-wayang-part1.mp3"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sulukan-wayang-part1.mp3",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_01",
@@ -116,27 +132,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Makna Hanacaraka",
         "value":
-            "Hana Caraka (Ada utusan), Data Sawala (Saling berselisih), Pada Jayanya (Sama-sama sakti), Maga Bathanga (Keduanya gugur menjadi mayat)."
+            "Hana Caraka (Ada utusan), Data Sawala (Saling berselisih), Pada Jayanya (Sama-sama sakti), Maga Bathanga (Keduanya gugur menjadi mayat).",
       },
       {
         "key": "Pencetus Kalender Saka Jawa",
         "value":
-            "Aji Saka diyakini membawa sistem penanggalan yang kemudian diharmonisasi menjadi Kalender Jawa-Islam oleh Sultan Agung."
+            "Aji Saka diyakini membawa sistem penanggalan yang kemudian diharmonisasi menjadi Kalender Jawa-Islam oleh Sultan Agung.",
       },
       {
         "key": "Filosofi Sangkan Paraning Dumadi",
         "value":
-            "Deretan aksara dari 'Ha' hingga 'Nga' menggambarkan proses penciptaan manusia dari ketiadaan hingga kembali menyatu dengan Sang Pencipta."
-      }
+            "Deretan aksara dari 'Ha' hingga 'Nga' menggambarkan proses penciptaan manusia dari ketiadaan hingga kembali menyatu dengan Sang Pencipta.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
-      {"id": "jateng_musik_03", "title": "Tembang Macapat (11 Pupuh)"}
+      {"id": "jateng_musik_03", "title": "Tembang Macapat (11 Pupuh)"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/aksara-hanacarakan.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/aksara-hanacarakan.webp",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_01",
@@ -150,27 +170,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kategori Sukerta",
         "value":
-            "Orang yang wajib diruwat antara lain anak tunggal (Ontang-anting), dua bersaudara laki-perempuan (Kedhana-kedhini), dan lima bersaudara laki-laki (Pandhawa)."
+            "Orang yang wajib diruwat antara lain anak tunggal (Ontang-anting), dua bersaudara laki-perempuan (Kedhana-kedhini), dan lima bersaudara laki-laki (Pandhawa).",
       },
       {
         "key": "Potong Rambut & Siraman",
         "value":
-            "Pemotongan sejumput rambut peserta ruwat kemudian dilarung ke samudra sebagai simbol melepaskan hawa nafsu dan kesialan masa lalu."
+            "Pemotongan sejumput rambut peserta ruwat kemudian dilarung ke samudra sebagai simbol melepaskan hawa nafsu dan kesialan masa lalu.",
       },
       {
         "key": "Sajen & Tuwuhan",
         "value":
-            "Menghadirkan aneka sesaji hasil bumi, tumpeng panca warna, dan air kembang tujuh rupa untuk memohon berkah keselamatan semesta."
-      }
+            "Menghadirkan aneka sesaji hasil bumi, tumpeng panca warna, dan air kembang tujuh rupa untuk memohon berkah keselamatan semesta.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_upacara_03", "title": "Malam Satu Suro"},
-      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
+      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mantra-ruwatan-murwakala.mp3"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mantra-ruwatan-murwakala.mp3",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_01",
@@ -184,27 +208,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Saka Guru & Tumpang Sari",
         "value":
-            "Empat tiang tengah menyangga balok bertingkat tumpang sari yang melambangkan empat penjuru mata angin dan pilar kehidupan manusia."
+            "Empat tiang tengah menyangga balok bertingkat tumpang sari yang melambangkan empat penjuru mata angin dan pilar kehidupan manusia.",
       },
       {
         "key": "Senthong Tengah",
         "value":
-            "Kamar paling sakral di bagian tengah rumah, diperuntukkan bagi Dewi Sri (dewi kemakmuran) dan tempat bermeditasi serta menyimpan pusaka."
+            "Kamar paling sakral di bagian tengah rumah, diperuntukkan bagi Dewi Sri (dewi kemakmuran) dan tempat bermeditasi serta menyimpan pusaka.",
       },
       {
         "key": "Pendhapa Terbuka",
         "value":
-            "Ruang depan tanpa dinding yang melambangkan keterbukaan, keramahan, dan kesiapan tuan rumah menerima tamu tanpa prasangka buruk."
-      }
+            "Ruang depan tanpa dinding yang melambangkan keterbukaan, keramahan, dan kesiapan tuan rumah menerima tamu tanpa prasangka buruk.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_arsitektur_04", "title": "Taman Sari Water Castle"},
       {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"},
-      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
+      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/joglo-detail.jpg"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/joglo-detail.jpg",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_02",
@@ -218,27 +246,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Badranaya",
         "value":
-            "Berasal dari kata Bebadra (membangun kebaikan) dan Naya (pandangan terang), melambangkan pemandu moral bagi kesatria Jawa."
+            "Berasal dari kata Bebadra (membangun kebaikan) dan Naya (pandangan terang), melambangkan pemandu moral bagi kesatria Jawa.",
       },
       {
         "key": "Kuncung Putih",
         "value":
-            "Jambul rambut di dahi Semar menyimbolkan pikiran suci, pencerahan batin, dan keabadian jiwa yang tidak lekang oleh nafsu hewani."
+            "Jambul rambut di dahi Semar menyimbolkan pikiran suci, pencerahan batin, dan keabadian jiwa yang tidak lekang oleh nafsu hewani.",
       },
       {
         "key": "Pamomong Tanah Jawa",
         "value":
-            "Dipercaya sebagai pamomong sejati nusantara yang selalu hadir mendampingi pemimpin yang menegakkan keadilan dan melindungi kaum lemah."
-      }
+            "Dipercaya sebagai pamomong sejati nusantara yang selalu hadir mendampingi pemimpin yang menegakkan keadilan dan melindungi kaum lemah.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_tokoh_01", "title": "Aji Saka & Aksara Jawa"},
-      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
+      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kreasi-semar.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kreasi-semar.webp",
+      },
+    ],
   },
   {
     "id": "jateng_musik_01",
@@ -252,28 +284,36 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Laras Slendro (5 Nada)",
         "value":
-            "Memiliki 5 nada per oktaf (Ji, Ro, Lu, Ma, Nem) yang terbagi rata, menghadirkan energi riang, lugas, dan ketegasan bersikap."
+            "Memiliki 5 nada per oktaf (Ji, Ro, Lu, Ma, Nem) yang terbagi rata, menghadirkan energi riang, lugas, dan ketegasan bersikap.",
       },
       {
         "key": "Laras Pelog (7 Nada)",
         "value":
-            "Memiliki 7 nada dengan karakter kontemplatif, khidmat, dan magis, biasa dimainkan untuk mengiringi tarian sakral keraton."
+            "Memiliki 7 nada dengan karakter kontemplatif, khidmat, dan magis, biasa dimainkan untuk mengiringi tarian sakral keraton.",
       },
       {
         "key": "Kendang Sebagai Pamurba Irama",
         "value":
-            "Kendang mengendalikan tempo seluruh ansambel tanpa aba-aba verbal, cerminan kepemimpinan Jawa yang memandu dalam keselarasan."
-      }
+            "Kendang mengendalikan tempo seluruh ansambel tanpa aba-aba verbal, cerminan kepemimpinan Jawa yang memandu dalam keselarasan.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_musik_02", "title": "Gendhing Pangkur"},
       {"id": "jateng_tari_01", "title": "Tari Bedhaya Ketawang"},
-      {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"}
+      {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-pelog-gamelan.mp3"},
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-slendro-gamelan.mp3"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-pelog-gamelan.mp3",
+      },
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/nada-laras-slendro-gamelan.mp3",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_03",
@@ -287,27 +327,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Perjanjian Senopati",
         "value":
-            "Janji perlindungan spiritual gaib untuk ketenteraman Tanah Jawa selama raja Mataram memerintah dengan adil dan memuliakan alam."
+            "Janji perlindungan spiritual gaib untuk ketenteraman Tanah Jawa selama raja Mataram memerintah dengan adil dan memuliakan alam.",
       },
       {
         "key": "Pantangan Warna Hijau Gadung",
         "value":
-            "Masyarakat pesisir menghormati pantangan mengenakan pakaian hijau lumut di pantai selatan sebagai tanda adab kepada sang ratu samudra."
+            "Masyarakat pesisir menghormati pantangan mengenakan pakaian hijau lumut di pantai selatan sebagai tanda adab kepada sang ratu samudra.",
       },
       {
         "key": "Upacara Labuhan",
         "value":
-            "Ritual tahunan keraton melarung sesaji ke Segara Kidul di Parangkusumo untuk menjaga keseimbangan mikrokosmos dan makrokosmos."
-      }
+            "Ritual tahunan keraton melarung sesaji ke Segara Kidul di Parangkusumo untuk menjaga keseimbangan mikrokosmos dan makrokosmos.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tari_01", "title": "Tari Bedhaya Ketawang"},
       {"id": "jateng_upacara_07", "title": "Labuhan Merapi"},
-      {"id": "jateng_arsitektur_04", "title": "Taman Sari Water Castle"}
+      {"id": "jateng_arsitektur_04", "title": "Taman Sari Water Castle"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/legenda-ratu-kidul.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/legenda-ratu-kidul.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tari_01",
@@ -321,27 +365,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Konfigurasi Sembilan Penari",
         "value":
-            "Melambangkan sembilan lubang hawa nafsu tubuh manusia (babahan hawa sanga) serta sembilan planet dalam susunan tata surya semesta."
+            "Melambangkan sembilan lubang hawa nafsu tubuh manusia (babahan hawa sanga) serta sembilan planet dalam susunan tata surya semesta.",
       },
       {
         "key": "Kostum Dodot Ageng Basahan",
         "value":
-            "Penari mengenakan kain cinde dan batik pola Semen Rama berprada emas dengan tata rias paes pengantin keraton adiluhung."
+            "Penari mengenakan kain cinde dan batik pola Semen Rama berprada emas dengan tata rias paes pengantin keraton adiluhung.",
       },
       {
         "key": "Iringan Gendhing Ketawang",
         "value":
-            "Instrumen gamelan yang digunakan sangat khusus dan minim, berpusat pada tiupan terbang gending dan tembang vokal swara sinden."
-      }
+            "Instrumen gamelan yang digunakan sangat khusus dan minim, berpusat pada tiupan terbang gending dan tembang vokal swara sinden.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_03", "title": "Kanjeng Ratu Kidul"},
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
-      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
+      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-bedhaya-ketawang.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-bedhaya-ketawang.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_04",
@@ -355,27 +403,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Penciptaan Kalender Jawa",
         "value":
-            "Memadukan kalender Saka Hindu matahari dengan kalender lunar Hijriah pada tahun 1633 M tanpa memutus kesinambungan angka tahun."
+            "Memadukan kalender Saka Hindu matahari dengan kalender lunar Hijriah pada tahun 1633 M tanpa memutus kesinambungan angka tahun.",
       },
       {
         "key": "Kitab Sastra Gendhing",
         "value":
-            "Karya sastra filosofis monumental yang mengupas hakikat keselarasan antara kehendak penguasa dengan ketetapan Ilahi."
+            "Karya sastra filosofis monumental yang mengupas hakikat keselarasan antara kehendak penguasa dengan ketetapan Ilahi.",
       },
       {
         "key": "Pembangunan Makam Imogiri",
         "value":
-            "Merancang kompleks pemakaman bukit raja-raja Mataram di Imogiri Bantul yang sarat arsitektur sakral terasering."
-      }
+            "Merancang kompleks pemakaman bukit raja-raja Mataram di Imogiri Bantul yang sarat arsitektur sakral terasering.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
       {"id": "jateng_arsitektur_03", "title": "Kompleks Makam Imogiri"},
-      {"id": "jateng_upacara_03", "title": "Malam Satu Suro"}
+      {"id": "jateng_upacara_03", "title": "Malam Satu Suro"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mata-uang-sultan-mataram.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mata-uang-sultan-mataram.webp",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_02",
@@ -389,28 +441,36 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Gunungan Grebeg",
         "value":
-            "Gunungan Lanang dan Wadon yang terbuat dari aneka hasil bumi diarak dan diperebutkan warga sebagai simbol berkah sedekah raja bagi rakyatnya."
+            "Gunungan Lanang dan Wadon yang terbuat dari aneka hasil bumi diarak dan diperebutkan warga sebagai simbol berkah sedekah raja bagi rakyatnya.",
       },
       {
         "key": "Nginang & Endhog Abang",
         "value":
-            "Tradisi mengunyah sirih dan membeli telur rebus merah berhias sujen bambu sebagai simbol kelahiran baru yang bersih bersahaja."
+            "Tradisi mengunyah sirih dan membeli telur rebus merah berhias sujen bambu sebagai simbol kelahiran baru yang bersih bersahaja.",
       },
       {
         "key": "Gamelan Sekati",
         "value":
-            "Dua perangkat gamelan perunggu raksasa berlaras pelog bernada rendah yang hanya dibunyikan setahun sekali di pagongan masjid keraton."
-      }
+            "Dua perangkat gamelan perunggu raksasa berlaras pelog bernada rendah yang hanya dibunyikan setahun sekali di pagongan masjid keraton.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
       {"id": "jateng_tokoh_07", "title": "Raden Patah & Kesultanan Demak"},
-      {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"}
+      {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gamelan-sekati-guntur-madu.mp3"},
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/grebeg-maulud.mp4"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gamelan-sekati-guntur-madu.mp3",
+      },
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/grebeg-maulud.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_03",
@@ -424,27 +484,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kirab Tapa Bisu",
         "value":
-            "Ribuan abdi dalem dan masyarakat berjalan memutari benteng keraton tanpa mengucapkan sepatah kata pun, menjaga lisan dan pikiran."
+            "Ribuan abdi dalem dan masyarakat berjalan memutari benteng keraton tanpa mengucapkan sepatah kata pun, menjaga lisan dan pikiran.",
       },
       {
         "key": "Kebo Bule Kyai Slamet",
         "value":
-            "Kerbau albino pusaka keraton Surakarta bertindak sebagai cucuk lampah (pembuka jalan) kirab malam keramat satu suro."
+            "Kerbau albino pusaka keraton Surakarta bertindak sebagai cucuk lampah (pembuka jalan) kirab malam keramat satu suro.",
       },
       {
         "key": "Jamasan Pusaka",
         "value":
-            "Pembersihan pusaka keris dan tombak menggunakan air kelapa, jeruk nipis, dan minyak wangi cendana untuk merawat warisan leluhur."
-      }
+            "Pembersihan pusaka keris dan tombak menggunakan air kelapa, jeruk nipis, dan minyak wangi cendana untuk merawat warisan leluhur.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
-      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
+      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/jamasan-pusaka.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/jamasan-pusaka.webp",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_02",
@@ -458,27 +522,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Sengkalan Naga Mulat Salira Wani",
         "value":
-            "Ukiran naga ini bermakna angka tahun Saka 1388 (1466 M), menandai berdirinya pusat peradaban Islam pertama di pesisir Jawa."
+            "Ukiran naga ini bermakna angka tahun Saka 1388 (1466 M), menandai berdirinya pusat peradaban Islam pertama di pesisir Jawa.",
       },
       {
         "key": "Sinkretisme Artistik",
         "value":
-            "Perpaduan seni ukir Majapahit kuno dengan pesan dakwah damai para wali sanga yang menghargai nilai-nilai lokal."
+            "Perpaduan seni ukir Majapahit kuno dengan pesan dakwah damai para wali sanga yang menghargai nilai-nilai lokal.",
       },
       {
         "key": "Masjid Saka Tatal",
         "value":
-            "Bagian dari Masjid Demak yang memiliki tiang legendaris buatan Sunan Kalijaga dari serpihan kayu tatal yang diikat sakral."
-      }
+            "Bagian dari Masjid Demak yang memiliki tiang legendaris buatan Sunan Kalijaga dari serpihan kayu tatal yang diikat sakral.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_07", "title": "Raden Patah & Kesultanan Demak"},
       {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"},
-      {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"}
+      {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/masjid-demak.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/masjid-demak.webp",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_03",
@@ -492,27 +560,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "409 Anak Tangga Batu",
         "value":
-            "Peziarah menapaki ratusan anak tangga dengan sudut terjal sebagai bentuk laku tapak tirakat dan kepasrahan raga."
+            "Peziarah menapaki ratusan anak tangga dengan sudut terjal sebagai bentuk laku tapak tirakat dan kepasrahan raga.",
       },
       {
         "key": "Busana Pranakan & Semekan",
         "value":
-            "Siapapun yang berziarah ke cungkup utama wajib mengenakan pakaian adat Jawa tanpa alas kaki untuk menjaga kesetaraan derajat manusia."
+            "Siapapun yang berziarah ke cungkup utama wajib mengenakan pakaian adat Jawa tanpa alas kaki untuk menjaga kesetaraan derajat manusia.",
       },
       {
         "key": "Gentong Nyai Danumaya",
         "value":
-            "Empat gentong air keramat persembahan kerajaan sahabat (Palembang, Aceh, Nani, Turki) yang dikuras setahun sekali di bulan Sura."
-      }
+            "Empat gentong air keramat persembahan kerajaan sahabat (Palembang, Aceh, Nani, Turki) yang dikuras setahun sekali di bulan Sura.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
       {"id": "jateng_upacara_03", "title": "Malam Satu Suro"},
-      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
+      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kompleks-makam-imogiri.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kompleks-makam-imogiri.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_04",
@@ -526,27 +598,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Umbul Pasiraman",
         "value":
-            "Kolam pemandian berdinding terakota dengan air mancur ornamen naga yang membagi area pemandian putri dan permaisuri."
+            "Kolam pemandian berdinding terakota dengan air mancur ornamen naga yang membagi area pemandian putri dan permaisuri.",
       },
       {
         "key": "Sumur Gumuling",
         "value":
-            "Masjid bawah tanah melingkar dua lantai dengan tangga silang bertingkat yang memiliki akustik alami luar biasa tanpa pengeras suara."
+            "Masjid bawah tanah melingkar dua lantai dengan tangga silang bertingkat yang memiliki akustik alami luar biasa tanpa pengeras suara.",
       },
       {
         "key": "Gedhong Kenongo",
         "value":
-            "Paviliun tertinggi buatan di tengah danau buatan (Segaran) tempat raja bermeditasi mencium semerbak bunga kenanga."
-      }
+            "Paviliun tertinggi buatan di tengah danau buatan (Segaran) tempat raja bermeditasi mencium semerbak bunga kenanga.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_03", "title": "Kanjeng Ratu Kidul"},
       {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"},
-      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
+      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/taman-sari-water-castle.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/taman-sari-water-castle.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_06",
@@ -560,27 +636,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Bentuk Punden Berundak",
         "value":
-            "Menandai kebangkitan kembali arsitektur megalitikum asli Nusantara menjelang runtuhnya kerajaan Hindu-Buddha klasik."
+            "Menandai kebangkitan kembali arsitektur megalitikum asli Nusantara menjelang runtuhnya kerajaan Hindu-Buddha klasik.",
       },
       {
         "key": "Relief Sudamala",
         "value":
-            "Mengisahkan Sahadewa meruwat Dewi Durga yang berwujud raksasa kembali menjadi Batari Uma yang jelita dan pemurah."
+            "Mengisahkan Sahadewa meruwat Dewi Durga yang berwujud raksasa kembali menjadi Batari Uma yang jelita dan pemurah.",
       },
       {
         "key": "Uji Keperawanan dan Kesucian",
         "value":
-            "Sengkalan lingga-yoni di ambang pintu masuk dipercaya sebagai batu ujian moralitas bagi siapapun yang melintasinya."
-      }
+            "Sengkalan lingga-yoni di ambang pintu masuk dipercaya sebagai batu ujian moralitas bagi siapapun yang melintasinya.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
       {"id": "jateng_tokoh_01", "title": "Aji Saka & Aksara Jawa"},
-      {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"}
+      {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/candi-sukuh-mitos-dan-cerita-dibalik-candi-sukuh.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/candi-sukuh-mitos-dan-cerita-dibalik-candi-sukuh.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_06",
@@ -594,27 +674,34 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Bait Terkenal Zaman Edan",
         "value":
-            "'Amenangi zaman edan, ewuh aya ing pambudi... Sakbegja-begjane kang lali, luwih begja kang eling lawan waspada.'"
+            "'Amenangi zaman edan, ewuh aya ing pambudi... Sakbegja-begjane kang lali, luwih begja kang eling lawan waspada.'",
       },
       {
         "key": "Serat Kalatidha & Serat Jaka Lodhang",
         "value":
-            "Kumpulan puisi filosofis pupuh Sinom yang mendiagnosis penyakit sosial masyarakat saat nilai-nilai luhur tergerus zaman."
+            "Kumpulan puisi filosofis pupuh Sinom yang mendiagnosis penyakit sosial masyarakat saat nilai-nilai luhur tergerus zaman.",
       },
       {
         "key": "Pujangga Penutup",
         "value":
-            "Wafatnya Ronggowarsito pada tahun 1873 menandai berakhirnya tradisi resmi pujangga keraton berstatus abdi dalem sastra."
-      }
+            "Wafatnya Ronggowarsito pada tahun 1873 menandai berakhirnya tradisi resmi pujangga keraton berstatus abdi dalem sastra.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_musik_03", "title": "Tembang Macapat (11 Pupuh)"},
-      {"id": "jateng_tokoh_08", "title": "Pangeran Diponegoro & Babad Perang Jawa"},
-      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
+      {
+        "id": "jateng_tokoh_08",
+        "title": "Pangeran Diponegoro & Babad Perang Jawa",
+      },
+      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/ramalan-jaman-edan-karya-ronggowarsito.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/ramalan-jaman-edan-karya-ronggowarsito.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_08",
@@ -628,27 +715,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Babad Diponegoro",
         "value":
-            "Ditulis tangan sendiri oleh sang pangeran saat diasingkan di Manado dan Makassar, memuat autopsi politik dan spiritual tanah Jawa."
+            "Ditulis tangan sendiri oleh sang pangeran saat diasingkan di Manado dan Makassar, memuat autopsi politik dan spiritual tanah Jawa.",
       },
       {
         "key": "Siasat Perang Gerilya",
         "value":
-            "Memanfaatkan gua, bukit terjal, dan jaringan pesantren pedesaan untuk mengacaukan taktik benteng stelsel Belanda."
+            "Memanfaatkan gua, bukit terjal, dan jaringan pesantren pedesaan untuk mengacaukan taktik benteng stelsel Belanda.",
       },
       {
         "key": "Keris Kyai Nogo Siluman",
         "value":
-            "Pusaka pribadi sang pangeran berpamor naga yang sempat dirampas ke Belanda dan berhasil dipulangkan ke tanah air pada tahun 2020."
-      }
+            "Pusaka pribadi sang pangeran berpamor naga yang sempat dirampas ke Belanda dan berhasil dipulangkan ke tanah air pada tahun 2020.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
       {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
-      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
+      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/naskah-diponegoro.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/naskah-diponegoro.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_06",
@@ -662,27 +753,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Motif Daun Trubusan",
         "value":
-            "Helai daun yang merekah di ujung tangkai melambangkan pertumbuhan berkelanjutan dan rezeki yang tak pernah terputus."
+            "Helai daun yang merekah di ujung tangkai melambangkan pertumbuhan berkelanjutan dan rezeki yang tak pernah terputus.",
       },
       {
         "key": "Gebyok Kudus-Jepara",
         "value":
-            "Dinding kayu partisi berukir tiga dimensi dengan tingkat kerumitan tembus (krawangan) yang berfungsi sebagai penanda status sosial."
+            "Dinding kayu partisi berukir tiga dimensi dengan tingkat kerumitan tembus (krawangan) yang berfungsi sebagai penanda status sosial.",
       },
       {
         "key": "Kayu Jati Pilihan (Teak)",
         "value":
-            "Menggunakan kayu jati perhutani TPK berkadar air rendah yang tahan rayap puluhan tahun tanpa mengalami pembengkokan."
-      }
+            "Menggunakan kayu jati perhutani TPK berkadar air rendah yang tahan rayap puluhan tahun tanpa mengalami pembengkokan.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"},
       {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"},
-      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
+      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-ukiran-kayu-jepara.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-ukiran-kayu-jepara.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_04",
@@ -696,27 +791,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Karakter Panji Asmarabangun",
         "value":
-            "Wajah putih dengan mata menyipit liyep, bibir tersenyum tipis, menyimbolkan ketenangan hati yang mampu mengendalikan amarah."
+            "Wajah putih dengan mata menyipit liyep, bibir tersenyum tipis, menyimbolkan ketenangan hati yang mampu mengendalikan amarah.",
       },
       {
         "key": "Bahan Kayu Pule",
         "value":
-            "Kayu lokal bertekstur empuk, ringan saat dipakai menari semalam suntuk, dan tidak mudah pecah saat diukir detail rumit."
+            "Kayu lokal bertekstur empuk, ringan saat dipakai menari semalam suntuk, dan tidak mudah pecah saat diukir detail rumit.",
       },
       {
         "key": "Cengkok Tari Topeng",
         "value":
-            "Penari menggigit karet atau tali kecil di balik topeng agar posisi topeng stabil menempel di wajah sepanjang tarian berlangsung."
-      }
+            "Penari menggigit karet atau tali kecil di balik topeng agar posisi topeng stabil menempel di wajah sepanjang tarian berlangsung.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_tari_03", "title": "Tari Gambyong Pareanom"},
-      {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"}
+      {"id": "jateng_kriya_06", "title": "Ukiran Kayu Jepara"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-topeng-bobung.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-topeng-bobung.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_05",
@@ -730,27 +829,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Rangka 40 Bilah Bambu",
         "value":
-            "Anyaman bilah bambu disusun dengan benang kasur yang rumit membentuk lingkaran simetris sempurna tanpa paku logam."
+            "Anyaman bilah bambu disusun dengan benang kasur yang rumit membentuk lingkaran simetris sempurna tanpa paku logam.",
       },
       {
         "key": "Payung Songsong Keraton",
         "value":
-            "Tingkatan warna payung (emas, kuning, merah, hijau) menandai derajat kepangkatan pejabat dan bangsawan di keraton Jawa."
+            "Tingkatan warna payung (emas, kuning, merah, hijau) menandai derajat kepangkatan pejabat dan bangsawan di keraton Jawa.",
       },
       {
         "key": "Pernis Tahan Air Tradisional",
         "value":
-            "Dilapisi minyak biji pohon jarak dan getah damar agar kertas kedap air hujan dan tahan sengatan terik matahari."
-      }
+            "Dilapisi minyak biji pohon jarak dan getah damar agar kertas kedap air hujan dan tahan sengatan terik matahari.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
-      {"id": "jateng_upacara_02", "title": "Sekaten & Grebeg Maulud"}
+      {"id": "jateng_upacara_02", "title": "Sekaten & Grebeg Maulud"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/lomba-lukis-payung-klaten.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/lomba-lukis-payung-klaten.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_07",
@@ -764,27 +867,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Gaya Jogja vs Surakarta",
         "value":
-            "Gaya Jogja memiliki mondholan bulat menonjol di belakang, sedangkan gaya Solo bagian belakangnya pipih berlipat kain menyilang."
+            "Gaya Jogja memiliki mondholan bulat menonjol di belakang, sedangkan gaya Solo bagian belakangnya pipih berlipat kain menyilang.",
       },
       {
         "key": "Makna Mengikat Kepala",
         "value":
-            "Iket berasal dari kata 'ngiket' (mengikat pikiran), melambangkan pengendalian akal budi agar tidak liar menuruti hawa nafsu."
+            "Iket berasal dari kata 'ngiket' (mengikat pikiran), melambangkan pengendalian akal budi agar tidak liar menuruti hawa nafsu.",
       },
       {
         "key": "Wiru Lipatan Depan",
         "value":
-            "Lipatan halus berjumlah ganjil di dahi melambangkan kesiapan beribadah dan menghadap Tuhan dalam keadaan rapi bersahaja."
-      }
+            "Lipatan halus berjumlah ganjil di dahi melambangkan kesiapan beribadah dan menghadap Tuhan dalam keadaan rapi bersahaja.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
-      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
+      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/detail-blangkon.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/detail-blangkon.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_08",
@@ -798,27 +905,34 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kertas Dluwang Alami",
         "value":
-            "Dibuat dari serat pepagan pohon saeh yang dipukul-pukul rata berhari-hari hingga lentur dan bertahan berabad-abad."
+            "Dibuat dari serat pepagan pohon saeh yang dipukul-pukul rata berhari-hari hingga lentur dan bertahan berabad-abad.",
       },
       {
         "key": "Enam Gulungan Keramat",
         "value":
-            "Pusaka Wayang Beber Kyai Remeng Mangunjaya di Desa Gedompol hanya disimpan dalam peti kayu jati dan dibuka dengan ritual khusus."
+            "Pusaka Wayang Beber Kyai Remeng Mangunjaya di Desa Gedompol hanya disimpan dalam peti kayu jati dan dibuka dengan ritual khusus.",
       },
       {
         "key": "Stilasi Visual Relief Majapahit",
         "value":
-            "Gaya lukisannya masih mempertahankan tampak samping kaku menyerupai relief candi-candi di Jawa Timur era abad ke-14."
-      }
+            "Gaya lukisannya masih mempertahankan tampak samping kaku menyerupai relief candi-candi di Jawa Timur era abad ke-14.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_kriya_04", "title": "Topeng Panji Bobung"},
-      {"id": "jateng_arsitektur_06", "title": "Candi Sukuh & Erotisme Spiritual"}
+      {
+        "id": "jateng_arsitektur_06",
+        "title": "Candi Sukuh & Erotisme Spiritual",
+      },
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/cerita-wayang-beber-pacitan.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/cerita-wayang-beber-pacitan.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_kriya_09",
@@ -832,27 +946,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Patung Loro Blonyo",
         "value":
-            "Sepasang patung pengantin Jawa duduk bersila perlambang kemakmuran rumah tangga dan berkah kesuburan Dewi Sri."
+            "Sepasang patung pengantin Jawa duduk bersila perlambang kemakmuran rumah tangga dan berkah kesuburan Dewi Sri.",
       },
       {
         "key": "Kendi Pratala",
         "value":
-            "Wadah air minum tanah liat yang menyerap panas, menghasilkan air yang sejuk menyegarkan secara alami tanpa listrik."
+            "Wadah air minum tanah liat yang menyerap panas, menghasilkan air yang sejuk menyegarkan secara alami tanpa listrik.",
       },
       {
         "key": "Pembakaran Sekam Padi",
         "value":
-            "Teknik pembakaran tradisional menggunakan jerami dan sekam padi menghasilkan warna jingga merah bata khas yang kokoh."
-      }
+            "Teknik pembakaran tradisional menggunakan jerami dan sekam padi menghasilkan warna jingga merah bata khas yang kokoh.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
       {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"},
-      {"id": "jateng_upacara_04", "title": "Tedak Siten (Turun Tanah)"}
+      {"id": "jateng_upacara_04", "title": "Tedak Siten (Turun Tanah)"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-pembuatan-gerabah.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/proses-pembuatan-gerabah.webp",
+      },
+    ],
   },
   {
     "id": "jateng_arsitektur_05",
@@ -866,27 +984,34 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kaca Patri E.B. Kraemer",
         "value":
-            "Jendela kaca patri megah di tangga utama menggambarkan kemakmuran alam Jawa, dewi Fortuna, dan kota pelabuhan Batavia-Semarang."
+            "Jendela kaca patri megah di tangga utama menggambarkan kemakmuran alam Jawa, dewi Fortuna, dan kota pelabuhan Batavia-Semarang.",
       },
       {
         "key": "Sistem Pendingin Bawah Tanah",
         "value":
-            "Memiliki terowongan saluran air bawah tanah yang berfungsi mendinginkan suhu lantai secara pasif tanpa kipas listrik."
+            "Memiliki terowongan saluran air bawah tanah yang berfungsi mendinginkan suhu lantai secara pasif tanpa kipas listrik.",
       },
       {
         "key": "Pertempuran Lima Hari Semarang",
         "value":
-            "Menjadi medan sakral perjuangan Angkatan Muda Kereta Api (AMKA) melawan tentara Kidobutai Jepang pada Oktober 1945."
-      }
+            "Menjadi medan sakral perjuangan Angkatan Muda Kereta Api (AMKA) melawan tentara Kidobutai Jepang pada Oktober 1945.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"},
       {"id": "jateng_arsitektur_04", "title": "Taman Sari Water Castle"},
-      {"id": "jateng_tokoh_08", "title": "Pangeran Diponegoro & Babad Perang Jawa"}
+      {
+        "id": "jateng_tokoh_08",
+        "title": "Pangeran Diponegoro & Babad Perang Jawa",
+      },
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/blueprints-lawang-sewu.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/blueprints-lawang-sewu.webp",
+      },
+    ],
   },
   {
     "id": "jateng_musik_02",
@@ -900,27 +1025,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Metrum Tembang Pangkur",
         "value":
-            "Terikat guru lagu dan guru wilangan (8a, 11i, 8u, 7a, 12u, 8a, 8i) dengan watak gagah, tegas, dan penuh wibawa."
+            "Terikat guru lagu dan guru wilangan (8a, 11i, 8u, 7a, 12u, 8a, 8i) dengan watak gagah, tegas, dan penuh wibawa.",
       },
       {
         "key": "Iringan Buka Rebab",
         "value":
-            "Komposisi diawali gesekan rebab solo yang meliuk-liuk sebelum seluruh ricikan gamelan masuk secara serempak di gong pembuka."
+            "Komposisi diawali gesekan rebab solo yang meliuk-liuk sebelum seluruh ricikan gamelan masuk secara serempak di gong pembuka.",
       },
       {
         "key": "Serat Wedhatama",
         "value":
-            "Pupuh Pangkur karya KGPAA Mangkunegara IV menjadi rujukan primer ajaran moral generasi muda 'Mingkar-mingkuring angkara'."
-      }
+            "Pupuh Pangkur karya KGPAA Mangkunegara IV menjadi rujukan primer ajaran moral generasi muda 'Mingkar-mingkuring angkara'.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
       {"id": "jateng_musik_03", "title": "Tembang Macapat (11 Pupuh)"},
-      {"id": "jateng_tari_02", "title": "Tari Serimpi Sangupati"}
+      {"id": "jateng_tari_02", "title": "Tari Serimpi Sangupati"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gending-pangkur-lombo.mp3"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gending-pangkur-lombo.mp3",
+      },
+    ],
   },
   {
     "id": "jateng_musik_03",
@@ -934,27 +1063,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Siklus Kehidupan Lengkap",
         "value":
-            "Maskumambang (benih), Mijil (lahir), Sinom (muda), Kinanthi (bimbingan), Asmaradana (cinta), Gambuh (ikatan nikah), Dhandhanggula (manisnya hidup), Durma (sedekah), Pangkur (menjauhi nafsu), Megatruh (lepasnya nyawa), Pocung (kain kafan)."
+            "Maskumambang (benih), Mijil (lahir), Sinom (muda), Kinanthi (bimbingan), Asmaradana (cinta), Gambuh (ikatan nikah), Dhandhanggula (manisnya hidup), Durma (sedekah), Pangkur (menjauhi nafsu), Megatruh (lepasnya nyawa), Pocung (kain kafan).",
       },
       {
         "key": "Tiga Hukum Metrum Baku",
         "value":
-            "Guru Gatra (jumlah baris per bait), Guru Wilangan (jumlah suku kata per baris), dan Guru Lagu (huruf vokal terakhir per baris)."
+            "Guru Gatra (jumlah baris per bait), Guru Wilangan (jumlah suku kata per baris), dan Guru Lagu (huruf vokal terakhir per baris).",
       },
       {
         "key": "Media Tutur Sastra",
         "value":
-            "Dipakai para pujangga untuk menulis naskah serat babad, sejarah, filsafat ketuhanan, hingga petuah budi pekerti luhur."
-      }
+            "Dipakai para pujangga untuk menulis naskah serat babad, sejarah, filsafat ketuhanan, hingga petuah budi pekerti luhur.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_06", "title": "Ronggowarsito & Ramalan Kalatidha"},
       {"id": "jateng_musik_02", "title": "Gendhing Pangkur"},
-      {"id": "jateng_tokoh_01", "title": "Aji Saka & Aksara Jawa"}
+      {"id": "jateng_tokoh_01", "title": "Aji Saka & Aksara Jawa"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/materi-lengkap-tembang-macapat.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/materi-lengkap-tembang-macapat.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_musik_04",
@@ -968,27 +1101,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Seni Antawacana Dalang",
         "value":
-            "Kemampuan dalang mengubah nada suara dan karakter bahasa tubuh untuk membedakan ratusan tokoh wayang secara instan."
+            "Kemampuan dalang mengubah nada suara dan karakter bahasa tubuh untuk membedakan ratusan tokoh wayang secara instan.",
       },
       {
         "key": "Cengkok & Wiledan",
         "value":
-            "Ornamen getaran vokal sinden yang meliuk halus di sela-sela ketukan kenong dan gong tanpa melanggar pathet laras gending."
+            "Ornamen getaran vokal sinden yang meliuk halus di sela-sela ketukan kenong dan gong tanpa melanggar pathet laras gending.",
       },
       {
         "key": "Senggakan & Gerong",
         "value":
-            "Sahut-menyahut vokal pendek yang memberi dorongan semangat gembira saat adegan perang kembang atau gara-gara punakawan."
-      }
+            "Sahut-menyahut vokal pendek yang memberi dorongan semangat gembira saat adegan perang kembang atau gara-gara punakawan.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
-      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"}
+      {"id": "jateng_tokoh_02", "title": "Semar (Kyai Semar Badranaya)"},
     ],
     "media": [
-      {"type": "sound", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sinden-putri-briliyanti-kadung-tresno.mp3"}
-    ]
+      {
+        "type": "sound",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/sinden-putri-briliyanti-kadung-tresno.mp3",
+      },
+    ],
   },
   {
     "id": "jateng_tari_02",
@@ -1002,27 +1139,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Simbol Empat Unsur Alami",
         "value":
-            "Empat penari melambangkan empat elemen semesta: Grama (Api), Angin (Udara), Tirta (Air), dan Bumi (Tanah)."
+            "Empat penari melambangkan empat elemen semesta: Grama (Api), Angin (Udara), Tirta (Air), dan Bumi (Tanah).",
       },
       {
         "key": "Properti Pistol & Jamasan Racun",
         "value":
-            "Penari membawa pistol kecil dan cawan minum sebagai metafora perlawanan cerdas nan mematikan tanpa perang terbuka."
+            "Penari membawa pistol kecil dan cawan minum sebagai metafora perlawanan cerdas nan mematikan tanpa perang terbuka.",
       },
       {
         "key": "Gerak Lambat Meditatif",
         "value":
-            "Setiap liukan leher (pacak gulu) dan kibasan selendang menuntut konsentrasi napas yoga kejawen yang tenang terkontrol."
-      }
+            "Setiap liukan leher (pacak gulu) dan kibasan selendang menuntut konsentrasi napas yoga kejawen yang tenang terkontrol.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tari_01", "title": "Tari Bedhaya Ketawang"},
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
-      {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"}
+      {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-srimpi-sangupati.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-srimpi-sangupati.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tari_03",
@@ -1036,27 +1177,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Warna Khas Pareanom",
         "value":
-            "Perpaduan warna hijau muda dan kuning emas yang menyimbolkan kesuburan tanah pertanian dan kemakmuran padi menguning."
+            "Perpaduan warna hijau muda dan kuning emas yang menyimbolkan kesuburan tanah pertanian dan kemakmuran padi menguning.",
       },
       {
         "key": "Kendang Sebagai Komando Gerak",
         "value":
-            "Gerakan kaki penari berpadu sinkron dengan tepukan kendang batangan yang dinamis, lincah, dan penuh variasi cengkok."
+            "Gerakan kaki penari berpadu sinkron dengan tepukan kendang batangan yang dinamis, lincah, dan penuh variasi cengkok.",
       },
       {
         "key": "Evolusi Tari Rakyat ke Istana",
         "value":
-            "Berasal dari nama waranggana legendaris Mas Ajeng Gambyong yang memikat keraton dengan kemahiran tariannya yang memukau."
-      }
+            "Berasal dari nama waranggana legendaris Mas Ajeng Gambyong yang memikat keraton dengan kemahiran tariannya yang memukau.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_musik_01", "title": "Gamelan Laras Slendro & Pelog"},
       {"id": "jateng_kriya_04", "title": "Topeng Panji Bobung"},
-      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"}
+      {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-gambyong-pareanom.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tari-gambyong-pareanom.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_tari_04",
@@ -1070,27 +1215,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Dadak Merak & Singo Barong",
         "value":
-            "Topeng kepala macan bertengger burung merak melambangkan penguasa yang dikendalikan oleh bisikan lembut di belakangnya."
+            "Topeng kepala macan bertengger burung merak melambangkan penguasa yang dikendalikan oleh bisikan lembut di belakangnya.",
       },
       {
         "key": "Warok & Jathil",
         "value":
-            "Warok berpakaian serba hitam melambangkan kesaktian batin tanpa nafsu ragawi, sedangkan Jathil prajurit berkuda lumping tangkas."
+            "Warok berpakaian serba hitam melambangkan kesaktian batin tanpa nafsu ragawi, sedangkan Jathil prajurit berkuda lumping tangkas.",
       },
       {
         "key": "Terompet Selompret Reog",
         "value":
-            "Tiupan melengking alat musik tiup selompret berpadu ketukan kempul senggak menghadirkan atmosfer magis bersemangat baja."
-      }
+            "Tiupan melengking alat musik tiup selompret berpadu ketukan kempul senggak menghadirkan atmosfer magis bersemangat baja.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_03", "title": "Wayang Kulit Purwa"},
       {"id": "jateng_kriya_04", "title": "Topeng Panji Bobung"},
-      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"}
+      {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
     ],
     "media": [
-      {"type": "video", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/asal-usul-reog-ponorogo.mp4"}
-    ]
+      {
+        "type": "video",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/asal-usul-reog-ponorogo.mp4",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_04",
@@ -1104,27 +1253,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Menginjak Jadah 7 Warna",
         "value":
-            "Bayi dituntun menginjak ketan jadah tujuh warna pelangi melambangkan kemampuan menyelesaikan aneka rintangan hidup di masa depan."
+            "Bayi dituntun menginjak ketan jadah tujuh warna pelangi melambangkan kemampuan menyelesaikan aneka rintangan hidup di masa depan.",
       },
-      { 
+      {
         "key": "Menaiki Tangga Tebu Wulung",
         "value":
-            "Tebu berasal dari kata 'antebing kalbu' (kemantapan hati), melambangkan cita-cita luhur yang diraih setapak demi setapak."
+            "Tebu berasal dari kata 'antebing kalbu' (kemantapan hati), melambangkan cita-cita luhur yang diraih setapak demi setapak.",
       },
       {
         "key": "Memilih Benda di Kurungan Ayam",
         "value":
-            "Bayi dimasukkan ke dalam kurungan ayam hias untuk memilih barang (buku, uang, cangkul, stetoskop) simbol bakat profesinya kelak."
-      }
+            "Bayi dimasukkan ke dalam kurungan ayam hias untuk memilih barang (buku, uang, cangkul, stetoskop) simbol bakat profesinya kelak.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_upacara_05", "title": "Mitoni / Tingkeban"},
       {"id": "jateng_upacara_06", "title": "Siraman Pengantin Jawa"},
-      {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"}
+      {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tedak-siten.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tedak-siten.webp",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_05",
@@ -1138,27 +1291,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Ganti Busana Pitu Macam",
         "value":
-            "Calon ibu berganti tujuh motif kain batik bermakna berkah (Sido Asih, Sido Mukti, Truntum) hingga hadirin serentak menjawab 'pantes'."
+            "Calon ibu berganti tujuh motif kain batik bermakna berkah (Sido Asih, Sido Mukti, Truntum) hingga hadirin serentak menjawab 'pantes'.",
       },
       {
         "key": "Memecah Cengkir Gading",
         "value":
-            "Calon ayah membelah kelapa muda berukir tokoh Kamajaya dan Kamaratih untuk meramal kecantikan atau ketampanan sang bayi."
+            "Calon ayah membelah kelapa muda berukir tokoh Kamajaya dan Kamaratih untuk meramal kecantikan atau ketampanan sang bayi.",
       },
       {
         "key": "Jualan Rujak Serut",
         "value":
-            "Tamu membeli rujak serut menggunakan kreweng (pecahan genting tanah liat) sebagai doa kelimpahan rezeki sang calon anak."
-      }
+            "Tamu membeli rujak serut menggunakan kreweng (pecahan genting tanah liat) sebagai doa kelimpahan rezeki sang calon anak.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_upacara_04", "title": "Tedak Siten (Turun Tanah)"},
       {"id": "jateng_upacara_06", "title": "Siraman Pengantin Jawa"},
-      {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"}
+      {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mitoni-tingkeban-pasangan.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/mitoni-tingkeban-pasangan.webp",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_06",
@@ -1172,27 +1329,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Air Pitu Sumber",
         "value":
-            "Angka pitu bermakna 'pitulungan' (pertolongan Tuhan), air diambil dari sumur keraton, masjid agung, dan mata air alami."
+            "Angka pitu bermakna 'pitulungan' (pertolongan Tuhan), air diambil dari sumur keraton, masjid agung, dan mata air alami.",
       },
       {
         "key": "Memecah Kendi Pratala",
         "value":
-            "Ayah dan ibu membanting kendi tanah liat hingga pecah seraya berucap 'Wis pecah pamore' menandai terpancarnya aura sang pengantin."
+            "Ayah dan ibu membanting kendi tanah liat hingga pecah seraya berucap 'Wis pecah pamore' menandai terpancarnya aura sang pengantin.",
       },
       {
         "key": "Gendhongan Terakhir",
         "value":
-            "Sang ayah menggendong putrinya menuju kamar rias sebagai lambang tanggung jawab nafkah orang tua yang telah paripurna tuntas."
-      }
+            "Sang ayah menggendong putrinya menuju kamar rias sebagai lambang tanggung jawab nafkah orang tua yang telah paripurna tuntas.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_upacara_05", "title": "Mitoni / Tingkeban"},
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
-      {"id": "jateng_kriya_09", "title": "Gerabah Kasongan"}
+      {"id": "jateng_kriya_09", "title": "Gerabah Kasongan"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/siraman-pengantin-jawa.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/siraman-pengantin-jawa.webp",
+      },
+    ],
   },
   {
     "id": "jateng_upacara_07",
@@ -1206,27 +1367,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Ubarampe Labuhan",
         "value":
-            "Membawa kain cinde, mori putih, kembang setaman, minyak wangi, dan menyan madu persembahan keraton menuju altar puncak."
+            "Membawa kain cinde, mori putih, kembang setaman, minyak wangi, dan menyan madu persembahan keraton menuju altar puncak.",
       },
       {
         "key": "Sumbu Filosofi Yogya",
         "value":
-            "Menghubungkan garis lurus imajiner antara Panggung Krapyak, Kraton, Tugu Pal Putih, hingga puncak kawah Gunung Merapi."
+            "Menghubungkan garis lurus imajiner antara Panggung Krapyak, Kraton, Tugu Pal Putih, hingga puncak kawah Gunung Merapi.",
       },
       {
         "key": "Kearifan Ekologi Bencana",
         "value":
-            "Mengajarkan manusia untuk senantiasa hidup berdampingan harmonis, waspada, dan tidak merusak ekosistem hutan lereng Merapi."
-      }
+            "Mengajarkan manusia untuk senantiasa hidup berdampingan harmonis, waspada, dan tidak merusak ekosistem hutan lereng Merapi.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_03", "title": "Kanjeng Ratu Kidul"},
       {"id": "jateng_arsitektur_03", "title": "Kompleks Makam Imogiri"},
-      {"id": "jateng_upacara_03", "title": "Malam Satu Suro"}
+      {"id": "jateng_upacara_03", "title": "Malam Satu Suro"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/labuhan-merapi.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/labuhan-merapi.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kuliner_01",
@@ -1240,27 +1405,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Asal Kata 'Hangudeg'",
         "value":
-            "Berasal dari kata kerja 'hangudeg' yang berarti mengaduk perlahan tanpa henti agar santan tidak pecah hingga kuah meresap."
+            "Berasal dari kata kerja 'hangudeg' yang berarti mengaduk perlahan tanpa henti agar santan tidak pecah hingga kuah meresap.",
       },
       {
         "key": "Daun Jati Sebagai Pewarna Alami",
         "value":
-            "Warna cokelat kemerahan gelap yang menggugah selera diperoleh murni dari rebusan daun jati muda tanpa pewarna sintetis."
+            "Warna cokelat kemerahan gelap yang menggugah selera diperoleh murni dari rebusan daun jati muda tanpa pewarna sintetis.",
       },
       {
         "key": "Gudeg Manggar Langka",
         "value":
-            "Varian istimewa asal Bantul yang memakai bunga kelapa muda bertekstur kenyal renyah yang dulunya sajian favorit para raja keraton."
-      }
+            "Varian istimewa asal Bantul yang memakai bunga kelapa muda bertekstur kenyal renyah yang dulunya sajian favorit para raja keraton.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kuliner_03", "title": "Nasi Tumpeng & Filosofi Sesaji"},
       {"id": "jateng_kuliner_02", "title": "Jamu Gendong Tradisional"},
-      {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"}
+      {"id": "jateng_arsitektur_01", "title": "Rumah Joglo Sinom"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gudeg-manggar.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/gudeg-manggar.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kuliner_02",
@@ -1274,27 +1443,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Delapan Racikan Utama",
         "value":
-            "Kunyit Asam, Beras Kencur, Cabe Puyang, Pahitan (sambiloto), Sinom, Uyup-uyup, Kudu Laos, dan Temulawak Madu."
+            "Kunyit Asam, Beras Kencur, Cabe Puyang, Pahitan (sambiloto), Sinom, Uyup-uyup, Kudu Laos, dan Temulawak Madu.",
       },
       {
         "key": "Filosofi Urutan Rasa",
         "value":
-            "Dimulai dari rasa manis-segar (beras kencur), pahit menyengat (pahitan), hingga penawar manis asam, cerminan rasa manis-pahitnya liku hidup."
+            "Dimulai dari rasa manis-segar (beras kencur), pahit menyengat (pahitan), hingga penawar manis asam, cerminan rasa manis-pahitnya liku hidup.",
       },
       {
         "key": "Sukoharjo Kota Jamu",
         "value":
-            "Kecamatan Nguter di Sukoharjo diakui sebagai pusat jamu nusantara dengan ribuan perajin jamu gendong yang tersebar di seluruh Indonesia."
-      }
+            "Kecamatan Nguter di Sukoharjo diakui sebagai pusat jamu nusantara dengan ribuan perajin jamu gendong yang tersebar di seluruh Indonesia.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kuliner_01", "title": "Gudeg Manggar & Nangka"},
       {"id": "jateng_upacara_05", "title": "Mitoni / Tingkeban"},
-      {"id": "jateng_kuliner_04", "title": "Jenang Kudus & Manisan Keraton"}
+      {"id": "jateng_kuliner_04", "title": "Jenang Kudus & Manisan Keraton"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/racikan-jamu.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/racikan-jamu.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kuliner_03",
@@ -1308,27 +1481,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Kerucut Puncak Tunggal",
         "value":
-            "Ujung tumpeng melambangkan konsep Ketuhanan Yang Maha Esa (Manunggaling Kawula Gusti), dipotong dan diserahkan kepada sesepuh."
+            "Ujung tumpeng melambangkan konsep Ketuhanan Yang Maha Esa (Manunggaling Kawula Gusti), dipotong dan diserahkan kepada sesepuh.",
       },
       {
         "key": "Tujuh Macam Lauk (Pitu)",
         "value":
-            "Ayam jago utuh (ingkung), ikan lele, urap sayur, telur rebus, sambal goreng ati, teri, dan tempe melambangkan keharmonisan semesta."
+            "Ayam jago utuh (ingkung), ikan lele, urap sayur, telur rebus, sambal goreng ati, teri, dan tempe melambangkan keharmonisan semesta.",
       },
       {
         "key": "Tumpeng Robyong & Gundhul",
         "value":
-            "Varian tumpeng khusus yang dihiasi lidi sayur mayur dan telur di puncaknya untuk memohon keselamatan saat panen atau tolak bala."
-      }
+            "Varian tumpeng khusus yang dihiasi lidi sayur mayur dan telur di puncaknya untuk memohon keselamatan saat panen atau tolak bala.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_upacara_01", "title": "Ruwatan Murwakala"},
       {"id": "jateng_upacara_02", "title": "Sekaten & Grebeg Maulud"},
-      {"id": "jateng_kuliner_01", "title": "Gudeg Manggar & Nangka"}
+      {"id": "jateng_kuliner_01", "title": "Gudeg Manggar & Nangka"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tumpeng-robyong.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/tumpeng-robyong.webp",
+      },
+    ],
   },
   {
     "id": "jateng_kuliner_04",
@@ -1342,27 +1519,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Tradisi Jenang Tebokan",
         "value":
-            "Diarak warga Kudus dalam peringatan buka luwur makam Sunan Kudus sebagai simbol rasa syukur atas berkah ekonomi kota kretek."
+            "Diarak warga Kudus dalam peringatan buka luwur makam Sunan Kudus sebagai simbol rasa syukur atas berkah ekonomi kota kretek.",
       },
       {
         "key": "Tekstur Kenyal Legit",
         "value":
-            "Keuletan adonan jenang saat diaduk dengan dayung kayu besar melatih gotong royong para perajin pria secara bergiliran."
+            "Keuletan adonan jenang saat diaduk dengan dayung kayu besar melatih gotong royong para perajin pria secara bergiliran.",
       },
       {
         "key": "Jenang Panca Warna",
         "value":
-            "Aneka jenang (merah, putih, sengkolo, sumsum) yang dihadirkan saat upacara pemberian nama bayi dan pindah rumah."
-      }
+            "Aneka jenang (merah, putih, sengkolo, sumsum) yang dihadirkan saat upacara pemberian nama bayi dan pindah rumah.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kuliner_01", "title": "Gudeg Manggar & Nangka"},
       {"id": "jateng_kuliner_02", "title": "Jamu Gendong Tradisional"},
-      {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"}
+      {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kawah-jenang.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kawah-jenang.webp",
+      },
+    ],
   },
   {
     "id": "jateng_busana_01",
@@ -1376,28 +1557,36 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Potongan Kerah V Kartini",
         "value":
-            "Didesain ringkas menutupi dada secara anggun tanpa bef tambahan, dipopulerkan oleh pahlawan nasional R.A. Kartini di Jepara."
+            "Didesain ringkas menutupi dada secara anggun tanpa bef tambahan, dipopulerkan oleh pahlawan nasional R.A. Kartini di Jepara.",
       },
       {
         "key": "Kancing Kanan Beskap",
         "value":
-            "Deretan kancing melambangkan rukun iman dan tekad bertindak dengan pertimbangan nalar yang matang sebelum melangkah."
+            "Deretan kancing melambangkan rukun iman dan tekad bertindak dengan pertimbangan nalar yang matang sebelum melangkah.",
       },
       {
         "key": "Stagen Pengikat Pinggang",
         "value":
-            "Kain tenun panjang yang melilit pinggang berfungsi menjaga postur tubuh tegak sekaligus simbol menahan hawa nafsu perut."
-      }
+            "Kain tenun panjang yang melilit pinggang berfungsi menjaga postur tubuh tegak sekaligus simbol menahan hawa nafsu perut.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_kriya_07", "title": "Blangkon & Udheng"},
       {"id": "jateng_kriya_02", "title": "Batik Parang Rusak"},
-      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"}
+      {"id": "jateng_kriya_01", "title": "Keris & Tosan Aji"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kebaya-kartini-zaman-dahulu.webp"},
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/beskap-zaman-dahulu.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/kebaya-kartini-zaman-dahulu.webp",
+      },
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/beskap-zaman-dahulu.webp",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_07",
@@ -1411,27 +1600,31 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Pembangunan Masjid Agung Demak",
         "value":
-            "Menjadi markas spiritual Walisongo dengan arsitektur atap tumpang tiga yang melambangkan Iman, Islam, dan Ihsan."
+            "Menjadi markas spiritual Walisongo dengan arsitektur atap tumpang tiga yang melambangkan Iman, Islam, dan Ihsan.",
       },
       {
         "key": "Armada Maritim Pati Unus",
         "value":
-            "Mengirim armada kapal perang pimpinan putranya, Adipati Unus (Pangeran Sabrang Lor), untuk mengusir kolonial Portugis di Malaka."
+            "Mengirim armada kapal perang pimpinan putranya, Adipati Unus (Pangeran Sabrang Lor), untuk mengusir kolonial Portugis di Malaka.",
       },
       {
         "key": "Transisi Simbolik Surya Majapahit",
         "value":
-            "Mewarisi pusaka dan tradisi luhur Majapahit dengan nafas tauhid Islam yang damai dan merangkul kearifan lokal."
-      }
+            "Mewarisi pusaka dan tradisi luhur Majapahit dengan nafas tauhid Islam yang damai dan merangkul kearifan lokal.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_arsitektur_02", "title": "Pintu Bledeg Masjid Demak"},
       {"id": "jateng_upacara_02", "title": "Sekaten & Grebeg Maulud"},
-      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"}
+      {"id": "jateng_tokoh_04", "title": "Sultan Agung Hanyokrokusumo"},
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/makam-kesultanan-demak.webp"}
-    ]
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/makam-kesultanan-demak.webp",
+      },
+    ],
   },
   {
     "id": "jateng_tokoh_05",
@@ -1445,28 +1638,35 @@ const List<Map<String, dynamic>> rawKnowledgeJson = [
       {
         "key": "Trilogi Kepemimpinan",
         "value":
-            "'Ing Ngarsa Sung Tuladha (di depan memberi teladan), Ing Madya Mangun Karsa (di tengah membangun semangat), Tut Wuri Handayani (di belakang memberi dorongan).'"
+            "'Ing Ngarsa Sung Tuladha (di depan memberi teladan), Ing Madya Mangun Karsa (di tengah membangun semangat), Tut Wuri Handayani (di belakang memberi dorongan).'",
       },
       {
         "key": "Konsep Sistem Among",
         "value":
-            "Mendidik anak layaknya menumbuhkan benih padi alami tanpa paksaan kekerasan kolonial, memerdekakan potensi kodrat anak."
+            "Mendidik anak layaknya menumbuhkan benih padi alami tanpa paksaan kekerasan kolonial, memerdekakan potensi kodrat anak.",
       },
       {
         "key": "Tulisan 'Als ik eens Nederlander was'",
         "value":
-            "Kritik pedas 'Seandainya Aku Seorang Belanda' yang menggoncang pemerintah kolonial hingga membuatnya diasingkan ke Belanda."
-      }
+            "Kritik pedas 'Seandainya Aku Seorang Belanda' yang menggoncang pemerintah kolonial hingga membuatnya diasingkan ke Belanda.",
+      },
     ],
     "related_topics": [
       {"id": "jateng_tokoh_06", "title": "Ronggowarsito & Ramalan Kalatidha"},
       {"id": "jateng_busana_01", "title": "Kebaya Kartini & Beskap Kejawen"},
-      {"id": "jateng_tokoh_08", "title": "Pangeran Diponegoro & Babad Perang Jawa"}
+      {
+        "id": "jateng_tokoh_08",
+        "title": "Pangeran Diponegoro & Babad Perang Jawa",
+      },
     ],
     "media": [
-      {"type": "image", "url": "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/als-ik-een-nederlander-was-oleh-ki-hajar-dewantara.webp"}
-    ]
-  }
+      {
+        "type": "image",
+        "url":
+            "https://github.com/naththestorymaker-cmd/jawakarsa/releases/download/v1.0.0-assets/als-ik-een-nederlander-was-oleh-ki-hajar-dewantara.webp",
+      },
+    ],
+  },
 ];
 
 class KnowledgeData {
@@ -1489,30 +1689,71 @@ class KnowledgeData {
 
   static List<KnowledgeItem> search(String query, {String? categoryFilter}) {
     final q = query.trim().toLowerCase();
-    return allItems.where((item) {
+    final filteredByCategory = allItems.where((item) {
       if (categoryFilter != null &&
           categoryFilter.isNotEmpty &&
           categoryFilter != 'Semua') {
-        if (item.category.toLowerCase() != categoryFilter.toLowerCase()) {
-          return false;
+        return item.category.toLowerCase() == categoryFilter.toLowerCase();
+      }
+      return true;
+    });
+
+    if (q.isEmpty) {
+      return filteredByCategory.toList();
+    }
+
+    final wordPrefix = RegExp(r'(?:^|[^a-z0-9])' + RegExp.escape(q));
+    final scored = <(KnowledgeItem, int, int)>[];
+    int order = 0;
+
+    for (final item in filteredByCategory) {
+      final titleLower = item.title.toLowerCase();
+      int score = 0;
+
+      if (q.length <= 2) {
+        if (titleLower.startsWith(q)) {
+          score = 100;
+        } else if (wordPrefix.hasMatch(titleLower)) {
+          score = 70;
+        }
+      } else {
+        final categoryLower = item.category.toLowerCase();
+        final regionLower = item.originRegion.toLowerCase();
+        final overviewLower = item.overview.toLowerCase();
+
+        if (titleLower.startsWith(q)) {
+          score = 100;
+        } else if (wordPrefix.hasMatch(titleLower)) {
+          score = 85;
+        } else if (titleLower.contains(q)) {
+          score = 65;
+        } else if (wordPrefix.hasMatch(categoryLower) ||
+            wordPrefix.hasMatch(regionLower)) {
+          score = 45;
+        } else if (wordPrefix.hasMatch(overviewLower) ||
+            item.keyFacts.any(
+              (f) => wordPrefix.hasMatch(f.key.toLowerCase()),
+            )) {
+          score = 25;
+        } else if (item.keyFacts.any(
+          (f) => wordPrefix.hasMatch(f.value.toLowerCase()),
+        )) {
+          score = 15;
         }
       }
 
-      if (q.isEmpty) return true;
+      if (score > 0) {
+        scored.add((item, score, order));
+      }
+      order++;
+    }
 
-      final matchTitle = item.title.toLowerCase().contains(q);
-      final matchCategory = item.category.toLowerCase().contains(q);
-      final matchRegion = item.originRegion.toLowerCase().contains(q);
-      final matchOverview = item.overview.toLowerCase().contains(q);
-      final matchKeyFacts = item.keyFacts.any((f) =>
-          f.key.toLowerCase().contains(q) || f.value.toLowerCase().contains(q));
+    scored.sort((a, b) {
+      final cmp = b.$2.compareTo(a.$2);
+      return cmp != 0 ? cmp : a.$3.compareTo(b.$3);
+    });
 
-      return matchTitle ||
-          matchCategory ||
-          matchRegion ||
-          matchOverview ||
-          matchKeyFacts;
-    }).toList();
+    return scored.map((e) => e.$1).toList();
   }
 
   static List<String> get categories {
@@ -1523,4 +1764,3 @@ class KnowledgeData {
     return set.toList();
   }
 }
-

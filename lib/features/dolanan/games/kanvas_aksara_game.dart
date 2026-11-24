@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/features/dolanan/games/aksara_evaluator.dart';
+import 'package:jawakarsa/features/dolanan/games/aksara_glyph_evaluator.dart';
 import 'package:jawakarsa/services/score_service.dart';
 import 'package:jawakarsa/features/dolanan/widgets/gendhis_commentator.dart';
 
@@ -44,13 +44,13 @@ const _challenges = [
 
 class _StarParticle {
   _StarParticle(Random rng)
-      : angle = rng.nextDouble() * 2 * pi,
-        distance = 35 + rng.nextDouble() * 95,
-        size = 8 + rng.nextDouble() * 10,
-        color = rng.nextBool()
-            ? const Color(0xFFFFB84C)
-            : const Color(0xFFFF8A80),
-        opacity = 0.85 + rng.nextDouble() * 0.15;
+    : angle = rng.nextDouble() * 2 * pi,
+      distance = 35 + rng.nextDouble() * 95,
+      size = 8 + rng.nextDouble() * 10,
+      color = rng.nextBool()
+          ? const Color(0xFFFFB84C)
+          : const Color(0xFFFF8A80),
+      opacity = 0.85 + rng.nextDouble() * 0.15;
 
   final double angle;
   final double distance;
@@ -71,6 +71,7 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   int _currentIdx = 0;
   int _score = 0;
   bool _submitted = false;
+  bool _isEvaluating = false;
   bool _gameOver = false;
   bool _showGuide = false;
   int _failAttempts = 0;
@@ -81,6 +82,7 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   final _pointsNotifier = ValueNotifier<List<Offset?>>([]);
   final _gendhisKey = GlobalKey<GendhisCommentatorState>();
   Timer? _thinkTimer;
+  Timer? _advanceTimer;
 
   List<_StarParticle> _stars = [];
   late AnimationController _starCtrl;
@@ -93,7 +95,9 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   void initState() {
     super.initState();
     _starCtrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 900));
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
     _starAnim = CurvedAnimation(parent: _starCtrl, curve: Curves.easeOut);
     _starCtrl.addListener(() => _starProgressNotifier.value = _starAnim.value);
     _startThinkTimer();
@@ -102,6 +106,7 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   @override
   void dispose() {
     _thinkTimer?.cancel();
+    _advanceTimer?.cancel();
     _starCtrl.dispose();
     _pointsNotifier.dispose();
     _starProgressNotifier.dispose();
@@ -111,12 +116,14 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   void _startThinkTimer() {
     _thinkTimer?.cancel();
     _thinkTimer = Timer(const Duration(seconds: 12), () {
-      if (!_submitted && mounted) _gendhisKey.currentState?.thinking();
+      if (!_submitted && !_gameOver && mounted) {
+        _gendhisKey.currentState?.thinking();
+      }
     });
   }
 
   void _onPanStart(DragStartDetails d) {
-    if (_submitted) return;
+    if (_submitted || _isEvaluating) return;
     _thinkTimer?.cancel();
     _startThinkTimer();
     _rawPoints.add(d.localPosition);
@@ -124,7 +131,7 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   }
 
   void _onPanUpdate(DragUpdateDetails d) {
-    if (_submitted) return;
+    if (_submitted || _isEvaluating) return;
     _rawPoints.add(d.localPosition);
     _pointsNotifier.value = List.unmodifiable(_rawPoints);
     _thinkTimer?.cancel();
@@ -132,12 +139,13 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
   }
 
   void _onPanEnd(DragEndDetails d) {
-    if (_submitted) return;
+    if (_submitted || _isEvaluating) return;
     _rawPoints.add(null);
     _pointsNotifier.value = List.unmodifiable(_rawPoints);
   }
 
   void _clear() {
+    if (_submitted || _isEvaluating) return;
     _rawPoints.clear();
     _pointsNotifier.value = [];
     setState(() {
@@ -145,34 +153,33 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
     });
   }
 
-  void _submit() {
-    if (_pointsNotifier.value.isEmpty || _submitted) return;
+  Future<void> _submit() async {
+    if (_pointsNotifier.value.isEmpty || _submitted || _isEvaluating) return;
+
+    setState(() => _isEvaluating = true);
 
     final challenge = _challenges[_currentIdx];
     final RenderBox? box =
         _canvasKey.currentContext?.findRenderObject() as RenderBox?;
     final canvasSize = box?.size ?? const Size(320, 260);
+    final pointsSnapshot = List<Offset?>.from(_rawPoints);
 
-    final strokePoints = _rawPoints.map((p) {
-      return p != null ? StrokePoint(p.dx, p.dy) : null;
-    }).toList();
-
-    final eval = AksaraEvaluator.evaluate(
+    final eval = await AksaraGlyphEvaluator.evaluate(
       aksara: challenge.aksara,
-      points: strokePoints,
-      canvasWidth: canvasSize.width,
-      canvasHeight: canvasSize.height,
+      points: pointsSnapshot,
+      canvasSize: canvasSize,
     );
 
+    if (!mounted) return;
+
     setState(() {
+      _isEvaluating = false;
       _lastEvaluation = eval;
     });
 
     if (eval.isPassed) {
       final rng = Random();
-      final bonus = eval.accuracy >= 85
-          ? 20
-          : (eval.accuracy >= 70 ? 10 : 0);
+      final bonus = eval.accuracy >= 85 ? 20 : (eval.accuracy >= 74 ? 10 : 0);
       final gainedScore = ScoreService.rewardPerGame + bonus;
 
       setState(() {
@@ -186,7 +193,8 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
       _thinkTimer?.cancel();
       _gendhisKey.currentState?.correct();
 
-      Future.delayed(const Duration(seconds: 2), () {
+      _advanceTimer?.cancel();
+      _advanceTimer = Timer(const Duration(seconds: 2), () {
         if (!mounted) return;
         _advanceToNext();
       });
@@ -244,11 +252,15 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
             height: 36,
             decoration: BoxDecoration(
               border: Border.all(
-                  color: AppColors.coastalStorm.withValues(alpha: 0.3)),
+                color: AppColors.coastalStorm.withValues(alpha: 0.3),
+              ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.close_rounded,
-                color: AppColors.potBlack, size: 18),
+            child: const Icon(
+              Icons.close_rounded,
+              color: AppColors.potBlack,
+              size: 18,
+            ),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -257,8 +269,12 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
           IconButton(
             tooltip: _showGuide ? 'Sembunyikan Panduan' : 'Tampilkan Panduan',
             icon: Icon(
-              _showGuide ? Icons.lightbulb_rounded : Icons.lightbulb_outline_rounded,
-              color: _showGuide ? AppColors.goldVarnishBrown : AppColors.coastalStorm,
+              _showGuide
+                  ? Icons.lightbulb_rounded
+                  : Icons.lightbulb_outline_rounded,
+              color: _showGuide
+                  ? AppColors.goldVarnishBrown
+                  : AppColors.coastalStorm,
             ),
             onPressed: () => setState(() => _showGuide = !_showGuide),
           ),
@@ -268,123 +284,146 @@ class _KanvasAksaraGameState extends State<KanvasAksaraGame>
               child: Text(
                 '$_score poin',
                 style: AppTextStyles.labelLarge(
-                    color: AppColors.goldVarnishBrown),
+                  color: AppColors.goldVarnishBrown,
+                ),
               ),
             ),
           ),
         ],
       ),
-      body: _gameOver
-          ? _GameOverScreen(
-              score: _score, onBack: () => Navigator.pop(context))
-          : Stack(
-              children: [
-                SingleChildScrollView(
-                  physics: _submitted
-                      ? const NeverScrollableScrollPhysics()
-                      : const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
+        children: [
+          if (_gameOver)
+            _GameOverScreen(score: _score, onBack: () => Navigator.pop(context))
+          else
+            SingleChildScrollView(
+              physics: _submitted
+                  ? const NeverScrollableScrollPhysics()
+                  : const ClampingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ProgressBar(
+                    current: _currentIdx + 1,
+                    total: _challenges.length,
+                  ),
+                  const SizedBox(height: 14),
+                  _ChallengeHeader(
+                    challenge: challenge,
+                    showGuide: _showGuide,
+                    onToggleGuide: () =>
+                        setState(() => _showGuide = !_showGuide),
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    key: _canvasKey,
+                    height: canvasH,
+                    child: _DrawingCanvas(
+                      pointsNotifier: _pointsNotifier,
+                      starProgressNotifier: _starProgressNotifier,
+                      ghostAksara: challenge.aksara,
+                      submitted: _submitted,
+                      stars: _stars,
+                      showGuide: _showGuide,
+                      onPanStart: (_submitted || _isEvaluating)
+                          ? null
+                          : _onPanStart,
+                      onPanUpdate: (_submitted || _isEvaluating)
+                          ? null
+                          : _onPanUpdate,
+                      onPanEnd: (_submitted || _isEvaluating)
+                          ? null
+                          : _onPanEnd,
+                    ),
+                  ),
+
+                  if (_lastEvaluation != null) ...[
+                    const SizedBox(height: 12),
+                    _EvaluationBanner(
+                      evaluation: _lastEvaluation!,
+                      onRetry: _clear,
+                      onKeepAndImprove: () => setState(() {
+                        _lastEvaluation = null;
+                      }),
+                      onSkip: _failAttempts >= 2 ? _skipChallenge : null,
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+                  Row(
                     children: [
-                      _ProgressBar(
-                          current: _currentIdx + 1,
-                          total: _challenges.length),
-                      const SizedBox(height: 14),
-                      _ChallengeHeader(
-                        challenge: challenge,
-                        showGuide: _showGuide,
-                        onToggleGuide: () =>
-                            setState(() => _showGuide = !_showGuide),
-                      ),
-                      const SizedBox(height: 14),
-                      SizedBox(
-                        key: _canvasKey,
-                        height: canvasH,
-                        child: _DrawingCanvas(
-                          pointsNotifier: _pointsNotifier,
-                          starProgressNotifier: _starProgressNotifier,
-                          ghostAksara: challenge.aksara,
-                          submitted: _submitted,
-                          stars: _stars,
-                          showGuide: _showGuide,
-                          onPanStart: _submitted ? null : _onPanStart,
-                          onPanUpdate: _submitted ? null : _onPanUpdate,
-                          onPanEnd: _submitted ? null : _onPanEnd,
-                        ),
-                      ),
-
-                      if (_lastEvaluation != null) ...[
-                        const SizedBox(height: 12),
-                        _EvaluationBanner(
-                          evaluation: _lastEvaluation!,
-                          onRetry: _clear,
-                          onKeepAndImprove: () => setState(() {
-                            _lastEvaluation = null;
-                          }),
-                          onSkip: _failAttempts >= 2 ? _skipChallenge : null,
-                        ),
-                      ],
-
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: _submitted ? null : _clear,
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: AppColors.potBlack,
-                                side: BorderSide(
-                                    color: AppColors.coastalStorm
-                                        .withValues(alpha: 0.5)),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(14)),
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: (_submitted || _isEvaluating)
+                              ? null
+                              : _clear,
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.potBlack,
+                            side: BorderSide(
+                              color: AppColors.coastalStorm.withValues(
+                                alpha: 0.5,
                               ),
-                              child: Text('Hapus',
-                                  style: AppTextStyles.titleSmall(
-                                      color: AppColors.potBlack)),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: ValueListenableBuilder<List<Offset?>>(
-                              valueListenable: _pointsNotifier,
-                              builder: (context, pts, _) {
-                                final hasPoints = pts.isNotEmpty;
-                                return ElevatedButton(
-                                  onPressed: (_submitted || !hasPoints)
-                                      ? null
-                                      : _submit,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.rubyRed,
-                                    foregroundColor: Colors.white,
-                                    disabledBackgroundColor: AppColors.rubyRed
-                                        .withValues(alpha: 0.4),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(14)),
-                                  ),
-                                  child: Text(
-                                    _submitted ? 'Lanjut...' : 'Cek Goresan',
-                                    style: AppTextStyles.titleSmall(
-                                        color: Colors.white),
-                                  ),
-                                );
-                              },
+                          child: Text(
+                            'Hapus',
+                            style: AppTextStyles.titleSmall(
+                              color: AppColors.potBlack,
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: ValueListenableBuilder<List<Offset?>>(
+                          valueListenable: _pointsNotifier,
+                          builder: (context, pts, _) {
+                            final hasPoints = pts.isNotEmpty;
+                            return ElevatedButton(
+                              onPressed:
+                                  (_submitted || _isEvaluating || !hasPoints)
+                                  ? null
+                                  : _submit,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.rubyRed,
+                                foregroundColor: Colors.white,
+                                disabledBackgroundColor: AppColors.rubyRed
+                                    .withValues(alpha: 0.4),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: Text(
+                                _submitted
+                                    ? 'Lanjut...'
+                                    : (_isEvaluating
+                                          ? 'Menilai...'
+                                          : 'Cek Goresan'),
+                                style: AppTextStyles.titleSmall(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
-                ),
-                GendhisCommentator(key: _gendhisKey),
-              ],
+                ],
+              ),
             ),
+          GendhisCommentator(key: _gendhisKey),
+        ],
+      ),
     );
   }
 }
@@ -433,11 +472,12 @@ class _DrawingCanvas extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final size =
-                  Size(constraints.maxWidth, constraints.maxHeight);
+              final size = Size(constraints.maxWidth, constraints.maxHeight);
               return ListenableBuilder(
-                listenable: Listenable.merge(
-                    [pointsNotifier, starProgressNotifier]),
+                listenable: Listenable.merge([
+                  pointsNotifier,
+                  starProgressNotifier,
+                ]),
                 builder: (context, _) => CustomPaint(
                   painter: _CanvasPainter(
                     points: pointsNotifier.value,
@@ -475,44 +515,53 @@ class _CanvasPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final ghostFontSize = (size.shortestSide * 0.60).clamp(76.0, 168.0);
+    final tp = AksaraGlyphEvaluator.buildGhostTextPainter(
+      aksara: ghostAksara,
+      canvasSize: size,
+      color: const Color(0xFFC7CFE2),
+    );
+    final ghostTopLeft = AksaraGlyphEvaluator.computeGhostTopLeft(size, tp);
 
-    final tp = TextPainter(
-      text: TextSpan(
-        text: ghostAksara,
-        style: GoogleFonts.notoSansJavanese(
-          fontSize: ghostFontSize,
-          color: const Color(0xFFC7CFE2),
-          fontWeight: FontWeight.w600,
-          height: 1.0,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout(maxWidth: size.width);
+    if (showGuide) {
+      final linePaint = Paint()
+        ..color = AppColors.goldVarnishBrown.withValues(alpha: 0.25)
+        ..strokeWidth = 1.0;
+      final pad = 14.0;
+      final leftX = (ghostTopLeft.dx - pad).clamp(12.0, size.width - 12.0);
+      final rightX = (ghostTopLeft.dx + tp.width + pad).clamp(
+        12.0,
+        size.width - 12.0,
+      );
+      canvas.drawLine(
+        Offset(leftX, ghostTopLeft.dy),
+        Offset(rightX, ghostTopLeft.dy),
+        linePaint,
+      );
+      canvas.drawLine(
+        Offset(leftX, center.dy),
+        Offset(rightX, center.dy),
+        linePaint,
+      );
+      canvas.drawLine(
+        Offset(leftX, ghostTopLeft.dy + tp.height),
+        Offset(rightX, ghostTopLeft.dy + tp.height),
+        linePaint,
+      );
+    }
 
-    final ghostTopLeft = center - Offset(tp.width / 2, tp.height / 2);
     tp.paint(canvas, ghostTopLeft);
 
     if (showGuide) {
-      final targetRect = Rect.fromCenter(
-        center: center,
-        width: (size.width * 0.70).clamp(160.0, 260.0),
-        height: (size.height * 0.68).clamp(140.0, 220.0),
+      final outlinePaint = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0
+        ..color = AppColors.goldVarnishBrown.withValues(alpha: 0.80);
+      final outlineTp = AksaraGlyphEvaluator.buildGhostTextPainter(
+        aksara: ghostAksara,
+        canvasSize: size,
+        foreground: outlinePaint,
       );
-      final rawWaypoints = AksaraEvaluator.getWaypointsFor(ghostAksara);
-
-      final guidePaint = Paint()
-        ..color = AppColors.goldVarnishBrown.withValues(alpha: 0.85)
-        ..style = PaintingStyle.fill;
-
-      for (int i = 0; i < rawWaypoints.length; i++) {
-        final wp = rawWaypoints[i];
-        final pt = Offset(
-          targetRect.left + wp.x * targetRect.width,
-          targetRect.top + wp.y * targetRect.height,
-        );
-        canvas.drawCircle(pt, 4.0, guidePaint);
-      }
+      outlineTp.paint(canvas, ghostTopLeft);
     }
 
     if (points.isNotEmpty) {
@@ -566,8 +615,9 @@ class _CanvasPainter extends CustomPainter {
             : 1.0;
 
         final p = Paint()
-          ..color = star.color
-              .withValues(alpha: star.opacity * fadeOut.clamp(0.0, 1.0));
+          ..color = star.color.withValues(
+            alpha: star.opacity * fadeOut.clamp(0.0, 1.0),
+          );
         canvas.drawPath(_starPath(starPos, starSize, 5), p);
       }
     }
@@ -704,8 +754,7 @@ class _ChallengeHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-            color: AppColors.mallardish.withValues(alpha: 0.25)),
+        border: Border.all(color: AppColors.mallardish.withValues(alpha: 0.25)),
       ),
       child: Row(
         children: [
@@ -717,9 +766,9 @@ class _ChallengeHeader extends StatelessWidget {
                   const TextSpan(text: 'Goreskan aksara '),
                   TextSpan(
                     text: challenge.romanization,
-                    style:
-                        AppTextStyles.bodyMedium(color: AppColors.potBlack)
-                            .copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.bodyMedium(
+                      color: AppColors.potBlack,
+                    ).copyWith(fontWeight: FontWeight.w700),
                   ),
                   const TextSpan(text: ' mengikuti bayangan huruf.'),
                 ],
@@ -728,16 +777,14 @@ class _ChallengeHeader extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
               color: AppColors.mallardish.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               challenge.latin,
-              style:
-                  AppTextStyles.titleSmall(color: AppColors.mallardish),
+              style: AppTextStyles.titleSmall(color: AppColors.mallardish),
             ),
           ),
         ],
@@ -756,16 +803,16 @@ class _ProgressBar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$current / $total',
-            style:
-                AppTextStyles.labelSmall(color: AppColors.coastalStorm)),
+        Text(
+          '$current / $total',
+          style: AppTextStyles.labelSmall(color: AppColors.coastalStorm),
+        ),
         const SizedBox(height: 6),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: current / total,
-            backgroundColor:
-                AppColors.coastalStorm.withValues(alpha: 0.2),
+            backgroundColor: AppColors.coastalStorm.withValues(alpha: 0.2),
             color: AppColors.mallardish,
             minHeight: 6,
           ),
@@ -788,19 +835,29 @@ class _GameOverScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.workspace_premium_rounded,
-                color: AppColors.goldVarnishBrown, size: 64),
+            const Icon(
+              Icons.workspace_premium_rounded,
+              color: AppColors.goldVarnishBrown,
+              size: 64,
+            ),
             const SizedBox(height: 20),
-            Text('Semua Aksara Selesai!',
-                style: AppTextStyles.headlineMedium()),
+            Text(
+              'Semua Aksara Selesai!',
+              style: AppTextStyles.headlineMedium(),
+            ),
             const SizedBox(height: 8),
-            Text('Total Skor: $score poin',
-                style: AppTextStyles.titleMedium(
-                    color: AppColors.goldVarnishBrown)),
+            Text(
+              'Total Skor: $score poin',
+              style: AppTextStyles.titleMedium(
+                color: AppColors.goldVarnishBrown,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Skor kamu sudah tersimpan!',
-                style: AppTextStyles.bodyMedium(),
-                textAlign: TextAlign.center),
+            Text(
+              'Skor kamu sudah tersimpan!',
+              style: AppTextStyles.bodyMedium(),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -811,10 +868,13 @@ class _GameOverScreen extends StatelessWidget {
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
-                child: Text('Kembali',
-                    style: AppTextStyles.titleSmall(color: Colors.white)),
+                child: Text(
+                  'Kembali',
+                  style: AppTextStyles.titleSmall(color: Colors.white),
+                ),
               ),
             ),
           ],

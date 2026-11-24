@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// Shared page and tab transition tokens & builders for JawaKarsa.
-///
-/// Follows reduced-motion preferences via [MediaQuery.disableAnimationsOf]
-/// and uses [RepaintBoundary] to keep complex painters and SVGs smooth at 60/120fps.
 class AppTransitions {
   AppTransitions._();
 
@@ -13,8 +9,6 @@ class AppTransitions {
   static const Duration routeReverseDuration = Duration(milliseconds: 260);
   static const Duration splashFadeDuration = Duration(milliseconds: 450);
 
-  /// Smooth horizontal slide + fade route for forward push navigation
-  /// (e.g., entering mini-games or detail views).
   static Route<T> fadeSlideRoute<T>({
     required Widget page,
     Duration? duration,
@@ -52,7 +46,6 @@ class AppTransitions {
           end: 1.0,
         ).animate(curved);
 
-        // Subtle parallax shift on underlying page when another route pushes on top
         final slideOut = Tween<Offset>(
           begin: Offset.zero,
           end: const Offset(-0.03, 0.0),
@@ -75,8 +68,6 @@ class AppTransitions {
     );
   }
 
-  /// Gentle cross-fade + subtle scale-up route for top-level replacements
-  /// (e.g., Splash -> Personalization -> HomePage).
   static Route<T> fadeScaleRoute<T>({
     required Widget page,
     Duration? duration,
@@ -96,10 +87,7 @@ class AppTransitions {
           reverseCurve: Curves.easeInCubic,
         );
 
-        final scale = Tween<double>(
-          begin: 0.97,
-          end: 1.0,
-        ).animate(curved);
+        final scale = Tween<double>(begin: 0.97, end: 1.0).animate(curved);
 
         return FadeTransition(
           opacity: curved,
@@ -112,7 +100,6 @@ class AppTransitions {
     );
   }
 
-  /// Theme-level transitions builder applied across standard routes in MaterialApp.
   static PageTransitionsTheme get pageTransitionsTheme =>
       const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
@@ -161,10 +148,6 @@ class _SmoothPageTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
-/// Directional shared-axis transition builder for [AnimatedSwitcher] tab views.
-///
-/// Slides horizontally in the direction of tab navigation ([isForward])
-/// with gentle opacity and scale easing, isolated with [RepaintBoundary].
 class DirectionalTabSwitcher extends StatelessWidget {
   const DirectionalTabSwitcher({
     super.key,
@@ -183,17 +166,15 @@ class DirectionalTabSwitcher extends StatelessWidget {
 
     return AnimatedSwitcher(
       duration: reduceMotion ? Duration.zero : AppTransitions.tabDuration,
-      reverseDuration:
-          reduceMotion ? Duration.zero : const Duration(milliseconds: 220),
+      reverseDuration: reduceMotion
+          ? Duration.zero
+          : const Duration(milliseconds: 220),
       switchInCurve: Curves.easeOutCubic,
       switchOutCurve: Curves.easeInCubic,
       layoutBuilder: (currentChild, previousChildren) {
         return Stack(
           fit: StackFit.expand,
-          children: [
-            ...previousChildren,
-            ?currentChild,
-          ],
+          children: [...previousChildren, ?currentChild],
         );
       },
       transitionBuilder: (child, animation) {
@@ -225,19 +206,11 @@ class DirectionalTabSwitcher extends StatelessWidget {
           ),
         );
       },
-      child: KeyedSubtree(
-        key: ValueKey<int>(currentIndex),
-        child: child,
-      ),
+      child: KeyedSubtree(key: ValueKey<int>(currentIndex), child: child),
     );
   }
 }
 
-/// Lazy keep-alive tab switcher with smooth directional fade + slide transitions.
-///
-/// Each tab is built lazily on first visit and then kept mounted offstage with
-/// [TickerMode] disabled when inactive. This eliminates rebuild/re-decode jank
-/// on Chrome and mobile while preserving scroll position and form state.
 class KeepAliveTabSwitcher extends StatefulWidget {
   const KeepAliveTabSwitcher({
     super.key,
@@ -274,19 +247,14 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
       widget.itemCount,
       (i) => i == _activeIndex,
     );
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-      value: 1.0,
-    )..addStatusListener((status) {
-        if (status == AnimationStatus.completed && _outgoingIndex != null) {
-          setState(() => _outgoingIndex = null);
-        }
-      });
-    _curved = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    );
+    _controller =
+        AnimationController(vsync: this, duration: widget.duration, value: 1.0)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed && _outgoingIndex != null) {
+              setState(() => _outgoingIndex = null);
+            }
+          });
+    _curved = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
     _fadeOutAnim = ReverseAnimation(_curved);
   }
 
@@ -339,19 +307,13 @@ class _KeepAliveTabSwitcherState extends State<KeepAliveTabSwitcher>
                 isActive ? (_isForward ? 0.035 : -0.035) : 0.0,
                 0.0,
               ),
-              end: Offset(
-                isActive ? 0.0 : (_isForward ? -0.02 : 0.02),
-                0.0,
-              ),
+              end: Offset(isActive ? 0.0 : (_isForward ? -0.02 : 0.02), 0.0),
             ),
           );
 
           tabChild = FadeTransition(
             opacity: isActive ? _curved : _fadeOutAnim,
-            child: SlideTransition(
-              position: slideAnim,
-              child: tabChild,
-            ),
+            child: SlideTransition(position: slideAnim, child: tabChild),
           );
         }
 

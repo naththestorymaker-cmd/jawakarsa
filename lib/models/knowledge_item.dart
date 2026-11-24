@@ -1,8 +1,5 @@
 class KnowledgeFact {
-  const KnowledgeFact({
-    required this.key,
-    required this.value,
-  });
+  const KnowledgeFact({required this.key, required this.value});
 
   final String key;
   final String value;
@@ -14,17 +11,11 @@ class KnowledgeFact {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'key': key,
-        'value': value,
-      };
+  Map<String, dynamic> toJson() => {'key': key, 'value': value};
 }
 
 class RelatedTopic {
-  const RelatedTopic({
-    required this.id,
-    required this.title,
-  });
+  const RelatedTopic({required this.id, required this.title});
 
   final String id;
   final String title;
@@ -36,17 +27,11 @@ class RelatedTopic {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'title': title};
 }
 
 class KnowledgeMedia {
-  const KnowledgeMedia({
-    required this.type,
-    required this.url,
-  });
+  const KnowledgeMedia({required this.type, required this.url});
 
   final String type;
   final String url;
@@ -58,10 +43,7 @@ class KnowledgeMedia {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'type': type,
-        'url': url,
-      };
+  Map<String, dynamic> toJson() => {'type': type, 'url': url};
 }
 
 class KnowledgeItem {
@@ -134,16 +116,16 @@ class KnowledgeItem {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'category': category,
-        'title': title,
-        'thumbnail_url': thumbnailUrl,
-        'origin_region': originRegion,
-        'overview': overview,
-        'key_facts': keyFacts.map((e) => e.toJson()).toList(),
-        'related_topics': relatedTopics.map((e) => e.toJson()).toList(),
-        'media': media.map((e) => e.toJson()).toList(),
-      };
+    'id': id,
+    'category': category,
+    'title': title,
+    'thumbnail_url': thumbnailUrl,
+    'origin_region': originRegion,
+    'overview': overview,
+    'key_facts': keyFacts.map((e) => e.toJson()).toList(),
+    'related_topics': relatedTopics.map((e) => e.toJson()).toList(),
+    'media': media.map((e) => e.toJson()).toList(),
+  };
 }
 
 String? extractYouTubeId(String url) {

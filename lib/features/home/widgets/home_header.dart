@@ -42,8 +42,9 @@ class HomeHeader extends StatelessWidget {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.coastalStorm
-                                  .withValues(alpha: 0.12),
+                              color: AppColors.coastalStorm.withValues(
+                                alpha: 0.12,
+                              ),
                               border: Border.all(
                                 color: AppColors.goldVarnishBrown,
                                 width: 2,

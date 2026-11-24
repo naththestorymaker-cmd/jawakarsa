@@ -3,11 +3,7 @@ import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
 
 class HomeBottomNav extends StatelessWidget {
-  const HomeBottomNav({
-    super.key,
-    this.currentIndex = 0,
-    this.onTap,
-  });
+  const HomeBottomNav({super.key, this.currentIndex = 0, this.onTap});
 
   final int currentIndex;
   final ValueChanged<int>? onTap;
@@ -123,8 +119,9 @@ class _NavButton extends StatelessWidget {
           behavior: HitTestBehavior.opaque,
           child: Center(
             child: AnimatedContainer(
-              duration:
-                  reduceMotion ? Duration.zero : const Duration(milliseconds: 250),
+              duration: reduceMotion
+                  ? Duration.zero
+                  : const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
@@ -144,7 +141,10 @@ class _NavButton extends StatelessWidget {
                     transitionBuilder: (child, anim) => FadeTransition(
                       opacity: anim,
                       child: ScaleTransition(
-                        scale: Tween<double>(begin: 0.86, end: 1.0).animate(anim),
+                        scale: Tween<double>(
+                          begin: 0.86,
+                          end: 1.0,
+                        ).animate(anim),
                         child: child,
                       ),
                     ),
@@ -161,10 +161,12 @@ class _NavButton extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: isActive
-                        ? AppTextStyles.labelSmall(color: AppColors.rubyRed).copyWith(
-                            fontWeight: FontWeight.w700,
-                          )
-                        : AppTextStyles.labelSmall(color: AppColors.coastalStorm),
+                        ? AppTextStyles.labelSmall(
+                            color: AppColors.rubyRed,
+                          ).copyWith(fontWeight: FontWeight.w700)
+                        : AppTextStyles.labelSmall(
+                            color: AppColors.coastalStorm,
+                          ),
                   ),
                 ],
               ),

@@ -69,9 +69,7 @@ class _CocokologiGameState extends State<CocokologiGame> {
 
   void _loadRound() {
     final rng = Random();
-    final available = _pool
-        .where((p) => !_usedTerms.contains(p.term))
-        .toList()
+    final available = _pool.where((p) => !_usedTerms.contains(p.term)).toList()
       ..shuffle(rng);
 
     if (available.length < _pairsPerRound) {
@@ -116,8 +114,10 @@ class _CocokologiGameState extends State<CocokologiGame> {
       _matchAttempt(term, definition);
 
   void _matchAttempt(String term, String definition) {
-    final correct =
-        _roundPairs.any((p) => p.term == term && p.definition == definition);
+    final correct = _roundPairs.any(
+      (p) => p.term == term && p.definition == definition,
+    );
+    var roundCompleted = false;
     setState(() {
       if (correct) {
         _matched[term] = definition;
@@ -125,6 +125,7 @@ class _CocokologiGameState extends State<CocokologiGame> {
         _score += ScoreService.rewardPerGame;
         _gendhisKey.currentState?.correct();
         if (_matched.length == _roundPairs.length) {
+          roundCompleted = true;
           _thinkTimer?.cancel();
           if (_round < _totalRounds - 1) {
             Future.delayed(const Duration(milliseconds: 700), () {
@@ -149,7 +150,9 @@ class _CocokologiGameState extends State<CocokologiGame> {
       }
     });
     _thinkTimer?.cancel();
-    _startThinkTimer();
+    if (!roundCompleted) {
+      _startThinkTimer();
+    }
   }
 
   @override
@@ -165,11 +168,15 @@ class _CocokologiGameState extends State<CocokologiGame> {
             height: 36,
             decoration: BoxDecoration(
               border: Border.all(
-                  color: AppColors.coastalStorm.withValues(alpha: 0.3)),
+                color: AppColors.coastalStorm.withValues(alpha: 0.3),
+              ),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.close_rounded,
-                color: AppColors.potBlack, size: 18),
+            child: const Icon(
+              Icons.close_rounded,
+              color: AppColors.potBlack,
+              size: 18,
+            ),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -178,16 +185,18 @@ class _CocokologiGameState extends State<CocokologiGame> {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: Center(
-              child: Text('$_score poin',
-                  style: AppTextStyles.labelLarge(
-                      color: AppColors.goldVarnishBrown)),
+              child: Text(
+                '$_score poin',
+                style: AppTextStyles.labelLarge(
+                  color: AppColors.goldVarnishBrown,
+                ),
+              ),
             ),
           ),
         ],
       ),
       body: _gameOver
-          ? _GameOverScreen(
-              score: _score, onBack: () => Navigator.pop(context))
+          ? _GameOverScreen(score: _score, onBack: () => Navigator.pop(context))
           : Stack(
               children: [
                 Padding(
@@ -211,7 +220,9 @@ class _CocokologiGameState extends State<CocokologiGame> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.goldVarnishBrown,
                               borderRadius: BorderRadius.circular(14),
@@ -219,7 +230,8 @@ class _CocokologiGameState extends State<CocokologiGame> {
                             child: Text(
                               'Ronde ${_round + 1}/$_totalRounds',
                               style: AppTextStyles.labelSmall(
-                                  color: Colors.white),
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -231,17 +243,23 @@ class _CocokologiGameState extends State<CocokologiGame> {
                           children: [
                             Expanded(
                               child: Center(
-                                child: Text('Kata',
-                                    style: AppTextStyles.labelLarge(
-                                        color: AppColors.rubyRed)),
+                                child: Text(
+                                  'Kata',
+                                  style: AppTextStyles.labelLarge(
+                                    color: AppColors.rubyRed,
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 48),
                             Expanded(
                               child: Center(
-                                child: Text('Makna',
-                                    style: AppTextStyles.labelLarge(
-                                        color: AppColors.mallardish)),
+                                child: Text(
+                                  'Makna',
+                                  style: AppTextStyles.labelLarge(
+                                    color: AppColors.mallardish,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -261,8 +279,9 @@ class _CocokologiGameState extends State<CocokologiGame> {
                         ),
                       ),
                       _MatchFooter(
-                          matched: _matched.length,
-                          total: _pairsPerRound),
+                        matched: _matched.length,
+                        total: _pairsPerRound,
+                      ),
                     ],
                   ),
                 ),
@@ -317,7 +336,8 @@ class _MatchingBoard extends StatelessWidget {
                       final isSelected = selectedTerm == term;
                       return Padding(
                         padding: EdgeInsets.only(
-                            bottom: e.key < n - 1 ? gap : 0),
+                          bottom: e.key < n - 1 ? gap : 0,
+                        ),
                         child: SizedBox(
                           height: cardH,
                           child: Draggable<String>(
@@ -339,10 +359,11 @@ class _MatchingBoard extends StatelessWidget {
                             childWhenDragging: Opacity(
                               opacity: 0.3,
                               child: _TermTile(
-                                  term: term,
-                                  matched: isMatched,
-                                  selected: false,
-                                  dragging: false),
+                                term: term,
+                                matched: isMatched,
+                                selected: false,
+                                dragging: false,
+                              ),
                             ),
                             child: GestureDetector(
                               onTap: () => onTermTap(term),
@@ -378,16 +399,15 @@ class _MatchingBoard extends StatelessWidget {
                     children: rightDefs.asMap().entries.map((e) {
                       final def = e.value;
                       final isMatched = matched.values.contains(def);
-                      final isTargetable =
-                          selectedTerm != null && !isMatched;
+                      final isTargetable = selectedTerm != null && !isMatched;
                       return Padding(
                         padding: EdgeInsets.only(
-                            bottom: e.key < n - 1 ? gap : 0),
+                          bottom: e.key < n - 1 ? gap : 0,
+                        ),
                         child: SizedBox(
                           height: cardH,
                           child: DragTarget<String>(
-                            onAcceptWithDetails: (d) =>
-                                onDrop(d.data, def),
+                            onAcceptWithDetails: (d) => onDrop(d.data, def),
                             builder: (context, candidates, _) {
                               return GestureDetector(
                                 onTap: () => onDefTap(def),
@@ -534,7 +554,7 @@ class _TermTile extends StatelessWidget {
                       .withValues(alpha: 0.12),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
-                )
+                ),
               ]
             : null,
       ),
@@ -597,15 +617,16 @@ class _DefTile extends StatelessWidget {
         color: bg,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-            color: border,
-            width: (matched || hovering) ? 2 : 1.5),
+          color: border,
+          width: (matched || hovering) ? 2 : 1.5,
+        ),
         boxShadow: (hovering || targetable)
             ? [
                 BoxShadow(
                   color: AppColors.potBlack.withValues(alpha: 0.06),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
-                )
+                ),
               ]
             : null,
       ),
@@ -641,8 +662,7 @@ class _MatchFooter extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: total > 0 ? matched / total : 0,
-                backgroundColor:
-                    AppColors.coastalStorm.withValues(alpha: 0.2),
+                backgroundColor: AppColors.coastalStorm.withValues(alpha: 0.2),
                 color: AppColors.mallardish,
                 minHeight: 7,
               ),
@@ -672,19 +692,26 @@ class _GameOverScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.workspace_premium_rounded,
-                color: AppColors.goldVarnishBrown, size: 64),
+            const Icon(
+              Icons.workspace_premium_rounded,
+              color: AppColors.goldVarnishBrown,
+              size: 64,
+            ),
             const SizedBox(height: 20),
-            Text('Cocokologi Selesai!',
-                style: AppTextStyles.headlineMedium()),
+            Text('Cocokologi Selesai!', style: AppTextStyles.headlineMedium()),
             const SizedBox(height: 8),
-            Text('Total Skor: $score poin',
-                style: AppTextStyles.titleMedium(
-                    color: AppColors.goldVarnishBrown)),
+            Text(
+              'Total Skor: $score poin',
+              style: AppTextStyles.titleMedium(
+                color: AppColors.goldVarnishBrown,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Skor sudah disimpan!',
-                style: AppTextStyles.bodyMedium(),
-                textAlign: TextAlign.center),
+            Text(
+              'Skor sudah disimpan!',
+              style: AppTextStyles.bodyMedium(),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -695,10 +722,13 @@ class _GameOverScreen extends StatelessWidget {
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
-                child: Text('Kembali',
-                    style: AppTextStyles.titleSmall(color: Colors.white)),
+                child: Text(
+                  'Kembali',
+                  style: AppTextStyles.titleSmall(color: Colors.white),
+                ),
               ),
             ),
           ],

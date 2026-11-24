@@ -18,26 +18,26 @@ class GameScore {
   final DateTime? updatedAt;
 
   factory GameScore.fromLocalMap(Map<String, dynamic> d) => GameScore(
-        uid: d['uid'] as String? ?? '',
-        name: d['name'] as String? ?? 'Anonim',
-        totalScore: (d['totalScore'] as num?)?.toInt() ?? 0,
-        kanvasScore: (d['kanvasScore'] as num?)?.toInt() ?? 0,
-        ttsScore: (d['ttsScore'] as num?)?.toInt() ?? 0,
-        cocokScore: (d['cocokScore'] as num?)?.toInt() ?? 0,
-        updatedAt: d['updatedAt'] != null
-            ? DateTime.tryParse(d['updatedAt'] as String)
-            : null,
-      );
+    uid: d['uid'] as String? ?? '',
+    name: d['name'] as String? ?? 'Anonim',
+    totalScore: (d['totalScore'] as num?)?.toInt() ?? 0,
+    kanvasScore: (d['kanvasScore'] as num?)?.toInt() ?? 0,
+    ttsScore: (d['ttsScore'] as num?)?.toInt() ?? 0,
+    cocokScore: (d['cocokScore'] as num?)?.toInt() ?? 0,
+    updatedAt: d['updatedAt'] != null
+        ? DateTime.tryParse(d['updatedAt'] as String)
+        : null,
+  );
 
   Map<String, dynamic> toLocalMap() => {
-        'uid': uid,
-        'name': name,
-        'totalScore': totalScore,
-        'kanvasScore': kanvasScore,
-        'ttsScore': ttsScore,
-        'cocokScore': cocokScore,
-        'updatedAt': updatedAt?.toIso8601String(),
-      };
+    'uid': uid,
+    'name': name,
+    'totalScore': totalScore,
+    'kanvasScore': kanvasScore,
+    'ttsScore': ttsScore,
+    'cocokScore': cocokScore,
+    'updatedAt': updatedAt?.toIso8601String(),
+  };
 
   factory GameScore.fromFirestore(Map<String, dynamic> d, String docId) {
     DateTime? parsedDate;
@@ -68,13 +68,13 @@ class GameScore {
   }
 
   Map<String, dynamic> toFirestore() => {
-        'uid': uid,
-        'name': name,
-        'totalScore': totalScore,
-        'kanvasScore': kanvasScore,
-        'ttsScore': ttsScore,
-        'cocokScore': cocokScore,
-      };
+    'uid': uid,
+    'name': name,
+    'totalScore': totalScore,
+    'kanvasScore': kanvasScore,
+    'ttsScore': ttsScore,
+    'cocokScore': cocokScore,
+  };
 
   GameScore copyWith({
     int? kanvasScore,

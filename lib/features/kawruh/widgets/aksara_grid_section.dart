@@ -5,10 +5,7 @@ import 'package:jawakarsa/core/app_text_styles.dart';
 import '../models/aksara_model.dart';
 
 class AksaraGridSection extends StatefulWidget {
-  const AksaraGridSection({
-    super.key,
-    this.onAksaraTap,
-  });
+  const AksaraGridSection({super.key, this.onAksaraTap});
 
   final ValueChanged<AksaraItem>? onAksaraTap;
 
@@ -37,7 +34,6 @@ class _AksaraGridSectionState extends State<AksaraGridSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 1. Segmented Control: Carakan vs Pasangan (Matching Wireframe)
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
@@ -73,7 +69,6 @@ class _AksaraGridSectionState extends State<AksaraGridSection> {
 
         const SizedBox(height: 12),
 
-        // 2. Contextual Legend Banner
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 220),
           child: Container(
@@ -84,10 +79,11 @@ class _AksaraGridSectionState extends State<AksaraGridSection> {
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: (_isPasanganMode
-                        ? AppColors.goldVarnishBrown
-                        : AppColors.mallardish)
-                    .withValues(alpha: 0.28),
+                color:
+                    (_isPasanganMode
+                            ? AppColors.goldVarnishBrown
+                            : AppColors.mallardish)
+                        .withValues(alpha: 0.28),
               ),
             ),
             child: Row(
@@ -119,9 +115,11 @@ class _AksaraGridSectionState extends State<AksaraGridSection> {
 
         const SizedBox(height: 14),
 
-        // 3. 20 Aksara Grid (4 Rows x 5 Columns - 100% Responsive via Expanded)
         ...List.generate(4, (rowIndex) {
-          final rowItems = hanacarakaList.sublist(rowIndex * 5, (rowIndex + 1) * 5);
+          final rowItems = hanacarakaList.sublist(
+            rowIndex * 5,
+            (rowIndex + 1) * 5,
+          );
           return Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Row(
@@ -151,9 +149,6 @@ class _AksaraGridSectionState extends State<AksaraGridSection> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SEGMENTED TAB BUTTON (CARAKAN / PASANGAN)
-// ─────────────────────────────────────────────────────────────────────────────
 class _ModeTabButton extends StatelessWidget {
   const _ModeTabButton({
     required this.label,
@@ -200,21 +195,27 @@ class _ModeTabButton extends StatelessWidget {
           children: [
             Text(
               label,
-              style: AppTextStyles.titleSmall(
-                color: isActive ? AppColors.potBlack : AppColors.coastalStorm,
-              ).copyWith(
-                fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-              ),
+              style:
+                  AppTextStyles.titleSmall(
+                    color: isActive
+                        ? AppColors.potBlack
+                        : AppColors.coastalStorm,
+                  ).copyWith(
+                    fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 1),
             Text(
               subtitle,
-              style: AppTextStyles.labelSmall(
-                color: isActive ? AppColors.rubyRed : AppColors.coastalStorm,
-              ).copyWith(
-                fontSize: 10,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-              ),
+              style:
+                  AppTextStyles.labelSmall(
+                    color: isActive
+                        ? AppColors.rubyRed
+                        : AppColors.coastalStorm,
+                  ).copyWith(
+                    fontSize: 10,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  ),
             ),
           ],
         ),
@@ -223,9 +224,6 @@ class _ModeTabButton extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// INDIVIDUAL AKSARA BOX TILE (1 of 20)
-// ─────────────────────────────────────────────────────────────────────────────
 class _AksaraCardTile extends StatelessWidget {
   const _AksaraCardTile({
     required this.item,
@@ -252,8 +250,7 @@ class _AksaraCardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isInlinePasangan =
-        item.pasanganPosition == PasanganPosition.sejajar;
+    final isInlinePasangan = item.pasanganPosition == PasanganPosition.sejajar;
 
     return Material(
       color: Colors.transparent,
@@ -285,7 +282,6 @@ class _AksaraCardTile extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              // Position indicator dot in Pasangan Mode (Sejajar vs Bawah)
               if (isPasanganMode)
                 Positioned(
                   top: 5,
@@ -302,7 +298,6 @@ class _AksaraCardTile extends StatelessWidget {
                   ),
                 ),
 
-              // Dotted reference baseline in Pasangan Mode (like Reference Chart Image 2)
               if (isPasanganMode)
                 Positioned(
                   left: 10,
@@ -316,10 +311,12 @@ class _AksaraCardTile extends StatelessWidget {
                   ),
                 ),
 
-              // Main Content: Aksara Glyph + Latin Label
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                    vertical: 4,
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -368,10 +365,7 @@ class _AksaraCardTile extends StatelessWidget {
                             color: isSelected
                                 ? Colors.white
                                 : AppColors.mallardish,
-                          ).copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11,
-                          ),
+                          ).copyWith(fontWeight: FontWeight.w700, fontSize: 11),
                         ),
                       ),
                     ],
@@ -395,7 +389,7 @@ class _DottedLinePainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 1.2
-      .. strokeCap = StrokeCap.round;
+      ..strokeCap = StrokeCap.round;
 
     double x = 0;
     while (x < size.width) {
@@ -409,9 +403,6 @@ class _DottedLinePainter extends CustomPainter {
       oldDelegate.color != color;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// AKSARA DETAIL MODAL BOTTOM SHEET (FILOSOFI & CONTOH PENGGUNAAN)
-// ─────────────────────────────────────────────────────────────────────────────
 class _AksaraDetailModal extends StatelessWidget {
   const _AksaraDetailModal({required this.item});
 
@@ -429,7 +420,6 @@ class _AksaraDetailModal extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Drag handle
           Center(
             child: Container(
               width: 44,
@@ -442,7 +432,6 @@ class _AksaraDetailModal extends StatelessWidget {
           ),
           const SizedBox(height: 18),
 
-          // Header with verse badge & Gendhis avatar
           Row(
             children: [
               Container(
@@ -501,7 +490,6 @@ class _AksaraDetailModal extends StatelessWidget {
 
           const SizedBox(height: 18),
 
-          // Side-by-side Comparison: Carakan vs Pasangan
           Row(
             children: [
               Expanded(
@@ -584,7 +572,6 @@ class _AksaraDetailModal extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          // Pasangan placement rule & Example word
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(14),
@@ -651,7 +638,6 @@ class _AksaraDetailModal extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // Philosophical Meaning
           Text(
             'Filosofi Bait "${item.barisTitle}": ${item.barisMeaning}.',
             style: AppTextStyles.bodyMedium(color: AppColors.coastalStorm),
@@ -661,4 +647,3 @@ class _AksaraDetailModal extends StatelessWidget {
     );
   }
 }
-

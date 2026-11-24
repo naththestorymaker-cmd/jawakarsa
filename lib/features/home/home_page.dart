@@ -15,6 +15,7 @@ import 'package:jawakarsa/features/home/widgets/trending_carousel.dart';
 import 'package:jawakarsa/features/kawruh/kawruh_page.dart';
 import 'package:jawakarsa/features/personalization/personalization_screen.dart';
 import 'package:jawakarsa/services/auth_service.dart';
+import 'package:jawakarsa/services/network_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.userName = 'Penjelajah'});
@@ -97,9 +98,7 @@ class _HomePageState extends State<HomePage> {
             hintText: 'Masukkan nama baru',
             filled: true,
             fillColor: AppColors.background,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
           ),
         ),
         actions: [
@@ -169,6 +168,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+    } on NoInternetException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.rubyRed,
+          content: Text(
+            'Tidak ada koneksi internet. Aktifkan WiFi atau data seluler terlebih dahulu.',
+            style: AppTextStyles.bodyMedium(color: Colors.white),
+          ),
+        ),
+      );
     } on TimeoutException {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -188,7 +198,10 @@ class _HomePageState extends State<HomePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.rubyRed,
-          content: Text(msg, style: AppTextStyles.bodyMedium(color: Colors.white)),
+          content: Text(
+            msg,
+            style: AppTextStyles.bodyMedium(color: Colors.white),
+          ),
         ),
       );
     }
@@ -238,9 +251,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HOME VIEW (Main Dashboard Slivers)
-// ─────────────────────────────────────────────────────────────────────────────
 class _HomeView extends StatelessWidget {
   const _HomeView({
     required this.userName,
@@ -296,16 +306,12 @@ class _HomeView extends StatelessWidget {
           ),
         ),
 
-        // Bottom clearance for floating bottom navigation dock
         const SliverToBoxAdapter(child: SizedBox(height: 110)),
       ],
     );
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ACCOUNT & NICKNAME BOTTOM SHEET
-// ─────────────────────────────────────────────────────────────────────────────
 class _AccountProfileSheet extends StatelessWidget {
   const _AccountProfileSheet({
     required this.userName,
@@ -383,7 +389,9 @@ class _AccountProfileSheet extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isGoogle
                                 ? AppColors.mallardish.withValues(alpha: 0.14)
-                                : AppColors.coastalStorm.withValues(alpha: 0.14),
+                                : AppColors.coastalStorm.withValues(
+                                    alpha: 0.14,
+                                  ),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -459,10 +467,7 @@ class _AccountProfileSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             tileColor: AppColors.rubyRed.withValues(alpha: 0.08),
-            leading: const Icon(
-              Icons.logout_rounded,
-              color: AppColors.rubyRed,
-            ),
+            leading: const Icon(Icons.logout_rounded, color: AppColors.rubyRed),
             title: Text(
               'Keluar / Ganti Akun',
               style: AppTextStyles.titleSmall(color: AppColors.rubyRed),

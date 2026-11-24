@@ -34,16 +34,12 @@ class AksaraItem {
   final String exampleLatin;
   final String exampleMeaning;
 
-  /// Merender wujud pasangan murni menggunakan Non-Breaking Space + Pangkon + Carakan
-  /// agar mesin OpenType (HarfBuzz) menampilkan bentuk Pasangan tanpa lingkaran putus-putus.
   String get pasanganDisplay => '\u00A0\uA9C0$pasanganChar';
 
-  /// Contoh penggunaan pasangan dalam rangkaian aksara (misal: ꦤ + ꧀ + aksara)
   String get pasanganInContext => 'ꦤ\uA9C0$pasanganChar';
 }
 
 const List<AksaraItem> hanacarakaList = [
-  // ── BARIS 1: HANA CARAKA ("Ada utusan") ──────────────────────────────────
   AksaraItem(
     index: 1,
     carakan: 'ꦲ',
@@ -110,7 +106,6 @@ const List<AksaraItem> hanacarakaList = [
     exampleMeaning: 'Kehendak / Niat luhur',
   ),
 
-  // ── BARIS 2: DATA SAWALA ("Saling berselisih") ───────────────────────────
   AksaraItem(
     index: 6,
     carakan: 'ꦢ',
@@ -177,7 +172,6 @@ const List<AksaraItem> hanacarakaList = [
     exampleMeaning: 'Perilaku / Tirakat',
   ),
 
-  // ── BARIS 3: PADHA JAYANYA ("Sama digdayanya") ───────────────────────────
   AksaraItem(
     index: 11,
     carakan: 'ꦥ',
@@ -244,7 +238,6 @@ const List<AksaraItem> hanacarakaList = [
     exampleMeaning: 'Nyata / Kebenaran',
   ),
 
-  // ── BARIS 4: MAGA BATHANGA ("Inilah jasadnya") ───────────────────────────
   AksaraItem(
     index: 16,
     carakan: 'ꦩ',
@@ -312,10 +305,6 @@ const List<AksaraItem> hanacarakaList = [
   ),
 ];
 
-/// Mesin transliterasi otomatis Latin ke Aksara Jawa (Unicode U+A980..U+A9DF).
-/// Mendukung konsonan rangkap (ng, ny, dh, th, kh, sy), cakra (-r-), pengkal (-y-),
-/// sandhangan swara (i, u, e, é, o), panyigeg wanda (-ng, -r, -h), pasangan otomatis,
-/// dan angka Jawa.
 class AksaraTransliterator {
   AksaraTransliterator._();
 
@@ -381,7 +370,6 @@ class AksaraTransliterator {
       ch == 'è' ||
       ch == 'o';
 
-  /// Mengonversi teks Latin menjadi Aksara Jawa secara real-time.
   static String toJavanese(String input) {
     final trimmed = input.trim();
     if (trimmed.isEmpty) return '';
@@ -392,7 +380,6 @@ class AksaraTransliterator {
   }
 
   static String _convertWord(String rawWord) {
-    // Normalisasi huruf kecil dan ganti 'x' -> 'ks'
     final s = rawWord
         .toLowerCase()
         .replaceAll('x', 'ks')
@@ -402,12 +389,11 @@ class AksaraTransliterator {
     final buf = StringBuffer();
     int i = 0;
     final len = s.length;
-    bool openConsonant = false; // Apakah baru saja menulis konsonan tanpa vokal
+    bool openConsonant = false;
 
     while (i < len) {
       final ch = s[i];
 
-      // 1. Angka
       if (_digitMap.containsKey(ch)) {
         if (openConsonant) {
           buf.write('꧀');
@@ -418,14 +404,11 @@ class AksaraTransliterator {
         continue;
       }
 
-      // 2. Vokal mandiri (di awal kata atau setelah vokal lain)
       if (_isVowel(ch)) {
         if (openConsonant) {
-          // Tempelkan sandhangan vokal pada konsonan sebelumnya
           buf.write(_vowelSignMap[ch] ?? '');
           openConsonant = false;
         } else {
-          // Vokal di awal suku kata -> gunakan 'ha' (ꦲ) + sandhangan
           buf.write('ꦲ');
           buf.write(_vowelSignMap[ch] ?? '');
         }
@@ -433,7 +416,6 @@ class AksaraTransliterator {
         continue;
       }
 
-      // 3. Cek konsonan digraf (2 huruf: ng, ny, dh, th, kh, sy, dz)
       String? token;
       int tokenLen = 1;
       if (i + 1 < len) {
@@ -454,41 +436,36 @@ class AksaraTransliterator {
       final hasNext = nextIdx < len;
       final nextChar = hasNext ? s[nextIdx] : '';
 
-      // Cek apakah konsonan ini merupakan penutup suku kata (panyigeging wanda: -ng, -r, -h)
-      // Syarat: tidak diikuti oleh vokal (di akhir kata atau diikuti konsonan lain)
       final followedByVowel = hasNext && _isVowel(nextChar);
 
       if (!followedByVowel) {
-        // Apabila sebelumnya masih ada konsonan terbuka (tanpa vokal), beri vokal bawaan 'a'
-        // kecuali kita sedang berada di kluster konsonan.
         if (token == 'ng' && !openConsonant) {
-          buf.write('ꦁ'); // Cecak (-ng)
+          buf.write('ꦁ');
           i += tokenLen;
           continue;
         }
         if (token == 'r' && !openConsonant) {
-          buf.write('ꦂ'); // Layar (-r)
+          buf.write('ꦂ');
           i += tokenLen;
           continue;
         }
         if (token == 'h' && !openConsonant) {
-          buf.write('ꦃ'); // Wignyan (-h)
+          buf.write('ꦃ');
           i += tokenLen;
           continue;
         }
       }
 
-      // Cek sandhangan wyanjana (Cakra '-r-' atau Pengkal '-y-') setelah konsonan terbuka
       if (openConsonant && followedByVowel) {
         if (token == 'r') {
-          buf.write('ꦿ'); // Cakra
+          buf.write('ꦿ');
           buf.write(_vowelSignMap[nextChar] ?? '');
           openConsonant = false;
           i = nextIdx + 1;
           continue;
         }
         if (token == 'y') {
-          buf.write('ꦾ'); // Pengkal
+          buf.write('ꦾ');
           buf.write(_vowelSignMap[nextChar] ?? '');
           openConsonant = false;
           i = nextIdx + 1;
@@ -496,20 +473,16 @@ class AksaraTransliterator {
         }
       }
 
-      // Jika konsonan sebelumnya belum mendapat vokal, matikan dengan Pangkon (꧀)
-      // sehingga konsonan sekarang otomatis berubah menjadi Pasangan!
       if (openConsonant) {
         buf.write('꧀');
         openConsonant = false;
       }
 
-      // Tulis aksara konsonan sekarang
       buf.write(_consonantMap[token]);
       openConsonant = true;
       i += tokenLen;
     }
 
-    // Jika di akhir kata masih ada konsonan mati (selain ng, r, h yang sudah jadi panyigeg)
     if (openConsonant) {
       buf.write('꧀');
     }

@@ -42,7 +42,6 @@ class JavaIslandMapCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header: Title & Hand-Drawn Compass Rose
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,13 +75,14 @@ class JavaIslandMapCard extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 'PETA PULAU JAWA',
-                                style: AppTextStyles.labelSmall(
-                                  color: AppColors.rubyRed,
-                                ).copyWith(
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.6,
-                                  fontSize: 10,
-                                ),
+                                style:
+                                    AppTextStyles.labelSmall(
+                                      color: AppColors.rubyRed,
+                                    ).copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 0.6,
+                                      fontSize: 10,
+                                    ),
                               ),
                             ],
                           ),
@@ -107,19 +107,17 @@ class JavaIslandMapCard extends StatelessWidget {
                 ),
               ),
 
-              // Authentic Compass Rose from reference
               const _SketchCompassRose(),
             ],
           ),
 
           const SizedBox(height: 12),
 
-          // Vector Canvas with Exact Reference Silhouette of Java Island
           Container(
             height: 185,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: const Color(0xFFF7F5EE), // Warm parchment tone
+              color: const Color(0xFFF7F5EE),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: AppColors.potBlack.withValues(alpha: 0.08),
@@ -140,7 +138,6 @@ class JavaIslandMapCard extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          // Active Region Name Callout
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
@@ -201,7 +198,6 @@ class JavaIslandMapCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // Responsive Pagination Bar: < [1] [2] [3] [4] [5] [6] >
           _RegionNumberPagination(
             selectedId: selectedRegionId,
             totalRegions: dolanRegions.length,
@@ -213,9 +209,6 @@ class JavaIslandMapCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// AUTHENTIC HAND-DRAWN COMPASS ROSE
-// ─────────────────────────────────────────────────────────────────────────────
 class _SketchCompassRose extends StatelessWidget {
   const _SketchCompassRose();
 
@@ -224,9 +217,7 @@ class _SketchCompassRose extends StatelessWidget {
     return SizedBox(
       width: 48,
       height: 56,
-      child: CustomPaint(
-        painter: _CompassPainter(),
-      ),
+      child: CustomPaint(painter: _CompassPainter()),
     );
   }
 }
@@ -251,7 +242,6 @@ class _CompassPainter extends CustomPainter {
       ..color = AppColors.potBlack.withValues(alpha: 0.25)
       ..style = PaintingStyle.fill;
 
-    // 1. North Star Point
     final northPath = Path()
       ..moveTo(cx, cy - r)
       ..lineTo(cx, cy)
@@ -268,7 +258,6 @@ class _CompassPainter extends CustomPainter {
     canvas.drawPath(northRightPath, paintLight);
     canvas.drawPath(northRightPath, paintStroke);
 
-    // 2. South Point
     final southPath = Path()
       ..moveTo(cx, cy + r * 0.75)
       ..lineTo(cx, cy)
@@ -277,7 +266,6 @@ class _CompassPainter extends CustomPainter {
     canvas.drawPath(southPath, paintDark);
     canvas.drawPath(southPath, paintStroke);
 
-    // 3. East Point
     final eastPath = Path()
       ..moveTo(cx + r * 0.8, cy)
       ..lineTo(cx, cy)
@@ -286,7 +274,6 @@ class _CompassPainter extends CustomPainter {
     canvas.drawPath(eastPath, paintDark);
     canvas.drawPath(eastPath, paintStroke);
 
-    // 4. West Point
     final westPath = Path()
       ..moveTo(cx - r * 0.8, cy)
       ..lineTo(cx, cy)
@@ -305,10 +292,8 @@ class _CompassPainter extends CustomPainter {
           fontFamily: 'sans-serif',
         ),
       );
-      final tp = TextPainter(
-        text: span,
-        textDirection: TextDirection.ltr,
-      )..layout();
+      final tp = TextPainter(text: span, textDirection: TextDirection.ltr)
+        ..layout();
       tp.paint(canvas, Offset(pos.dx - tp.width / 2, pos.dy - tp.height / 2));
     }
 
@@ -322,9 +307,6 @@ class _CompassPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// INTERACTIVE MAP WITH ACCURATE SILHOUETTE & POLISHED COMPACT PINS
-// ─────────────────────────────────────────────────────────────────────────────
 class _InteractiveJavaMap extends StatefulWidget {
   const _InteractiveJavaMap({
     required this.size,
@@ -347,14 +329,13 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
   static const double baseW = 600.0;
   static const double baseH = 190.0;
 
-  // Realistic centroids corresponding to the reference outline
   static const centroids = <int, Offset>{
-    1: Offset(64.0, 72.0),   // Banten
-    2: Offset(118.0, 38.0),  // DKI Jakarta
-    3: Offset(170.0, 76.0),  // Jawa Barat
-    4: Offset(308.0, 88.0),  // Jawa Tengah
-    5: Offset(324.0, 128.0), // D.I. Yogyakarta (clearly separated below Jateng)
-    6: Offset(478.0, 116.0), // Jawa Timur
+    1: Offset(64.0, 72.0),
+    2: Offset(118.0, 38.0),
+    3: Offset(170.0, 76.0),
+    4: Offset(308.0, 88.0),
+    5: Offset(324.0, 128.0),
+    6: Offset(478.0, 116.0),
   };
 
   @override
@@ -407,7 +388,6 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
           }
         }
 
-        // Proximity detection fallback
         int closestId = widget.selectedId;
         double minDist = 55.0;
         centroids.forEach((id, centroid) {
@@ -422,7 +402,6 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Exact Reference Silhouette Painter (isolated from pulse animation)
           RepaintBoundary(
             child: CustomPaint(
               size: widget.size,
@@ -435,7 +414,6 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
             ),
           ),
 
-          // Sleek, Compact Pins (does NOT obscure the island outline)
           ...centroids.entries.map((e) {
             final id = e.key;
             final pt = e.value;
@@ -463,13 +441,20 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
                           shape: BoxShape.circle,
                           color: isSelected ? Colors.white : AppColors.potBlack,
                           border: Border.all(
-                            color: isSelected ? AppColors.rubyRed : Colors.white,
+                            color: isSelected
+                                ? AppColors.rubyRed
+                                : Colors.white,
                             width: isSelected ? 2.0 : 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: (isSelected ? AppColors.rubyRed : AppColors.potBlack)
-                                  .withValues(alpha: isSelected ? 0.35 : 0.2),
+                              color:
+                                  (isSelected
+                                          ? AppColors.rubyRed
+                                          : AppColors.potBlack)
+                                      .withValues(
+                                        alpha: isSelected ? 0.35 : 0.2,
+                                      ),
                               blurRadius: isSelected ? 6 : 3,
                               offset: const Offset(0, 1.5),
                             ),
@@ -478,7 +463,9 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
                         child: Text(
                           '$id',
                           style: TextStyle(
-                            color: isSelected ? AppColors.rubyRed : Colors.white,
+                            color: isSelected
+                                ? AppColors.rubyRed
+                                : Colors.white,
                             fontWeight: FontWeight.w800,
                             fontSize: isSelected ? 11 : 9,
                             fontFamily: 'sans-serif',
@@ -497,9 +484,6 @@ class _InteractiveJavaMapState extends State<_InteractiveJavaMap>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PAINTER DERIVED 100% FROM THE EXACT USER REFERENCE SILHOUETTE
-// ─────────────────────────────────────────────────────────────────────────────
 class _JavaSilhouettePainter extends CustomPainter {
   const _JavaSilhouettePainter({
     required this.selectedId,
@@ -513,7 +497,6 @@ class _JavaSilhouettePainter extends CustomPainter {
   final double offsetX;
   final double offsetY;
 
-  // 1. Banten Polygon
   static const _pts1 = <Offset>[
     Offset(63.4, 28.9),
     Offset(67.8, 28.9),
@@ -549,7 +532,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(63.4, 28.9),
   ];
 
-  // 2. DKI Jakarta Polygon
   static const _pts2 = <Offset>[
     Offset(122.0, 28.9),
     Offset(128.5, 28.9),
@@ -564,7 +546,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(122.0, 28.9),
   ];
 
-  // 3. Jawa Barat Polygon
   static const _pts3 = <Offset>[
     Offset(130.7, 28.9),
     Offset(143.7, 28.9),
@@ -597,7 +578,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(130.7, 28.9),
   ];
 
-  // 4. Jawa Tengah Polygon (Includes iconic Muria Peninsula)
   static const _pts4 = <Offset>[
     Offset(354.3, 42.7),
     Offset(362.9, 42.7),
@@ -631,7 +611,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(354.3, 42.7),
   ];
 
-  // 5. D.I. Yogyakarta Polygon
   static const _pts5 = <Offset>[
     Offset(304.3, 119.6),
     Offset(345.6, 119.6),
@@ -641,7 +620,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(304.3, 119.6),
   ];
 
-  // 6. Jawa Timur Mainland Polygon
   static const _pts6 = <Offset>[
     Offset(369.5, 50.6),
     Offset(376.0, 58.5),
@@ -702,7 +680,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     Offset(369.5, 50.6),
   ];
 
-  // Madura Island Polygon (from reference)
   static const _ptsMadura = <Offset>[
     Offset(527.9, 60.5),
     Offset(538.8, 60.5),
@@ -758,8 +735,6 @@ class _JavaSilhouettePainter extends CustomPainter {
     paths[4] = _buildPolygon(_pts4);
     paths[5] = _buildPolygon(_pts5);
 
-    // Jawa Timur mainland & Madura are disjoint; addPath avoids expensive
-    // Skia boolean tessellation (Path.combine) while preserving full hit/fill.
     paths[6] = Path()
       ..addPath(_buildPolygon(_pts6), Offset.zero)
       ..addPath(_buildPolygon(_ptsMadura), Offset.zero);
@@ -775,7 +750,6 @@ class _JavaSilhouettePainter extends CustomPainter {
 
     final paths = buildPaths();
 
-    // 1. Draw subtle ocean halo aura around the coastline
     final waterPaint = Paint()
       ..color = const Color(0xFFE8EEEC)
       ..style = PaintingStyle.stroke
@@ -787,7 +761,6 @@ class _JavaSilhouettePainter extends CustomPainter {
       canvas.drawPath(path, waterPaint);
     }
 
-    // 2. Draw Unselected Regions (Parchment Paper Fill + Inked Border)
     for (final entry in paths.entries) {
       if (entry.key != selectedId) {
         final fillPaint = Paint()
@@ -805,10 +778,8 @@ class _JavaSilhouettePainter extends CustomPainter {
       }
     }
 
-    // 3. Draw Selected Region (Rich Ruby Red Fill + Clean Inked Stroke)
     final selectedPath = paths[selectedId];
     if (selectedPath != null) {
-      // Lightweight highlight halo (avoids MaskFilter.blur GPU stall)
       final haloPaint = Paint()
         ..color = AppColors.rubyRed.withValues(alpha: 0.22)
         ..strokeWidth = 6.0
@@ -831,21 +802,32 @@ class _JavaSilhouettePainter extends CustomPainter {
       canvas.drawPath(selectedPath, selectedStroke);
     }
 
-    // 4. Draw Hand-Drawn Dividing Lines cleanly between provinces
     final dividerPaint = Paint()
       ..color = AppColors.potBlack
       ..strokeWidth = 1.4
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    // Line 1: Banten - Jabar boundary
-    canvas.drawLine(const Offset(102.5, 34.9), const Offset(102.5, 111.8), dividerPaint);
-    // Line 2: Jabar - Jateng boundary
-    canvas.drawLine(const Offset(228.4, 72.3), const Offset(228.4, 121.6), dividerPaint);
-    // Line 3: Jateng - DIY boundary arch
-    canvas.drawLine(const Offset(304.3, 117.7), const Offset(345.6, 117.7), dividerPaint);
-    // Line 4: Jateng - Jatim boundary
-    canvas.drawLine(const Offset(367.3, 46.7), const Offset(367.3, 145.3), dividerPaint);
+    canvas.drawLine(
+      const Offset(102.5, 34.9),
+      const Offset(102.5, 111.8),
+      dividerPaint,
+    );
+    canvas.drawLine(
+      const Offset(228.4, 72.3),
+      const Offset(228.4, 121.6),
+      dividerPaint,
+    );
+    canvas.drawLine(
+      const Offset(304.3, 117.7),
+      const Offset(345.6, 117.7),
+      dividerPaint,
+    );
+    canvas.drawLine(
+      const Offset(367.3, 46.7),
+      const Offset(367.3, 145.3),
+      dividerPaint,
+    );
 
     canvas.restore();
   }
@@ -859,9 +841,6 @@ class _JavaSilhouettePainter extends CustomPainter {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// REGION NUMBER PAGINATION BAR: < [1] [2] [3] [4] [5] [6] >
-// ─────────────────────────────────────────────────────────────────────────────
 class _RegionNumberPagination extends StatelessWidget {
   const _RegionNumberPagination({
     required this.selectedId,
@@ -877,7 +856,6 @@ class _RegionNumberPagination extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Left Chevron Arrow
         _NavArrowButton(
           icon: Icons.chevron_left_rounded,
           onTap: () {
@@ -888,7 +866,6 @@ class _RegionNumberPagination extends StatelessWidget {
 
         const SizedBox(width: 6),
 
-        // Number Buttons 1..6 (Expanded for flexible layout without overflow)
         ...List.generate(totalRegions, (i) {
           final id = i + 1;
           final isSelected = id == selectedId;
@@ -923,12 +900,16 @@ class _RegionNumberPagination extends StatelessWidget {
                   child: Center(
                     child: Text(
                       '$id',
-                      style: AppTextStyles.labelLarge(
-                        color: isSelected ? Colors.white : AppColors.potBlack,
-                      ).copyWith(
-                        fontWeight:
-                            isSelected ? FontWeight.w800 : FontWeight.w600,
-                      ),
+                      style:
+                          AppTextStyles.labelLarge(
+                            color: isSelected
+                                ? Colors.white
+                                : AppColors.potBlack,
+                          ).copyWith(
+                            fontWeight: isSelected
+                                ? FontWeight.w800
+                                : FontWeight.w600,
+                          ),
                     ),
                   ),
                 ),
@@ -939,7 +920,6 @@ class _RegionNumberPagination extends StatelessWidget {
 
         const SizedBox(width: 6),
 
-        // Right Chevron Arrow
         _NavArrowButton(
           icon: Icons.chevron_right_rounded,
           onTap: () {
@@ -953,10 +933,7 @@ class _RegionNumberPagination extends StatelessWidget {
 }
 
 class _NavArrowButton extends StatelessWidget {
-  const _NavArrowButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _NavArrowButton({required this.icon, required this.onTap});
 
   final IconData icon;
   final VoidCallback onTap;
@@ -977,11 +954,7 @@ class _NavArrowButton extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child: Icon(
-          icon,
-          color: AppColors.potBlack,
-          size: 20,
-        ),
+        child: Icon(icon, color: AppColors.potBlack, size: 20),
       ),
     );
   }

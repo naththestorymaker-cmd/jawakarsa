@@ -7,6 +7,7 @@ import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/core/app_transitions.dart';
 import 'package:jawakarsa/features/home/home_page.dart';
 import 'package:jawakarsa/services/auth_service.dart';
+import 'package:jawakarsa/services/network_service.dart';
 
 enum _OnboardingStep { chooseAuth, setNickname }
 
@@ -78,8 +79,7 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
         state == AppLifecycleState.paused) {
       _leftAppDuringGoogleAuth = true;
       _resumeCancelTimer?.cancel();
-    } else if (state == AppLifecycleState.resumed &&
-        _leftAppDuringGoogleAuth) {
+    } else if (state == AppLifecycleState.resumed && _leftAppDuringGoogleAuth) {
       _resumeCancelTimer?.cancel();
       _resumeCancelTimer = Timer(const Duration(milliseconds: 3500), () {
         if (!mounted || !_isGoogleLoading) return;
@@ -133,14 +133,24 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
       }
 
       final suggested = result.displayName.trim();
-      final truncated =
-          suggested.length > 24 ? suggested.substring(0, 24).trim() : suggested;
+      final truncated = suggested.length > 24
+          ? suggested.substring(0, 24).trim()
+          : suggested;
 
       _nameCtrl.text = truncated;
       setState(() {
         _googleAccount = result;
         _step = _OnboardingStep.setNickname;
         _isGoogleLoading = false;
+      });
+    } on NoInternetException {
+      if (!mounted || attemptId != _googleAuthAttemptId) return;
+      _resumeCancelTimer?.cancel();
+      _leftAppDuringGoogleAuth = false;
+      setState(() {
+        _isGoogleLoading = false;
+        _authError =
+            'Tidak ada koneksi internet. Aktifkan WiFi/data seluler atau lanjut sebagai Tamu.';
       });
     } on TimeoutException {
       if (!mounted || attemptId != _googleAuthAttemptId) return;
@@ -159,8 +169,8 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
       final friendly = msg.contains('ApiException: 10')
           ? 'Login Google butuh SHA-1 keystore terdaftar di Firebase Console.'
           : msg.contains('network')
-              ? 'Koneksi internet bermasalah. Coba lagi atau lanjut sebagai Tamu.'
-              : 'Login Google gagal. Kamu bisa coba lagi atau lanjut sebagai Tamu.';
+          ? 'Koneksi internet bermasalah. Coba lagi atau lanjut sebagai Tamu.'
+          : 'Login Google gagal. Kamu bisa coba lagi atau lanjut sebagai Tamu.';
       setState(() {
         _isGoogleLoading = false;
         _authError = friendly;
@@ -236,7 +246,8 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
               padding: EdgeInsets.only(bottom: bottomInset > 0 ? 16 : 0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: screenHeight -
+                  minHeight:
+                      screenHeight -
                       MediaQuery.paddingOf(context).top -
                       MediaQuery.paddingOf(context).bottom,
                 ),
@@ -422,8 +433,9 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
                 Flexible(
                   child: Text(
                     'Google: ${_googleAccount!.email ?? _googleAccount!.displayName}',
-                    style: AppTextStyles.labelSmall(color: AppColors.mallardish)
-                        .copyWith(fontWeight: FontWeight.w700),
+                    style: AppTextStyles.labelSmall(
+                      color: AppColors.mallardish,
+                    ).copyWith(fontWeight: FontWeight.w700),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -474,10 +486,7 @@ class _PersonalizationScreenState extends State<PersonalizationScreen>
 }
 
 class _GoogleSignInButton extends StatelessWidget {
-  const _GoogleSignInButton({
-    required this.isLoading,
-    required this.onTap,
-  });
+  const _GoogleSignInButton({required this.isLoading, required this.onTap});
 
   final bool isLoading;
   final VoidCallback onTap;
@@ -577,20 +586,15 @@ class _GoogleGLogoPainter extends CustomPainter {
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.butt;
 
-    // Red top arc
     paint.color = const Color(0xFFEA4335);
     canvas.drawArc(rect, -2.5, 1.85, false, paint);
-    // Yellow left arc
     paint.color = const Color(0xFFFBBC05);
     canvas.drawArc(rect, 2.55, 1.23, false, paint);
-    // Green bottom arc
     paint.color = const Color(0xFF34A853);
     canvas.drawArc(rect, 0.72, 1.83, false, paint);
-    // Blue right arc
     paint.color = const Color(0xFF4285F4);
     canvas.drawArc(rect, -0.1, 0.85, false, paint);
 
-    // Blue horizontal crossbar
     final barPaint = Paint()
       ..color = const Color(0xFF4285F4)
       ..strokeWidth = stroke
@@ -625,9 +629,7 @@ class _NameTextField extends StatelessWidget {
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.done,
       onSubmitted: onSubmitted,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(24),
-      ],
+      inputFormatters: [LengthLimitingTextInputFormatter(24)],
       style: AppTextStyles.titleMedium(),
       textAlign: TextAlign.center,
       decoration: InputDecoration(
@@ -647,10 +649,7 @@ class _NameTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(
-            color: AppColors.goldVarnishBrown,
-            width: 2,
-          ),
+          borderSide: BorderSide(color: AppColors.goldVarnishBrown, width: 2),
         ),
       ),
     );

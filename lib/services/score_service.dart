@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jawakarsa/models/game_score.dart';
 import 'package:jawakarsa/services/auth_service.dart';
+import 'package:jawakarsa/services/network_service.dart';
 
 enum GameType { kanvas, tts, cocok }
 
@@ -42,11 +43,11 @@ class ScoreService {
     );
 
     final updated = existing.copyWith(
-      kanvasScore:
-          type == GameType.kanvas ? existing.kanvasScore + score : null,
+      kanvasScore: type == GameType.kanvas
+          ? existing.kanvasScore + score
+          : null,
       ttsScore: type == GameType.tts ? existing.ttsScore + score : null,
-      cocokScore:
-          type == GameType.cocok ? existing.cocokScore + score : null,
+      cocokScore: type == GameType.cocok ? existing.cocokScore + score : null,
       updatedAt: DateTime.now(),
     );
 
@@ -60,10 +61,11 @@ class ScoreService {
     );
     _notifyListeners(all);
 
-    if (isFirebaseReady) {
+    if (isFirebaseReady && await NetworkService.instance.hasInternet()) {
       try {
-        final docRef =
-            FirebaseFirestore.instance.collection('leaderboard').doc(uid);
+        final docRef = FirebaseFirestore.instance
+            .collection('leaderboard')
+            .doc(uid);
 
         final firestoreData = <String, dynamic>{
           'uid': uid,
@@ -75,7 +77,9 @@ class ScoreService {
           'updatedAt': FieldValue.serverTimestamp(),
         };
 
-        await docRef.set(firestoreData, SetOptions(merge: true));
+        await docRef
+            .set(firestoreData, SetOptions(merge: true))
+            .timeout(const Duration(seconds: 5));
       } catch (e) {
         debugPrint('Sinkronisasi Firestore tertunda (offline/izin): $e');
       }
@@ -109,25 +113,27 @@ class ScoreService {
             .limit(100)
             .snapshots()
             .listen(
-          (snapshot) async {
-            final scores = snapshot.docs
-                .map((doc) => GameScore.fromFirestore(doc.data(), doc.id))
-                .toList();
+              (snapshot) async {
+                final scores = snapshot.docs
+                    .map((doc) => GameScore.fromFirestore(doc.data(), doc.id))
+                    .toList();
 
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString(
-              _kScoresKey,
-              jsonEncode(scores.map((e) => e.toLocalMap()).toList()),
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setString(
+                  _kScoresKey,
+                  jsonEncode(scores.map((e) => e.toLocalMap()).toList()),
+                );
+
+                _controller.add(scores);
+              },
+              onError: (Object error) async {
+                debugPrint(
+                  'Error Firestore stream: $error. Beralih ke data lokal.',
+                );
+                final prefs = await SharedPreferences.getInstance();
+                _controller.add(_loadAll(prefs));
+              },
             );
-
-            _controller.add(scores);
-          },
-          onError: (Object error) async {
-            debugPrint('Error Firestore stream: $error. Beralih ke data lokal.');
-            final prefs = await SharedPreferences.getInstance();
-            _controller.add(_loadAll(prefs));
-          },
-        );
         return;
       } catch (e) {
         debugPrint('Gagal inisialisasi Firestore stream: $e');
@@ -144,13 +150,14 @@ class ScoreService {
   Future<void> refreshLeaderboard() async {
     final prefs = await SharedPreferences.getInstance();
 
-    if (isFirebaseReady) {
+    if (isFirebaseReady && await NetworkService.instance.hasInternet()) {
       try {
         final snap = await FirebaseFirestore.instance
             .collection('leaderboard')
             .orderBy('totalScore', descending: true)
             .limit(100)
-            .get();
+            .get()
+            .timeout(const Duration(seconds: 5));
 
         if (snap.docs.isNotEmpty) {
           final scores = snap.docs
@@ -190,14 +197,14 @@ class _LeaderboardController {
   List<GameScore> _last = [];
 
   Stream<List<GameScore>> get stream => Stream.multi((controller) {
-        controller.add(_last);
-        void listener(List<GameScore> data) {
-          controller.add(data);
-        }
+    controller.add(_last);
+    void listener(List<GameScore> data) {
+      controller.add(data);
+    }
 
-        _listeners.add(listener);
-        controller.onCancel = () => _listeners.remove(listener);
-      });
+    _listeners.add(listener);
+    controller.onCancel = () => _listeners.remove(listener);
+  });
 
   void add(List<GameScore> data) {
     _last = data;

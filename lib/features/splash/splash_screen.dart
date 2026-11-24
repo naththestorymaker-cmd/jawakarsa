@@ -30,9 +30,10 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _fadeAnim = CurvedAnimation(parent: _ctrl, curve: Curves.easeIn);
-    _scaleAnim = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 0.8,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
 
     _ctrl.forward();
     _navigate();
@@ -58,9 +59,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _goTo(Widget page) {
-    Navigator.of(context).pushReplacement(
-      AppTransitions.fadeScaleRoute(page: page),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(AppTransitions.fadeScaleRoute(page: page));
   }
 
   @override

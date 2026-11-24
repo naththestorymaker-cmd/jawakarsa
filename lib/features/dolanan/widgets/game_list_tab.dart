@@ -116,8 +116,11 @@ class _ScoreBanner extends StatelessWidget {
               color: AppColors.goldVarnishBrown.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.emoji_events_rounded,
-                color: AppColors.goldVarnishBrown, size: 26),
+            child: const Icon(
+              Icons.emoji_events_rounded,
+              color: AppColors.goldVarnishBrown,
+              size: 26,
+            ),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -132,23 +135,30 @@ class _ScoreBanner extends StatelessWidget {
                 mine != null
                     ? Row(
                         children: [
-                          Text('Total poin kamu: ',
-                              style: AppTextStyles.bodyMedium(
-                                  color: Colors.white70)),
+                          Text(
+                            'Total poin kamu: ',
+                            style: AppTextStyles.bodyMedium(
+                              color: Colors.white70,
+                            ),
+                          ),
                           Text(
                             '${mine!.totalScore}',
                             style: AppTextStyles.titleSmall(
-                                color: AppColors.goldVarnishBrown),
+                              color: AppColors.goldVarnishBrown,
+                            ),
                           ),
-                          Text(' poin',
-                              style: AppTextStyles.bodyMedium(
-                                  color: Colors.white70)),
+                          Text(
+                            ' poin',
+                            style: AppTextStyles.bodyMedium(
+                              color: Colors.white70,
+                            ),
+                          ),
                         ],
                       )
                     : Text(
                         '+${ScoreService.rewardPerGame} poin per game selesai',
-                        style:
-                            AppTextStyles.bodyMedium(color: Colors.white70)),
+                        style: AppTextStyles.bodyMedium(color: Colors.white70),
+                      ),
               ],
             ),
           ),
@@ -157,19 +167,22 @@ class _ScoreBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 _MiniScore(
-                    icon: Icons.draw_rounded,
-                    color: AppColors.mallardish,
-                    pts: mine!.kanvasScore),
+                  icon: Icons.draw_rounded,
+                  color: AppColors.mallardish,
+                  pts: mine!.kanvasScore,
+                ),
                 const SizedBox(height: 2),
                 _MiniScore(
-                    icon: Icons.grid_on_rounded,
-                    color: AppColors.rubyRed,
-                    pts: mine!.ttsScore),
+                  icon: Icons.grid_on_rounded,
+                  color: AppColors.rubyRed,
+                  pts: mine!.ttsScore,
+                ),
                 const SizedBox(height: 2),
                 _MiniScore(
-                    icon: Icons.compare_arrows_rounded,
-                    color: AppColors.goldVarnishBrown,
-                    pts: mine!.cocokScore),
+                  icon: Icons.compare_arrows_rounded,
+                  color: AppColors.goldVarnishBrown,
+                  pts: mine!.cocokScore,
+                ),
               ],
             ),
         ],
@@ -179,8 +192,11 @@ class _ScoreBanner extends StatelessWidget {
 }
 
 class _MiniScore extends StatelessWidget {
-  const _MiniScore(
-      {required this.icon, required this.color, required this.pts});
+  const _MiniScore({
+    required this.icon,
+    required this.color,
+    required this.pts,
+  });
   final IconData icon;
   final Color color;
   final int pts;
@@ -192,8 +208,7 @@ class _MiniScore extends StatelessWidget {
       children: [
         Icon(icon, size: 10, color: color),
         const SizedBox(width: 3),
-        Text('$pts',
-            style: AppTextStyles.labelSmall(color: Colors.white70)),
+        Text('$pts', style: AppTextStyles.labelSmall(color: Colors.white70)),
       ],
     );
   }
@@ -254,8 +269,11 @@ class _GameCard extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios_rounded,
-                size: 16, color: AppColors.coastalStorm),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: AppColors.coastalStorm,
+            ),
           ],
         ),
       ),

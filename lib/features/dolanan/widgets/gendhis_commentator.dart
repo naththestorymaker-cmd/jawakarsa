@@ -36,7 +36,9 @@ class GendhisCommentatorState extends State<GendhisCommentator>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
   }
 
@@ -47,8 +49,11 @@ class GendhisCommentatorState extends State<GendhisCommentator>
     super.dispose();
   }
 
-  void show(String comment, GendhisEmotion emotion,
-      {Duration duration = const Duration(seconds: 3)}) {
+  void show(
+    String comment,
+    GendhisEmotion emotion, {
+    Duration duration = const Duration(seconds: 3),
+  }) {
     _hideTimer?.cancel();
     setState(() {
       _comment = comment;
@@ -61,27 +66,26 @@ class GendhisCommentatorState extends State<GendhisCommentator>
   }
 
   void correct() => show(
-        _correctMessages[DateTime.now().millisecond % _correctMessages.length],
-        GendhisEmotion.bangga,
-      );
+    _correctMessages[DateTime.now().millisecond % _correctMessages.length],
+    GendhisEmotion.bangga,
+  );
 
   void wrong() => show(
-        _wrongMessages[DateTime.now().millisecond % _wrongMessages.length],
-        GendhisEmotion.semangati,
-      );
+    _wrongMessages[DateTime.now().millisecond % _wrongMessages.length],
+    GendhisEmotion.semangati,
+  );
 
   void thinking() => show(
-        _thinkingMessages[
-            DateTime.now().millisecond % _thinkingMessages.length],
-        GendhisEmotion.berpikir,
-        duration: const Duration(seconds: 4),
-      );
+    _thinkingMessages[DateTime.now().millisecond % _thinkingMessages.length],
+    GendhisEmotion.berpikir,
+    duration: const Duration(seconds: 4),
+  );
 
   void completed(int score) => show(
-        'Luar biasa! Kamu dapat $score poin! 🎉',
-        GendhisEmotion.bangga,
-        duration: const Duration(seconds: 5),
-      );
+    'Luar biasa! Kamu dapat $score poin! 🎉',
+    GendhisEmotion.bangga,
+    duration: const Duration(seconds: 5),
+  );
 
   static const _correctMessages = [
     'Betul sekali! Penak tenan! 🎊',
@@ -122,8 +126,10 @@ class GendhisCommentatorState extends State<GendhisCommentator>
                 constraints: const BoxConstraints(maxWidth: 160),
                 child: Container(
                   margin: const EdgeInsets.only(right: 8, top: 8),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.potBlack,
                     borderRadius: const BorderRadius.only(

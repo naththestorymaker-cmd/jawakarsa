@@ -79,8 +79,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
     super.dispose();
   }
 
-  /// Menghitung ukuran font Aksara Jawa secara adaptif agar nama yang sangat panjang
-  /// tetap proporsional, otomatis turun baris (multi-line wrap), dan tidak terpotong.
   double _computeAdaptiveAksaraFontSize(int latinLength) {
     if (latinLength <= 10) return 32;
     if (latinLength <= 18) return 27;
@@ -143,13 +141,13 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
     final trimmedInput = _inputText.trim();
     final aksaraOutput = AksaraTransliterator.toJavanese(trimmedInput);
     final hasInput = trimmedInput.isNotEmpty && aksaraOutput.isNotEmpty;
-    final adaptiveFontSize =
-        _computeAdaptiveAksaraFontSize(trimmedInput.length);
+    final adaptiveFontSize = _computeAdaptiveAksaraFontSize(
+      trimmedInput.length,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 1. Section Header & Subtitle (Matching Wireframe)
         Row(
           children: [
             Container(
@@ -189,7 +187,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
         const SizedBox(height: 16),
 
-        // 2. Input Textbox (No redundant small preview boxes below it!)
         Container(
           decoration: BoxDecoration(
             color: AppColors.surface,
@@ -247,7 +244,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
         const SizedBox(height: 10),
 
-        // Quick-Fill Inspiration Chips & Theme Switcher Row
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
@@ -292,14 +288,16 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                       ),
                       child: Text(
                         preset,
-                        style: AppTextStyles.labelSmall(
-                          color: isCurrent
-                              ? Colors.white
-                              : AppColors.potBlack.withValues(alpha: 0.8),
-                        ).copyWith(
-                          fontWeight:
-                              isCurrent ? FontWeight.w700 : FontWeight.w500,
-                        ),
+                        style:
+                            AppTextStyles.labelSmall(
+                              color: isCurrent
+                                  ? Colors.white
+                                  : AppColors.potBlack.withValues(alpha: 0.8),
+                            ).copyWith(
+                              fontWeight: isCurrent
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
+                            ),
                       ),
                     ),
                   ),
@@ -311,7 +309,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
         const SizedBox(height: 16),
 
-        // 3. Large Auto-Generating Kartu Nama Preview Card (Wireframe Large Box)
         AnimatedContainer(
           duration: const Duration(milliseconds: 260),
           curve: Curves.easeOutCubic,
@@ -336,7 +333,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
-                // Subtle Traditional Corner Ornaments
                 Positioned.fill(
                   child: CustomPaint(
                     painter: _KartuNamaOrnamentPainter(
@@ -351,7 +347,6 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Top Bar: Kartu Nama Badge + Copy & Download Buttons (Wireframe Top-Right Action)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -361,12 +356,14 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: _selectedTheme.accentColor
-                                  .withValues(alpha: 0.14),
+                              color: _selectedTheme.accentColor.withValues(
+                                alpha: 0.14,
+                              ),
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: _selectedTheme.accentColor
-                                    .withValues(alpha: 0.35),
+                                color: _selectedTheme.accentColor.withValues(
+                                  alpha: 0.35,
+                                ),
                               ),
                             ),
                             child: Row(
@@ -375,22 +372,23 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 const SizedBox(width: 5),
                                 Text(
                                   'KARTU NAMA AKSARA JAWA',
-                                  style: AppTextStyles.labelSmall(
-                                    color: _selectedTheme ==
-                                            KartuNamaTheme.lontarKlasik
-                                        ? AppColors.rubyRed
-                                        : _selectedTheme.accentColor,
-                                  ).copyWith(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 0.6,
-                                  ),
+                                  style:
+                                      AppTextStyles.labelSmall(
+                                        color:
+                                            _selectedTheme ==
+                                                KartuNamaTheme.lontarKlasik
+                                            ? AppColors.rubyRed
+                                            : _selectedTheme.accentColor,
+                                      ).copyWith(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 0.6,
+                                      ),
                                 ),
                               ],
                             ),
                           ),
 
-                          // Top-Right Action Buttons (Copy & Download from Wireframe)
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -398,8 +396,9 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 icon: Icons.copy_rounded,
                                 tooltip: 'Salin Teks Aksara',
                                 color: _selectedTheme.aksaraColor,
-                                bgColor: _selectedTheme.aksaraColor
-                                    .withValues(alpha: 0.08),
+                                bgColor: _selectedTheme.aksaraColor.withValues(
+                                  alpha: 0.08,
+                                ),
                                 onTap: hasInput
                                     ? () => _copyAksaraToClipboard(aksaraOutput)
                                     : null,
@@ -408,19 +407,21 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                               _CardActionButton(
                                 icon: Icons.download_rounded,
                                 tooltip: 'Unduh / Simpan Kartu Nama',
-                                color: _selectedTheme ==
+                                color:
+                                    _selectedTheme ==
                                         KartuNamaTheme.lontarKlasik
                                     ? Colors.white
                                     : AppColors.potBlack,
-                                bgColor: _selectedTheme ==
+                                bgColor:
+                                    _selectedTheme ==
                                         KartuNamaTheme.lontarKlasik
                                     ? AppColors.potBlack
                                     : AppColors.goldVarnishBrown,
                                 onTap: hasInput
                                     ? () => _handleSaveKartuNama(
-                                          trimmedInput,
-                                          aksaraOutput,
-                                        )
+                                        trimmedInput,
+                                        aksaraOutput,
+                                      )
                                     : null,
                               ),
                             ],
@@ -430,13 +431,13 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
                       const SizedBox(height: 20),
 
-                      // Center Area: Auto-Generated Javanese Script (Multi-line + Adaptive Scale)
                       if (hasInput)
                         Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                              ),
                               child: SelectableText(
                                 '꧋ $aksaraOutput ꧋',
                                 textAlign: TextAlign.center,
@@ -454,19 +455,21 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 vertical: 5,
                               ),
                               decoration: BoxDecoration(
-                                color: _selectedTheme.aksaraColor
-                                    .withValues(alpha: 0.07),
+                                color: _selectedTheme.aksaraColor.withValues(
+                                  alpha: 0.07,
+                                ),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 trimmedInput.toUpperCase(),
                                 textAlign: TextAlign.center,
-                                style: AppTextStyles.labelLarge(
-                                  color: _selectedTheme.latinColor,
-                                ).copyWith(
-                                  letterSpacing: 1.2,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                                style:
+                                    AppTextStyles.labelLarge(
+                                      color: _selectedTheme.latinColor,
+                                    ).copyWith(
+                                      letterSpacing: 1.2,
+                                      fontWeight: FontWeight.w800,
+                                    ),
                               ),
                             ),
                           ],
@@ -480,8 +483,9 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 '꧋ ... ꧋',
                                 style: AppTextStyles.aksara(
                                   fontSize: 28,
-                                  color: _selectedTheme.aksaraColor
-                                      .withValues(alpha: 0.35),
+                                  color: _selectedTheme.aksaraColor.withValues(
+                                    alpha: 0.35,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -489,8 +493,9 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 'Ketik nama di kolom atas untuk melihat pratinjau Aksara Jawa secara otomatis',
                                 textAlign: TextAlign.center,
                                 style: AppTextStyles.bodyMedium(
-                                  color: _selectedTheme.aksaraColor
-                                      .withValues(alpha: 0.6),
+                                  color: _selectedTheme.aksaraColor.withValues(
+                                    alpha: 0.6,
+                                  ),
                                 ),
                               ),
                             ],
@@ -499,11 +504,9 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
                       const SizedBox(height: 18),
 
-                      // Bottom Bar: Theme Selector Pills + Character Length Info
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Theme Selector Dots/Pills
                           Row(
                             children: KartuNamaTheme.values.map((theme) {
                               final isSelected = _selectedTheme == theme;
@@ -521,30 +524,33 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                     decoration: BoxDecoration(
                                       color: isSelected
                                           ? _selectedTheme.aksaraColor
-                                              .withValues(alpha: 0.14)
+                                                .withValues(alpha: 0.14)
                                           : Colors.transparent,
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
                                         color: isSelected
                                             ? _selectedTheme.borderColor
                                             : _selectedTheme.aksaraColor
-                                                .withValues(alpha: 0.2),
+                                                  .withValues(alpha: 0.2),
                                         width: isSelected ? 1.2 : 1,
                                       ),
                                     ),
                                     child: Text(
                                       theme.label,
-                                      style: AppTextStyles.labelSmall(
-                                        color: _selectedTheme.aksaraColor
-                                            .withValues(
-                                          alpha: isSelected ? 0.95 : 0.65,
-                                        ),
-                                      ).copyWith(
-                                        fontSize: 10,
-                                        fontWeight: isSelected
-                                            ? FontWeight.w700
-                                            : FontWeight.w500,
-                                      ),
+                                      style:
+                                          AppTextStyles.labelSmall(
+                                            color: _selectedTheme.aksaraColor
+                                                .withValues(
+                                                  alpha: isSelected
+                                                      ? 0.95
+                                                      : 0.65,
+                                                ),
+                                          ).copyWith(
+                                            fontSize: 10,
+                                            fontWeight: isSelected
+                                                ? FontWeight.w700
+                                                : FontWeight.w500,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -556,8 +562,9 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                             Text(
                               '${trimmedInput.length} huruf',
                               style: AppTextStyles.labelSmall(
-                                color: _selectedTheme.aksaraColor
-                                    .withValues(alpha: 0.55),
+                                color: _selectedTheme.aksaraColor.withValues(
+                                  alpha: 0.55,
+                                ),
                               ).copyWith(fontSize: 10),
                             ),
                         ],
@@ -604,9 +611,7 @@ class _CardActionButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: color.withValues(alpha: 0.2),
-              ),
+              border: Border.all(color: color.withValues(alpha: 0.2)),
             ),
             child: Icon(
               icon,
@@ -620,9 +625,6 @@ class _CardActionButton extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TRADITIONAL JAVANESE CORNER ORNAMENT PAINTER
-// ─────────────────────────────────────────────────────────────────────────────
 class _KartuNamaOrnamentPainter extends CustomPainter {
   const _KartuNamaOrnamentPainter({required this.color});
   final Color color;
@@ -634,14 +636,12 @@ class _KartuNamaOrnamentPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
 
-    // Inner double-line frame
     final innerRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(8, 8, size.width - 16, size.height - 16),
       const Radius.circular(14),
     );
     canvas.drawRRect(innerRect, paint);
 
-    // Corner diamond accents
     const double cornerOffset = 16;
     final corners = [
       const Offset(cornerOffset, cornerOffset),
@@ -660,9 +660,6 @@ class _KartuNamaOrnamentPainter extends CustomPainter {
       oldDelegate.color != color;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// KARTU NAMA FULL EXPORT PREVIEW MODAL SHEET
-// ─────────────────────────────────────────────────────────────────────────────
 class _KartuNamaExportSheet extends StatelessWidget {
   const _KartuNamaExportSheet({
     required this.latinName,
@@ -731,17 +728,13 @@ class _KartuNamaExportSheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // High-Contrast Certificate / Kartu Nama Card
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 26),
             decoration: BoxDecoration(
               color: theme.bgColor,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: theme.borderColor,
-                width: 2,
-              ),
+              border: Border.all(color: theme.borderColor, width: 2),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.potBlack.withValues(alpha: 0.12),
@@ -754,13 +747,12 @@ class _KartuNamaExportSheet extends StatelessWidget {
               children: [
                 Text(
                   'JAWAKARSA • KARTU NAMA BUDAYA',
-                  style: AppTextStyles.labelSmall(
-                    color: theme.accentColor,
-                  ).copyWith(
-                    letterSpacing: 1.4,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 10,
-                  ),
+                  style: AppTextStyles.labelSmall(color: theme.accentColor)
+                      .copyWith(
+                        letterSpacing: 1.4,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 10,
+                      ),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -816,4 +808,3 @@ class _KartuNamaExportSheet extends StatelessWidget {
     );
   }
 }
-

@@ -4,10 +4,7 @@ import 'package:jawakarsa/core/app_text_styles.dart';
 import 'package:jawakarsa/features/knowledge/knowledge_search_result_page.dart';
 
 class HomeSearchBar extends StatefulWidget {
-  const HomeSearchBar({
-    super.key,
-    this.onTap,
-  });
+  const HomeSearchBar({super.key, this.onTap});
 
   final VoidCallback? onTap;
 
@@ -81,9 +78,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
               ),
-              style: AppTextStyles.bodyMedium(
-                color: AppColors.potBlack,
-              ),
+              style: AppTextStyles.bodyMedium(color: AppColors.potBlack),
             ),
           ),
           IconButton(

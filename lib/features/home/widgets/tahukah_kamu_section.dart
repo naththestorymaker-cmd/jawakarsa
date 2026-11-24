@@ -66,9 +66,10 @@ class _FlipCardState extends State<_FlipCard>
       vsync: this,
       duration: const Duration(milliseconds: 450),
     );
-    _rotation = Tween<double>(begin: 0, end: pi).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
-    );
+    _rotation = Tween<double>(
+      begin: 0,
+      end: pi,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -199,9 +200,16 @@ class _CardBack extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.lightbulb_rounded, color: Colors.white70, size: 15),
+              const Icon(
+                Icons.lightbulb_rounded,
+                color: Colors.white70,
+                size: 15,
+              ),
               const SizedBox(width: 5),
-              Text('Jawaban', style: AppTextStyles.labelLarge(color: Colors.white70)),
+              Text(
+                'Jawaban',
+                style: AppTextStyles.labelLarge(color: Colors.white70),
+              ),
             ],
           ),
           const SizedBox(height: 10),

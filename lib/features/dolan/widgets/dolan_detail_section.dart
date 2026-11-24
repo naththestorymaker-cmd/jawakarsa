@@ -2,17 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
+import 'package:jawakarsa/services/network_service.dart';
 import '../models/dolan_region.dart';
 
 class DolanDetailSection extends StatelessWidget {
-  const DolanDetailSection({
-    super.key,
-    required this.region,
-  });
+  const DolanDetailSection({super.key, required this.region});
 
   final DolanRegion region;
 
   Future<void> _openGoogleMaps(BuildContext context, DolanPlace place) async {
+    final online = await NetworkService.instance.hasInternet(
+      forceRefresh: true,
+    );
+    if (!online) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Tidak ada koneksi internet. Aktifkan WiFi atau data seluler untuk membuka Google Maps.',
+            ),
+            backgroundColor: AppColors.rubyRed,
+          ),
+        );
+      }
+      return;
+    }
     final uri = Uri.parse(place.googleMapsUrl);
     try {
       final launched = await launchUrl(
@@ -61,7 +75,6 @@ class DolanDetailSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Province Header matching Wireframe: "JAWA TENGAH"
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(18, 16, 18, 14),
@@ -146,13 +159,11 @@ class DolanDetailSection extends StatelessWidget {
             ),
           ),
 
-          // 3 Categories: Sejarah, Kuliner, Wisata
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Cagar Sejarah & Museum
                 _CategoryBlock(
                   category: DolanCategory.sejarah,
                   accentColor: AppColors.mallardish,
@@ -162,7 +173,6 @@ class DolanDetailSection extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // 2. Kuliner Tradisional Khas
                 _CategoryBlock(
                   category: DolanCategory.kuliner,
                   accentColor: AppColors.rubyRed,
@@ -172,7 +182,6 @@ class DolanDetailSection extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // 3. Destinasi Wisata Populer
                 _CategoryBlock(
                   category: DolanCategory.wisata,
                   accentColor: AppColors.goldVarnishBrown,
@@ -188,9 +197,6 @@ class DolanDetailSection extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CATEGORY BLOCK (Title + Place Cards)
-// ─────────────────────────────────────────────────────────────────────────────
 class _CategoryBlock extends StatelessWidget {
   const _CategoryBlock({
     required this.category,
@@ -209,7 +215,6 @@ class _CategoryBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Category Header
         Row(
           children: [
             Container(
@@ -218,11 +223,7 @@ class _CategoryBlock extends StatelessWidget {
                 color: accentColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                category.icon,
-                color: accentColor,
-                size: 18,
-              ),
+              child: Icon(category.icon, color: accentColor, size: 18),
             ),
             const SizedBox(width: 8),
             Text(
@@ -236,23 +237,21 @@ class _CategoryBlock extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        // Places in this category
-        ...places.map((place) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _PlaceCard(
-                place: place,
-                accentColor: accentColor,
-                onTap: () => onPlaceTap(place),
-              ),
-            )),
+        ...places.map(
+          (place) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _PlaceCard(
+              place: place,
+              accentColor: accentColor,
+              onTap: () => onPlaceTap(place),
+            ),
+          ),
+        ),
       ],
     );
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PLACE CARD (Tap to Google Maps)
-// ─────────────────────────────────────────────────────────────────────────────
 class _PlaceCard extends StatelessWidget {
   const _PlaceCard({
     required this.place,
@@ -307,7 +306,9 @@ class _PlaceCard extends StatelessWidget {
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.goldVarnishBrown.withValues(alpha: 0.3),
+                        color: AppColors.goldVarnishBrown.withValues(
+                          alpha: 0.3,
+                        ),
                       ),
                     ),
                     child: Row(
@@ -333,7 +334,6 @@ class _PlaceCard extends StatelessWidget {
 
               const SizedBox(height: 6),
 
-              // Location snippet
               Row(
                 children: [
                   Icon(
@@ -357,7 +357,6 @@ class _PlaceCard extends StatelessWidget {
 
               const SizedBox(height: 8),
 
-              // Description
               Text(
                 place.description,
                 style: AppTextStyles.bodyMedium(
@@ -369,7 +368,6 @@ class _PlaceCard extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // "Buka di Google Maps" CTA badge
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

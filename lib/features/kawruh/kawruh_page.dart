@@ -12,7 +12,6 @@ class KawruhPage extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        // 1. Page Header
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -42,12 +41,11 @@ class KawruhPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Text(
                             'PUSTAKA & LITERASI',
-                            style: AppTextStyles.labelSmall(
-                              color: Colors.white,
-                            ).copyWith(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.6,
-                            ),
+                            style: AppTextStyles.labelSmall(color: Colors.white)
+                                .copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.6,
+                                ),
                           ),
                         ],
                       ),
@@ -71,10 +69,7 @@ class KawruhPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  'Kawruh Aksara Jawa',
-                  style: AppTextStyles.displayLarge(),
-                ),
+                Text('Kawruh Aksara Jawa', style: AppTextStyles.displayLarge()),
                 const SizedBox(height: 4),
                 Text(
                   'Pelajari 20 aksara dasar Carakan beserta Pasangannya, lalu buat Kartu Nama Aksara Jawa milikmu secara otomatis.',
@@ -87,7 +82,6 @@ class KawruhPage extends StatelessWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 18)),
 
-        // 2. Interactive 20-Aksara Grid (Carakan & Pasangan Toggle + 5x4 Grid)
         const SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -97,7 +91,6 @@ class KawruhPage extends StatelessWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-        // 3. Divider Accent
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -111,7 +104,6 @@ class KawruhPage extends StatelessWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-        // 4. Konverter Latin ke Aksara + Auto-Generating Kartu Nama
         const SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -119,10 +111,8 @@ class KawruhPage extends StatelessWidget {
           ),
         ),
 
-        // 5. Safe Bottom Clearance for Floating Island Dock (DESIGN.md Rule #4)
         const SliverToBoxAdapter(child: SizedBox(height: 115)),
       ],
     );
   }
 }
-
