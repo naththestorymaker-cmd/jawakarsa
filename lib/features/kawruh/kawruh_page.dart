@@ -18,55 +18,63 @@ class KawruhPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
+                SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.mallardish,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.menu_book_rounded,
+                              color: Colors.white,
+                              size: 13,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'PUSTAKA & LITERASI',
+                              style:
+                                  AppTextStyles.labelSmall(
+                                    color: Colors.white,
+                                  ).copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.6,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.mallardish,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.menu_book_rounded,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.potBlack,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          '20 Hanacaraka',
+                          style: AppTextStyles.labelSmall(
                             color: Colors.white,
-                            size: 13,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'PUSTAKA & LITERASI',
-                            style: AppTextStyles.labelSmall(color: Colors.white)
-                                .copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.6,
-                                ),
-                          ),
-                        ],
+                          ).copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.potBlack,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        '20 Hanacaraka',
-                        style: AppTextStyles.labelSmall(
-                          color: Colors.white,
-                        ).copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text('Kawruh Aksara Jawa', style: AppTextStyles.displayLarge()),

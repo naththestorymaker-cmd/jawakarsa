@@ -226,10 +226,12 @@ class _CategoryBlock extends StatelessWidget {
               child: Icon(category.icon, color: accentColor, size: 18),
             ),
             const SizedBox(width: 8),
-            Text(
-              category.label,
-              style: AppTextStyles.titleSmall().copyWith(
-                fontWeight: FontWeight.w700,
+            Expanded(
+              child: Text(
+                category.label,
+                style: AppTextStyles.titleSmall().copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
@@ -371,40 +373,45 @@ class _PlaceCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: accentColor.withValues(alpha: 0.3),
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.directions_outlined,
-                          size: 14,
-                          color: accentColor,
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: accentColor.withValues(alpha: 0.3),
                         ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'Buka di Google Maps',
-                          style: AppTextStyles.labelSmall(
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.directions_outlined,
+                            size: 14,
                             color: accentColor,
-                          ).copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(width: 2),
-                        Icon(
-                          Icons.arrow_outward_rounded,
-                          size: 12,
-                          color: accentColor,
-                        ),
-                      ],
+                          ),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              'Buka di Google Maps',
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.labelSmall(
+                                color: accentColor,
+                              ).copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          const SizedBox(width: 2),
+                          Icon(
+                            Icons.arrow_outward_rounded,
+                            size: 12,
+                            color: accentColor,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

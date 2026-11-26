@@ -60,42 +60,48 @@ class _DolanPageState extends State<DolanPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
+                SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.rubyRed,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          'DESTINASI & BUDAYA',
+                          style: AppTextStyles.labelSmall(
+                            color: Colors.white,
+                          ).copyWith(fontWeight: FontWeight.w700),
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.rubyRed,
-                        borderRadius: BorderRadius.circular(14),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.potBlack,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Text(
+                          '6 Daerah Jawa',
+                          style: AppTextStyles.labelSmall(
+                            color: AppColors.background,
+                          ).copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                      child: Text(
-                        'DESTINASI & BUDAYA',
-                        style: AppTextStyles.labelSmall(
-                          color: Colors.white,
-                        ).copyWith(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.potBlack,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Text(
-                        '6 Daerah Jawa',
-                        style: AppTextStyles.labelSmall(
-                          color: AppColors.background,
-                        ).copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(

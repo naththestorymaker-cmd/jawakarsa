@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
+import 'package:jawakarsa/services/gendhis_voice_service.dart';
 import '../models/aksara_model.dart';
 
 class AksaraGridSection extends StatefulWidget {
@@ -403,246 +404,372 @@ class _DottedLinePainter extends CustomPainter {
       oldDelegate.color != color;
 }
 
-class _AksaraDetailModal extends StatelessWidget {
+class _AksaraDetailModal extends StatefulWidget {
   const _AksaraDetailModal({required this.item});
 
   final AksaraItem item;
 
   @override
+  State<_AksaraDetailModal> createState() => _AksaraDetailModalState();
+}
+
+class _AksaraDetailModalState extends State<_AksaraDetailModal> {
+  @override
+  void dispose() {
+    final voice = GendhisVoiceService.instance;
+    if (voice.activeAsset.value == widget.item.audioAssetPath) {
+      voice.stop();
+    }
+    super.dispose();
+  }
+
+  Future<void> _toggleVoice() async {
+    final voice = GendhisVoiceService.instance;
+    final asset = widget.item.audioAssetPath;
+    if (voice.isPlaying.value && voice.activeAsset.value == asset) {
+      await voice.stop();
+    } else {
+      await voice.playAsset(asset, ignoreMute: true);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final item = widget.item;
+    final voice = GendhisVoiceService.instance;
+
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+      padding: EdgeInsets.fromLTRB(
+        22,
+        14,
+        22,
+        24 + MediaQuery.viewPaddingOf(context).bottom,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 44,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.coastalStorm.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 18),
-
-          Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 44,
+                height: 4,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.goldVarnishBrown.withValues(alpha: 0.12),
-                  border: Border.all(
-                    color: AppColors.goldVarnishBrown,
-                    width: 1.5,
-                  ),
+                  color: AppColors.coastalStorm.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                clipBehavior: Clip.antiAlias,
-                child: SvgPicture.asset(
-                  'assets/gendhis/gendhis_berpikir.svg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.mallardish,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        'AKSARA #${item.index} • ${item.barisTitle.toUpperCase()}',
-                        style: AppTextStyles.labelSmall(
-                          color: Colors.white,
-                        ).copyWith(fontSize: 10, fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Aksara "${item.latinCarakan.toUpperCase()}"',
-                      style: AppTextStyles.headlineMedium(),
-                    ),
-                  ],
-                ),
-              ),
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.close_rounded),
-                color: AppColors.coastalStorm,
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 18),
-
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppColors.background,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.potBlack.withValues(alpha: 0.1),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'CARAKAN (UTUH)',
-                        style: AppTextStyles.labelSmall(
-                          color: AppColors.coastalStorm,
-                        ).copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        item.carakan,
-                        style: AppTextStyles.aksara(
-                          fontSize: 38,
-                          color: AppColors.potBlack,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Bunyi: "${item.latinCarakan}"',
-                        style: AppTextStyles.labelLarge(
-                          color: AppColors.mallardish,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: AppColors.background,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.rubyRed.withValues(alpha: 0.22),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'CONTOH PASANGAN',
-                        style: AppTextStyles.labelSmall(
-                          color: AppColors.rubyRed,
-                        ).copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        item.pasanganInContext,
-                        style: AppTextStyles.aksara(
-                          fontSize: 38,
-                          color: AppColors.rubyRed,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'nan + ${item.latinCarakan} → "n${item.latinCarakan}"',
-                        style: AppTextStyles.labelLarge(
-                          color: AppColors.potBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 14),
-
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: AppColors.goldVarnishBrown.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: AppColors.goldVarnishBrown.withValues(alpha: 0.25),
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 18),
+
+            Row(
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.rule_rounded,
-                      size: 16,
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.goldVarnishBrown.withValues(alpha: 0.12),
+                    border: Border.all(
                       color: AppColors.goldVarnishBrown,
+                      width: 1.5,
                     ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        'Posisi Pasangan: ${item.pasanganPosition.description}',
-                        style: AppTextStyles.labelLarge(
-                          color: AppColors.potBlack,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: SvgPicture.asset(
+                    'assets/gendhis/gendhis_berpikir.svg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const Divider(height: 18),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Contoh Kosakata:',
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.mallardish,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'AKSARA #${item.index} • ${item.barisTitle.toUpperCase()}',
                           style: AppTextStyles.labelSmall(
-                            color: AppColors.coastalStorm,
-                          ),
+                            color: Colors.white,
+                          ).copyWith(fontSize: 10, fontWeight: FontWeight.w700),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${item.exampleLatin} (${item.exampleMeaning})',
-                          style: AppTextStyles.titleSmall(),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      item.exampleAksara,
-                      style: AppTextStyles.aksara(
-                        fontSize: 24,
-                        color: AppColors.rubyRed,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        'Aksara "${item.latinCarakan.toUpperCase()}"',
+                        style: AppTextStyles.headlineMedium(),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close_rounded),
+                  color: AppColors.coastalStorm,
                 ),
               ],
             ),
-          ),
 
-          const SizedBox(height: 12),
+            const SizedBox(height: 14),
 
-          Text(
-            'Filosofi Bait "${item.barisTitle}": ${item.barisMeaning}.',
-            style: AppTextStyles.bodyMedium(color: AppColors.coastalStorm),
-          ),
-        ],
+            ListenableBuilder(
+              listenable: Listenable.merge([
+                voice.isPlaying,
+                voice.activeAsset,
+              ]),
+              builder: (context, _) {
+                final isActive =
+                    voice.isPlaying.value &&
+                    voice.activeAsset.value == item.audioAssetPath;
+                final accent = isActive
+                    ? AppColors.rubyRed
+                    : AppColors.mallardish;
+
+                return Material(
+                  color: accent.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(16),
+                  child: InkWell(
+                    onTap: _toggleVoice,
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: accent.withValues(alpha: 0.35),
+                          width: 1.3,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: accent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              isActive
+                                  ? Icons.stop_rounded
+                                  : Icons.volume_up_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  isActive
+                                      ? 'Sedang Membacakan... (Ketuk untuk Henti)'
+                                      : 'Dengarkan Pelafalan & Arti',
+                                  style: AppTextStyles.labelLarge(
+                                    color: accent,
+                                  ).copyWith(fontWeight: FontWeight.w800),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Suara AI Gendhis • Jalan Offline',
+                                  style: AppTextStyles.labelSmall(
+                                    color: AppColors.coastalStorm,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            isActive
+                                ? Icons.graphic_eq_rounded
+                                : Icons.play_circle_fill_rounded,
+                            color: accent,
+                            size: 22,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.background,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.potBlack.withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'CARAKAN (UTUH)',
+                          style: AppTextStyles.labelSmall(
+                            color: AppColors.coastalStorm,
+                          ).copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          item.carakan,
+                          style: AppTextStyles.aksara(
+                            fontSize: 38,
+                            color: AppColors.potBlack,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Bunyi: "${item.latinCarakan}"',
+                          style: AppTextStyles.labelLarge(
+                            color: AppColors.mallardish,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.background,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.rubyRed.withValues(alpha: 0.22),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'CONTOH PASANGAN',
+                          style: AppTextStyles.labelSmall(
+                            color: AppColors.rubyRed,
+                          ).copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          item.pasanganInContext,
+                          style: AppTextStyles.aksara(
+                            fontSize: 38,
+                            color: AppColors.rubyRed,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'nan + ${item.latinCarakan} → "n${item.latinCarakan}"',
+                          style: AppTextStyles.labelLarge(
+                            color: AppColors.potBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 14),
+
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppColors.goldVarnishBrown.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: AppColors.goldVarnishBrown.withValues(alpha: 0.25),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.rule_rounded,
+                        size: 16,
+                        color: AppColors.goldVarnishBrown,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          'Posisi Pasangan: ${item.pasanganPosition.description}',
+                          style: AppTextStyles.labelLarge(
+                            color: AppColors.potBlack,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Contoh Kosakata:',
+                              style: AppTextStyles.labelSmall(
+                                color: AppColors.coastalStorm,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${item.exampleLatin} (${item.exampleMeaning})',
+                              style: AppTextStyles.titleSmall(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        item.exampleAksara,
+                        style: AppTextStyles.aksara(
+                          fontSize: 24,
+                          color: AppColors.rubyRed,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Text(
+              'Filosofi Bait "${item.barisTitle}": ${item.barisMeaning}.',
+              style: AppTextStyles.bodyMedium(color: AppColors.coastalStorm),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jawakarsa/core/app_colors.dart';
 import 'package:jawakarsa/core/app_text_styles.dart';
+import 'package:jawakarsa/services/gendhis_voice_service.dart';
 import '../models/aksara_model.dart';
 
 enum KartuNamaTheme {
@@ -56,7 +57,7 @@ class AksaraConverterSection extends StatefulWidget {
 
 class _AksaraConverterSectionState extends State<AksaraConverterSection> {
   late final TextEditingController _controller;
-  String _inputText = 'Penjelajah JawaKarsa';
+  String _inputText = '';
   KartuNamaTheme _selectedTheme = KartuNamaTheme.lontarKlasik;
 
   static const List<String> _quickPresets = [
@@ -75,8 +76,18 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
 
   @override
   void dispose() {
+    GendhisVoiceService.instance.stopTextSpeech();
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _toggleConverterVoice(String text) async {
+    final voice = GendhisVoiceService.instance;
+    if (voice.isSpeakingText.value || voice.isLoadingText.value) {
+      await voice.stopTextSpeech();
+    } else {
+      await voice.speakText(text);
+    }
   }
 
   double _computeAdaptiveAksaraFontSize(int latinLength) {
@@ -205,7 +216,15 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
           ),
           child: TextField(
             controller: _controller,
-            onChanged: (val) => setState(() => _inputText = val),
+            onChanged: (val) {
+              final voice = GendhisVoiceService.instance;
+              voice.clearTextSpeechError();
+              if (val.trim().isEmpty &&
+                  (voice.isSpeakingText.value || voice.isLoadingText.value)) {
+                voice.stopTextSpeech();
+              }
+              setState(() => _inputText = val);
+            },
             maxLength: 80,
             style: AppTextStyles.titleSmall(color: AppColors.potBlack),
             decoration: InputDecoration(
@@ -224,6 +243,8 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                       tooltip: 'Hapus teks',
                       onPressed: () {
                         _controller.clear();
+                        GendhisVoiceService.instance.stopTextSpeech();
+                        GendhisVoiceService.instance.clearTextSpeechError();
                         setState(() => _inputText = '');
                       },
                       icon: const Icon(
@@ -263,6 +284,7 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                   padding: const EdgeInsets.only(right: 6),
                   child: GestureDetector(
                     onTap: () {
+                      GendhisVoiceService.instance.clearTextSpeechError();
                       _controller.text = preset;
                       _controller.selection = TextSelection.fromPosition(
                         TextPosition(offset: preset.length),
@@ -350,28 +372,28 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _selectedTheme.accentColor.withValues(
-                                alpha: 0.14,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: _selectedTheme.accentColor.withValues(
-                                  alpha: 0.35,
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
                                 ),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(width: 5),
-                                Text(
+                                decoration: BoxDecoration(
+                                  color: _selectedTheme.accentColor.withValues(
+                                    alpha: 0.14,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: _selectedTheme.accentColor
+                                        .withValues(alpha: 0.35),
+                                  ),
+                                ),
+                                child: Text(
                                   'KARTU NAMA AKSARA JAWA',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style:
                                       AppTextStyles.labelSmall(
                                         color:
@@ -385,9 +407,10 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                         letterSpacing: 0.6,
                                       ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
+                          const SizedBox(width: 8),
 
                           Row(
                             mainAxisSize: MainAxisSize.min,
@@ -507,12 +530,13 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: KartuNamaTheme.values.map((theme) {
-                              final isSelected = _selectedTheme == theme;
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: GestureDetector(
+                          Expanded(
+                            child: Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: KartuNamaTheme.values.map((theme) {
+                                final isSelected = _selectedTheme == theme;
+                                return GestureDetector(
                                   onTap: () =>
                                       setState(() => _selectedTheme = theme),
                                   child: AnimatedContainer(
@@ -553,12 +577,13 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                           ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
 
-                          if (hasInput)
+                          if (hasInput) ...[
+                            const SizedBox(width: 8),
                             Text(
                               '${trimmedInput.length} huruf',
                               style: AppTextStyles.labelSmall(
@@ -567,6 +592,7 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
                                 ),
                               ).copyWith(fontSize: 10),
                             ),
+                          ],
                         ],
                       ),
                     ],
@@ -575,6 +601,128 @@ class _AksaraConverterSectionState extends State<AksaraConverterSection> {
               ],
             ),
           ),
+        ),
+        const SizedBox(height: 12),
+        ListenableBuilder(
+          listenable: Listenable.merge([
+            GendhisVoiceService.instance.isSpeakingText,
+            GendhisVoiceService.instance.isLoadingText,
+            GendhisVoiceService.instance.textSpeechError,
+          ]),
+          builder: (context, _) {
+            final voice = GendhisVoiceService.instance;
+            final isSpeaking = voice.isSpeakingText.value;
+            final isLoading = voice.isLoadingText.value;
+            final errorText = voice.textSpeechError.value;
+            final accent = !hasInput
+                ? AppColors.coastalStorm
+                : isSpeaking
+                ? AppColors.rubyRed
+                : isLoading
+                ? AppColors.goldVarnishBrown
+                : AppColors.mallardish;
+
+            return Material(
+              color: accent.withValues(alpha: hasInput ? 0.10 : 0.06),
+              borderRadius: BorderRadius.circular(16),
+              child: InkWell(
+                onTap: hasInput
+                    ? () => _toggleConverterVoice(trimmedInput)
+                    : null,
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: accent.withValues(alpha: hasInput ? 0.35 : 0.2),
+                      width: 1.3,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: hasInput
+                              ? accent
+                              : accent.withValues(alpha: 0.35),
+                          shape: BoxShape.circle,
+                        ),
+                        child: isLoading
+                            ? const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Icon(
+                                isSpeaking
+                                    ? Icons.stop_rounded
+                                    : Icons.volume_up_rounded,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isLoading
+                                  ? 'Menyiapkan Suara Gendhis...'
+                                  : isSpeaking
+                                  ? 'Sedang Membacakan... (Ketuk untuk Henti)'
+                                  : 'Bacakan dengan Suara Gendhis',
+                              style: AppTextStyles.labelLarge(
+                                color: accent,
+                              ).copyWith(fontWeight: FontWeight.w800),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              !hasInput
+                                  ? 'Ketik nama atau kata di atas terlebih dahulu'
+                                  : isLoading
+                                  ? 'Menghubungi Gemini AI Voice • Ketuk untuk batal'
+                                  : isSpeaking
+                                  ? 'Suara AI Gendhis • Tersimpan di cache perangkat'
+                                  : errorText ??
+                                        'Suara AI Gendhis (Gemini) • Hemat kuota dengan cache',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.labelSmall(
+                                color: errorText != null && hasInput
+                                    ? AppColors.rubyRed
+                                    : AppColors.coastalStorm,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        isLoading
+                            ? Icons.close_rounded
+                            : isSpeaking
+                            ? Icons.graphic_eq_rounded
+                            : Icons.play_circle_fill_rounded,
+                        color: hasInput
+                            ? accent
+                            : accent.withValues(alpha: 0.35),
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

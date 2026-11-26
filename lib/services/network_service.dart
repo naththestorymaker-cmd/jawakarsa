@@ -26,6 +26,8 @@ class NetworkService {
   @visibleForTesting
   bool? debugOverrideOnline;
 
+  bool get isForcedOffline => debugOverrideOnline == false;
+
   Future<bool> hasInternet({bool forceRefresh = false}) async {
     if (debugOverrideOnline != null) {
       final val = debugOverrideOnline!;

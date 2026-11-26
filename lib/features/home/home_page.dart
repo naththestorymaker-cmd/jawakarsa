@@ -12,10 +12,13 @@ import 'package:jawakarsa/features/home/widgets/home_header.dart';
 import 'package:jawakarsa/features/home/widgets/home_search_bar.dart';
 import 'package:jawakarsa/features/home/widgets/tahukah_kamu_section.dart';
 import 'package:jawakarsa/features/home/widgets/trending_carousel.dart';
+import 'package:jawakarsa/features/home/widgets/gendhis_tour_overlay.dart';
 import 'package:jawakarsa/features/kawruh/kawruh_page.dart';
 import 'package:jawakarsa/features/personalization/personalization_screen.dart';
 import 'package:jawakarsa/services/auth_service.dart';
+import 'package:jawakarsa/services/gendhis_voice_service.dart';
 import 'package:jawakarsa/services/network_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.userName = 'Penjelajah'});
@@ -27,15 +30,64 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const _kHasSeenTourKey = 'has_seen_gendhis_tour';
+
   int _navIndex = 0;
   late String _userName;
   UserProfile? _profile;
+  bool _showTour = false;
+  bool _tourStartsWithPrompt = true;
+  Timer? _tourStartTimer;
 
   @override
   void initState() {
     super.initState();
     _userName = widget.userName;
     _loadProfile();
+    _initTourGuide();
+  }
+
+  @override
+  void dispose() {
+    _tourStartTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _initTourGuide() async {
+    await GendhisVoiceService.instance.loadPreferences();
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeen = prefs.getBool(_kHasSeenTourKey) ?? false;
+    if (!hasSeen && mounted) {
+      _tourStartTimer = Timer(const Duration(milliseconds: 450), () {
+        if (mounted) {
+          setState(() {
+            _tourStartsWithPrompt = true;
+            _showTour = true;
+          });
+        }
+      });
+    }
+  }
+
+  Future<void> _finishTour() async {
+    setState(() {
+      _showTour = false;
+      _navIndex = 0;
+    });
+    await GendhisVoiceService.instance.stop();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_kHasSeenTourKey, true);
+    } catch (_) {}
+  }
+
+  void _replayTour() {
+    _tourStartTimer?.cancel();
+    setState(() {
+      _navIndex = 0;
+      _tourStartsWithPrompt = false;
+      _showTour = true;
+    });
   }
 
   Future<void> _loadProfile() async {
@@ -63,6 +115,10 @@ class _HomePageState extends State<HomePage> {
         onEditNickname: () {
           Navigator.pop(sheetCtx);
           _showEditNicknameDialog();
+        },
+        onReplayTour: () {
+          Navigator.pop(sheetCtx);
+          _replayTour();
         },
         onLinkGoogle: () async {
           Navigator.pop(sheetCtx);
@@ -232,21 +288,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      extendBody: true,
-      body: SafeArea(
-        bottom: false,
-        child: KeepAliveTabSwitcher(
-          currentIndex: _navIndex,
-          itemCount: 4,
-          itemBuilder: _buildTab,
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: AppColors.background,
+          extendBody: true,
+          body: SafeArea(
+            bottom: false,
+            child: KeepAliveTabSwitcher(
+              currentIndex: _navIndex,
+              itemCount: 4,
+              itemBuilder: _buildTab,
+            ),
+          ),
+          bottomNavigationBar: HomeBottomNav(
+            currentIndex: _navIndex,
+            onTap: _onNavTap,
+          ),
         ),
-      ),
-      bottomNavigationBar: HomeBottomNav(
-        currentIndex: _navIndex,
-        onTap: _onNavTap,
-      ),
+        if (_showTour)
+          Positioned.fill(
+            child: GendhisTourOverlay(
+              startWithPrompt: _tourStartsWithPrompt,
+              onSwitchTab: (tabIdx) {
+                if (_navIndex != tabIdx && mounted) {
+                  setState(() => _navIndex = tabIdx);
+                }
+              },
+              onFinish: _finishTour,
+            ),
+          ),
+      ],
     );
   }
 }
@@ -317,6 +389,7 @@ class _AccountProfileSheet extends StatelessWidget {
     required this.userName,
     required this.profile,
     required this.onEditNickname,
+    required this.onReplayTour,
     required this.onLinkGoogle,
     required this.onSignOut,
   });
@@ -324,6 +397,7 @@ class _AccountProfileSheet extends StatelessWidget {
   final String userName;
   final UserProfile? profile;
   final VoidCallback onEditNickname;
+  final VoidCallback onReplayTour;
   final VoidCallback onLinkGoogle;
   final VoidCallback onSignOut;
 
@@ -434,6 +508,23 @@ class _AccountProfileSheet extends StatelessWidget {
             ),
             title: Text(
               'Ubah Nama Panggilan',
+              style: AppTextStyles.titleSmall(),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+          ),
+          const SizedBox(height: 10),
+          ListTile(
+            onTap: onReplayTour,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            tileColor: AppColors.goldVarnishBrown.withValues(alpha: 0.10),
+            leading: const Icon(
+              Icons.record_voice_over_rounded,
+              color: AppColors.goldVarnishBrown,
+            ),
+            title: Text(
+              'Ulangi Tur Panduan Gendhis',
               style: AppTextStyles.titleSmall(),
             ),
             trailing: const Icon(Icons.chevron_right_rounded),

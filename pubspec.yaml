@@ -36,6 +36,9 @@ flutter:
     - assets/carousel/
     - assets/fonts/
     - assets/images/header/
+    - assets/audio/tour/
+    - assets/audio/kawruh/
+    - assets/audio/presets/
 
   fonts:
     - family: Hanacaraka

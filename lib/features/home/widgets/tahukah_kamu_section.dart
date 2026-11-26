@@ -269,7 +269,14 @@ class _HintRow extends StatelessWidget {
       children: [
         Icon(icon, size: 11, color: color),
         const SizedBox(width: 4),
-        Text(label, style: AppTextStyles.labelSmall(color: color)),
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.labelSmall(color: color),
+          ),
+        ),
       ],
     );
   }

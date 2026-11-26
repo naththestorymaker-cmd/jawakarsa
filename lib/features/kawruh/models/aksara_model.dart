@@ -37,6 +37,9 @@ class AksaraItem {
   String get pasanganDisplay => '\u00A0\uA9C0$pasanganChar';
 
   String get pasanganInContext => 'ꦤ\uA9C0$pasanganChar';
+
+  String get audioAssetPath =>
+      'assets/audio/kawruh/aksara_${index.toString().padLeft(2, '0')}_$latinCarakan.mp3';
 }
 
 const List<AksaraItem> hanacarakaList = [
